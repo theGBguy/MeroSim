@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ernestoyaquello.com.verticalstepperform.VerticalStepperFormView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stepper_form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:form_allow_non_linear_navigation="false"
+    app:form_circle_background_color="?colorPrimary"
+    app:form_display_bottom_navigation="false"
+    app:form_include_confirmation_step="false"
+    app:form_next_button_background_color="?colorPrimary"
+    app:form_next_button_pressed_background_color="?colorPrimaryDark"
+    app:form_title_text_color="?colorOnSurface"
+    tools:context=".ui.recharge.RechargeFragment" />

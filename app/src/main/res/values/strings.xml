@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Scan &amp; Recharge</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <!--    string resources for navigation drawer menu-->
+    <string name="menu_recharge">Recharge</string>
+
+    <!--    string resources of sim provider-->
+    <string name="sim_name_ntc">NTC</string>
+    <string name="sim_name_ncell">Ncell</string>
+    <string name="sim_name_smart">SmartCell</string>
+
+    <!--    string resources for RechargeFragment-->
+    <string name="permission_denied_text">Required permissions are not granted</string>
+
+    <!--   string resources for SimChooseStep-->
+    <string name="choose_carrier_text">Choose the carrier</string>
+    <string name="empty_sim_text">(None)</string>
+
+    <!--    string resources for PinScanStep-->
+    <string name="scan_pin_text">Scan the pin</string>
+    <string name="img_btn_toggle_flash_content_desc">It is used to toggle flash.</string>
+    <string name="btn_toggle_flash_on">Flash On</string>
+    <string name="btn_toggle_flash_off">Flash Off</string>
+    <string name="tv_scanned_pin">Pin scanned : %1$s</string>
+    <string name="empty_pin_text">(Empty)</string>
+    <string name="no_flash_text">Sorry, flash is not available in your device</string>
+    <string name="tap_to_preview_text">Tap the preview to focus on the pin!</string>
+
+    <!--    string resources for PinConfirmStep-->
+    <string name="btn_next_text">Recharge</string>
+    <string name="confirm_details_text">Confirm the details</string>
+    <string name="tv_confirm_sim">Carrier : %1$s</string>
+    <string name="tv_confirm_pin">Pin : </string>
+    <string name="edtTxt_scanned_pin_num_hint">Scanned pin number</string>
+    <string name="wrong_scanning_text">Edit the pin in case if it is wrong</string>
+
+</resources>
