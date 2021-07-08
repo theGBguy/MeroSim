@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ Last modified: 2021/05/31
+  -->
+
+<resources>
+    <string name="app_name">मेरो सिम</string>
+    <string name="navigation_drawer_open">नेभिगेसन ड्रयर खोल्नुहोस्</string>
+    <string name="navigation_drawer_close">नेभिगेसन ड्रयर बन्द गर्नुहोस्</string>
+    <string name="nav_header_title">मेरो सिम एप</string>
+    <string name="nav_header_subtitle">chiran604@gmail.com</string>
+    <string name="nav_header_desc">नेभिगेसन हेडर</string>
+
+    <!--    string resources for navigation drawer menu-->
+    <string name="menu_recharge">रिचार्ज</string>
+    <string name="menu_settings">सेटिंग्स</string>
+
+    <!--    string resources of sim provider-->
+    <string name="sim_name_namaste">नमस्ते</string>
+    <string name="sim_name_ncell">एनसेल</string>
+    <string name="sim_name_smart">स्मार्टसेल</string>
+
+    <!--    string resources for RechargeFragment-->
+    <string name="permission_denied_text">आवश्यक अनुमतिहरू प्रदान गरिएको छैन</string>
+    <string name="no_sim_text">सिम कार्ड राखिएको छैन!</string>
+
+    <!--    string resources for Step-->
+    <string name="next_button_text">अर्को चरणमा जानुहोस्</string>
+    <string name="recharge_button_text">रिचार्ज गर्नुहोस्</string>
+
+    <!--   string resources for SimChooseStep-->
+    <string name="choose_carrier_text">सिम कार्ड छनौट गर्नुहोस्</string>
+    <string name="empty_sim_text">(कुनै सिम कार्ड छानिएको छैन)</string>
+
+    <!--    string resources for PinScanStep-->
+    <string name="scan_pin_text">पिन स्क्यान गर्नुहोस्</string>
+    <string name="img_btn_toggle_flash_content_desc">यो क्यामेराको बत्ति बाल्न निभाउन प्रयोग गरिन्छ।</string>
+    <string name="btn_toggle_flash_on">बत्ति बाल्नुहोस</string>
+    <string name="btn_toggle_flash_off">बत्ति निभाउनुहोस</string>
+    <string name="tv_scanned_pin">स्क्यान गरिएको पिन : %1$s</string>
+    <string name="empty_pin_text">(पिन नम्बर स्क्यान गरिएको छैन)</string>
+    <string name="no_flash_text">माफ गर्नुहोस्, तपाईको फोनमा क्यामेराको बत्ति उपलब्ध छैन।</string>
+    <string name="tap_to_preview_text">फोकस गर्न ट्याप गर्नुहोस्</string>
+
+    <!--    string resources for PinConfirmStep-->
+    <string name="btn_next_text">रिचार्ज</string>
+    <string name="confirm_details_text">सिम र पिन विवरणहरूको पुष्टि गर्नुहोस्</string>
+    <string name="tv_confirm_sim">सिम : %1$s</string>
+    <string name="tv_confirm_pin">पिन : </string>
+    <string name="edtTxt_scanned_pin_num_hint">स्क्यान गरिएको पिन नम्बर</string>
+    <string name="wrong_scanning_text">यदि गलत पिन हो भने पिन सम्पादन गर्नुहोस्</string>
+    <string name="accessibility_service_description">यो युएसएसडी प्रतिक्रिया स्क्रिन अवरोध गर्न प्रयोग गरिन्छ्​। यो प्रयोग गर्न पूर्णतया सुरक्षित छ।</string>
+
+    <!-- Language Preferences -->
+    <string name="language_pref_title">छनौट गरिएको भाषा</string>
+    <string name="language_summary_on">नेपाली</string>
+    <string name="language_summary_off">अंग्रेजी</string>
+
+    <!--    Vibrate Preferences-->
+    <string name="vibrate_pref_title">पिन पत्ता लगाउँदा भाईब्रेट गर्ने भन्ने बारे</string>
+    <string name="vibrate_summary_on">गर्ने</string>
+    <string name="vibrate_summary_off">नगर्ने</string>
+    <string name="btn_retry_text">पुनःप्रयास गर्नुहोस्</string>
+    <string name="menu_home">होम</string>
+    <string name="phone_txt">फोन न् : %s</string>
+    <string name="balance_txt">फोनको रकम : %s</string>
+    <string name="tv_available_sim_txt">तपाइको सिम कार्डहरु</string>
+    <string name="tv_fetching_sim_details_txt">सिम कार्डको विवरण प्राप्त गरिदै छ</string>
+    <string name="tv_no_sim_txt">कुनै पनि सिम कार्डहरू फेला परेनन्। कृपया सिम कार्डहरू ठीकसँग राखिएको छ भन्ने सुनिश्चित गरि पुन प्रयास गर्नुहोला</string>
+</resources>

@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ Last modified: 2021/05/31
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.gbsoft.merosim.ui.ntc.NamasteDetailViewModel" />
+
+        <variable
+            name="eventhandler"
+            type="com.gbsoft.merosim.ui.ntc.NamasteEventHandler" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/Theme.MeroSim.Sim.Namaste"
+        tools:context=".ui.ntc.NamasteDetailFragment">
+
+        <com.sergivonavi.materialbanner.Banner
+            android:id="@+id/ntc_banner_4g"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:buttonLeftText="@string/ntc_btn_dismiss"
+            app:buttonRightText="@string/ntc_btn_enable_4g_txt"
+            app:icon="@drawable/ic_baseline_4g_mobiledata_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:messageText="@string/ntc_tv_4g_info_txt" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ntc_banner_4g">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_transfer_balance"
+                    style="@style/ThemeOverlay.MeroSim.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_general_info">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ntc_tv_transfer_balance"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ripple"
+                        android:drawablePadding="4dp"
+                        android:onClick="@{eventhandler::onBalanceTransferInfoClick}"
+                        android:text="@string/tv_transfer_balance_txt"
+                        app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ntc_til_security_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:errorRes="@{safeUnbox(vm.errorSecurityCode)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_transfer_balance">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ntc_tiet_security_code"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/ntc_tiet_security_code_hint"
+                            android:inputType="number"
+                            android:text="@={vm.securityCode}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ntc_til_recipient"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:endIconDrawable="@drawable/ic_baseline_contacts_24"
+                        app:endIconMode="custom"
+                        app:errorRes="@{safeUnbox(vm.errorRecipient)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_til_security_code">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ntc_tiet_recipient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/tiet_recipient_hint"
+                            android:inputType="number"
+                            android:text="@={vm.recipient}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ntc_til_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:errorRes="@{safeUnbox(vm.errorAmount)}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_til_recipient">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ntc_tiet_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/tiet_amount_hint"
+                            android:inputType="number"
+                            android:text="@={vm.amount}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_transfer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:onClick="@{eventhandler::onBalanceTransferClick}"
+                        android:text="@string/btn_transfer"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_til_amount" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_general_info"
+                    style="@style/ThemeOverlay.MeroSim.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.gbsoft.merosim.ui.LoadingTextView
+                        android:id="@+id/ntc_tv_balance"
+                        style="@style/Widget.MeroSim.TextView.Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ripple"
+                        android:drawablePadding="4dp"
+                        android:minWidth="186dp"
+                        android:minHeight="27dp"
+                        android:onClick="@{eventhandler::onBalanceRefreshClick}"
+                        android:text="@{@string/balance_txt(vm.balance)}"
+                        app:corners="8"
+                        app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
+                        app:height_weight="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_phone"
+                        app:width_weight="1"
+                        tools:text="Balance: Rs. 100" />
+
+                    <com.gbsoft.merosim.ui.LoadingTextView
+                        android:id="@+id/ntc_tv_phone"
+                        style="@style/Widget.MeroSim.TextView.Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ripple"
+                        android:drawablePadding="4dp"
+                        android:minWidth="212dp"
+                        android:minHeight="27dp"
+                        android:onClick="@{eventhandler::onPhoneRefreshClick}"
+                        android:text="@{@string/phone_txt(vm.phone)}"
+                        app:corners="8"
+                        app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
+                        app:height_weight="1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:width_weight="1"
+                        tools:text="Phone: 9843776289" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ntc_tv_customer_care"
+                        style="@style/Widget.MeroSim.TextView.Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/ripple"
+                        android:drawablePadding="4dp"
+                        android:onClick="@{eventhandler::onCustomerCareClick}"
+                        android:text="@{@string/customer_care_txt(vm.customerCare)}"
+                        app:drawableEndCompat="@drawable/ic_baseline_call_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_sim_owner"
+                        tools:text="Customer Care: 1498" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ntc_tv_sim_owner"
+                        style="@style/Widget.MeroSim.TextView.Clickable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ripple"
+                        android:drawablePadding="4dp"
+                        android:onClick="@{eventhandler::onSimOwnerRefreshClick}"
+                        android:text="@{@string/sim_owner_txt(vm.simOwner)}"
+                        app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_balance"
+                        tools:text="Sim Owner: Chiranjeevi Pandey" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_ntc_credit"
+                    style="@style/ThemeOverlay.MeroSim.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_transfer_balance">
+
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ntc_tv_namaste_credit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ripple"
+                        android:onClick="@{eventhandler::onNamasteCreditInfoClick}"
+                        android:text="@string/ntc_tv_namaste_credit_txt"
+                        app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:onClick="@{eventhandler::onBtnStatusClick}"
+                        android:text="@string/ntc_btn_status_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ntc_btn_stop"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/ntc_btn_start"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_namaste_credit" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{eventhandler::onBtnStartClick}"
+                        android:text="@string/ntc_btn_start_txt"
+                        app:layout_constraintBottom_toBottomOf="@+id/ntc_btn_status"
+                        app:layout_constraintEnd_toStartOf="@+id/ntc_btn_status"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/ntc_btn_status" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_stop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{eventhandler::onBtnStopClick}"
+                        android:text="@string/ntc_btn_stop_txt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/ntc_btn_status"
+                        app:layout_constraintTop_toTopOf="@+id/ntc_btn_status" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_fnf"
+                    style="@style/ThemeOverlay.MeroSim.CardView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_ntc_credit">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ntc_til_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_til_modify_new">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ntc_tiet_delete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/ntc_delete_hint"
+                            android:inputType="phone" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ntc_til_modify_new"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_til_modify_old">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ntc_tiet_modify_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/ntc_modify_new_hint"
+                            android:inputType="phone" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/ntc_til_modify_old"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_btn_subscribe">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/ntc_tiet_modify_old"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="@string/ntc_modify_old_hint"
+                            android:inputType="phone" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_query"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ntc_btn_query_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_til_delete" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_delete"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/ntc_btn_delete_txt"
+                        app:layout_constraintBottom_toBottomOf="@+id/ntc_til_delete"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/ntc_til_delete"
+                        app:layout_constraintTop_toTopOf="@+id/ntc_til_delete" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_modify"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/ntc_btn_modify_txt"
+                        app:layout_constraintBottom_toBottomOf="@+id/ntc_til_modify_new"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@id/ntc_til_modify_new"
+                        app:layout_constraintTop_toTopOf="@+id/ntc_til_modify_old" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_subscribe"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/ntc_btn_subscribe_txt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ntc_tv_friends_family" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ntc_tv_friends_family"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/ntc_tv_fnf_info_txt"
+                        app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_mca"
+                    style="@style/ThemeOverlay.MeroSim.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_fnf">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tv_mca_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/tv_mca_info_txt"
+                        app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_mca_subscribe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ntc_btn_subscribe_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ntc_btn_mca_status"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_mca_info" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_mca_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ntc_btn_status_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ntc_btn_mca_unsubscribe"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/ntc_btn_mca_subscribe"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_mca_info"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_mca_unsubscribe"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ntc_btn_unsubscribe_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/ntc_btn_mca_status"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_mca_info" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_crbt"
+                    style="@style/ThemeOverlay.MeroSim.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cl_mca">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/ntc_tv_crbt_info"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/ntc_tv_crbt_info_txt"
+                        app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_crbt_subscribe"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ntc_btn_subscribe_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/ntc_btn_crbt_unsubscribe"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_crbt_info" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/ntc_btn_crbt_unsubscribe"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/ntc_btn_unsubscribe_txt"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toEndOf="@+id/ntc_btn_crbt_subscribe"
+                        app:layout_constraintTop_toBottomOf="@+id/ntc_tv_crbt_info" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

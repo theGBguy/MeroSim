@@ -1,21 +1,46 @@
+<!--
+  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ Last modified: 2021/05/31
+  -->
+
 <resources>
-    <string name="app_name">Scan &amp; Recharge</string>
+    <string name="app_name">मेरो सिम</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Mero Sim Utility App</string>
+    <string name="nav_header_subtitle">chiran604@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
 
     <!--    string resources for navigation drawer menu-->
+    <string name="menu_home">Home</string>
     <string name="menu_recharge">Recharge</string>
+    <string name="menu_settings">Settings</string>
+    <string name="nav_ntc_detail">Namaste</string>
+    <string name="nav_ncell_detail">Ncell</string>
+    <string name="nav_smart_detail">SmartCell</string>
 
     <!--    string resources of sim provider-->
-    <string name="sim_name_ntc">NTC</string>
+    <string name="sim_name_namaste">Namaste</string>
     <string name="sim_name_ncell">Ncell</string>
     <string name="sim_name_smart">SmartCell</string>
 
     <!--    string resources for RechargeFragment-->
     <string name="permission_denied_text">Required permissions are not granted</string>
+    <string name="no_sim_text">Sim card is not inserted!</string>
+
+    <!--    string resources for Step-->
+    <string name="next_button_text">Continue</string>
+    <string name="recharge_button_text">Recharge</string>
 
     <!--   string resources for SimChooseStep-->
     <string name="choose_carrier_text">Choose the carrier</string>
@@ -24,8 +49,9 @@
     <!--    string resources for PinScanStep-->
     <string name="scan_pin_text">Scan the pin</string>
     <string name="img_btn_toggle_flash_content_desc">It is used to toggle flash.</string>
-    <string name="btn_toggle_flash_on">Flash On</string>
-    <string name="btn_toggle_flash_off">Flash Off</string>
+    <string name="btn_toggle_flash_on">Turn flash On</string>
+    <string name="btn_toggle_flash_off">Turn flash Off</string>
+    <string name="btn_retry_text">Retry</string>
     <string name="tv_scanned_pin">Pin scanned : %1$s</string>
     <string name="empty_pin_text">(Empty)</string>
     <string name="no_flash_text">Sorry, flash is not available in your device</string>
@@ -38,5 +64,86 @@
     <string name="tv_confirm_pin">Pin : </string>
     <string name="edtTxt_scanned_pin_num_hint">Scanned pin number</string>
     <string name="wrong_scanning_text">Edit the pin in case if it is wrong</string>
+    <string name="accessibility_service_description">It is used to intercept the ussd response dialog to get the response text for sophisticated response display. It is absolutely safe to use.</string>
 
+    <!-- Language Preferences -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="language_pref_title">Chosen language</string>
+    <string name="language_summary_on">Nepali</string>
+    <string name="language_summary_off">English</string>
+
+    <!--    Vibrate Preferences-->
+    <string name="key_vibrate" translatable="false">key_vibrate</string>
+    <string name="vibrate_pref_title">Vibrate when pin is detected</string>
+    <string name="vibrate_summary_on">On</string>
+    <string name="vibrate_summary_off">Off</string>
+
+    <!--    string resources for HomeFragment-->
+    <string name="tv_available_sim_txt">Your Sim Card/s</string>
+    <string name="tv_fetching_sim_details_txt">Fetching sim card\'s details</string>
+    <string name="tv_no_sim_txt">No any sim cards detected. Please ensure that sim cards are inserted properly.</string>
+
+    <!--    string resources for SimDetailFragment-->
+    <string name="phone_txt">Phone: %s</string>
+    <string name="balance_txt">Balance: %s</string>
+    <string name="sim_owner_txt">Sim Owner: %s</string>
+    <string name="customer_care_txt">Customer Care: %s</string>
+    <string name="balance_transfer_snack_msg">Refresh the balance now to retrieve your new balance!</string>
+    <string name="ussd_failed_snack_msg">Ussd request has failed to receive any response! Please try again some minutes later!</string>
+    <string name="ussd_response_cancelled_msg">Ussd request was cancelled!</string>
+
+    <!--    string resources for Ntc-->
+    <string name="ntc_balance_transfer_info">&lt;b&gt;Here are few things to note about balance transfer:&lt;/b&gt;
+       &lt;ul&gt;
+	        &lt;li&gt;You need to know your security code to transfer your balance.To find the security code, type \"scode\" and send sms to 1415.You should get security code in message reply shortly.&lt;/li&gt;
+	        &lt;li&gt;You can transfer balance from Rs. 10 up to Rs. 500 only per transfer.&lt;/li&gt;
+        	&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;
+        	&lt;li&gt;The service charge for the balance transfer is free in Namaste.&lt;/li&gt;
+            &lt;li&gt;You can only transfer balance up to 20 times a day.&lt;/li&gt;
+        	&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_credit_info">&lt;b&gt;About Namaste Credit&lt;/b&gt;
+	    &lt;ul&gt;
+	    	&lt;li&gt;It is loan service provided by Namaste for it\'s GSM customers.&lt;/li&gt;
+	    	&lt;li&gt;The debt is automatically cleared in the next recharge.&lt;/li&gt;
+	    	&lt;li&gt;No extra charge is imposed on the credit.&lt;/li&gt;
+	    	&lt;li&gt;The credit balance is activated automatically on the low balance to provide uninterruptible calling experience.&lt;/li&gt;
+	    	&lt;li&gt;The amount of the credit allocated differs from one customer to another and is made on loyalty based assessment. It means the more you use the Namaste network, the more credit you are allocated.
+	    &lt;/ul&gt;
+    </string>
+
+    <string name="tv_transfer_balance_txt">Transfer balance</string>
+    <string name="ntc_tiet_security_code_hint">Enter Security Code</string>
+    <string name="tiet_recipient_hint">Enter recipient phone no.</string>
+    <string name="tiet_selected_recipient">Selected recipient: %s</string>
+    <string name="tiet_amount_hint">Enter amount(in Rs.)</string>
+    <string name="btn_transfer">Transfer</string>
+
+    <string name="error_security_code">Please enter valid security code.</string>
+    <string name="error_recipient">Please enter recipient\'s 10 digits NTC phone number.</string>
+    <string name="error_amount">Please enter amount(in Rs.) between 10 and 500.</string>
+
+    <string name="ntc_tv_namaste_credit_txt">Namaste Credit</string>
+    <string name="ncell_tv_ncell_sapati_txt">Ncell Sapati</string>
+    <string name="ntc_btn_status_txt">Status</string>
+    <string name="ncell_btn_take_sapati_txt">Take Sapati</string>
+    <string name="ntc_btn_start_txt">Start</string>
+    <string name="ntc_btn_stop_txt">Stop</string>
+    <string name="ntc_tv_4g_txt">4G</string>
+    <string name="ntc_btn_enable_4g_txt">Enable 4G</string>
+    <string name="ntc_btn_dismiss">Dismiss</string>
+    <string name="ntc_tv_4g_info_txt">Enable 4G if you haven\'t already to enjoy faster data, better voice calls and many more.</string>
+    <string name="ntc_tv_fnf_info_txt"><![CDATA[Friends & Family]]></string>
+    <string name="ntc_btn_subscribe_txt">Subscribe</string>
+    <string name="ntc_btn_unsubscribe_txt">Unsubscribe</string>
+    <string name="ntc_btn_modify_txt">Modify</string>
+    <string name="ntc_btn_delete_txt">Delete</string>
+    <string name="ntc_btn_query_txt">Query</string>
+    <string name="ntc_modify_old_hint">Old phone no.</string>
+    <string name="ntc_modify_new_hint">New phone no.</string>
+    <string name="ntc_delete_hint">Phone no. to delete</string>
+    <string name="tv_mca_info_txt">Missed Call Alert(MCA)</string>
+    <string name="ntc_tv_crbt_info_txt">Caller Ring Back Tone(CRBT)</string>
 </resources>

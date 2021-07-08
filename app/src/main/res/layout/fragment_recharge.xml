@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ernestoyaquello.com.verticalstepperform.VerticalStepperFormView xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~
+  ~ Last modified: 2021/05/31
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/stepper_form"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:form_allow_non_linear_navigation="false"
-    app:form_circle_background_color="?colorPrimary"
-    app:form_display_bottom_navigation="false"
-    app:form_include_confirmation_step="false"
-    app:form_next_button_background_color="?colorPrimary"
-    app:form_next_button_pressed_background_color="?colorPrimaryDark"
-    app:form_title_text_color="?colorOnSurface"
-    tools:context=".ui.recharge.RechargeFragment" />
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
+        android:id="@+id/stepper_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:form_allow_non_linear_navigation="false"
+        app:form_circle_background_color="?colorPrimary"
+        app:form_display_bottom_navigation="false"
+        app:form_include_confirmation_step="false"
+        app:form_next_button_background_color="?colorPrimary"
+        app:form_next_button_pressed_background_color="?colorPrimaryDark"
+        app:form_title_text_color="?colorOnSurface"
+        tools:context=".ui.recharge.RechargeFragment" />
+</layout>
