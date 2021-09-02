@@ -4,12 +4,12 @@ and avoid the hassle of remembering various USSD codes to perform such operation
 
 **Screenshots:**
 
-<img src="https://user-images.githubusercontent.com/25641763/126058635-43f0c8b3-f3e7-4664-a849-f781444c7f4e.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058636-1e2c393a-689f-4fa0-86b1-dff767cfed50.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058637-192fcc6d-71ef-41bd-b323-9464ee77fddf.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058638-763dc94f-48ea-4fd2-ad63-a6f94b49a63d.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058639-2959a950-896a-4095-8323-a3d281959fde.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058640-b9b4b0ae-2a0d-488d-9f48-f9612f4a2889.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058641-7bc319fb-7017-483b-833e-38198ef75b35.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058642-d8c5f190-7117-4ec6-a0a8-fb498094c2b1.jpg" width="18%"></img> 
-<img src="https://user-images.githubusercontent.com/25641763/126058644-ffe693ea-71c1-4569-b70a-60c704abda04.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131852983-e9d8201f-c4bc-4f66-af07-c4d3dd40abf4.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853013-4752b251-647c-4501-b594-63526c963cda.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853030-7bd86029-eeb3-41e0-b69e-a5d46c419205.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853057-3c640490-b1e9-41b4-a52c-99419d466929.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853084-aed33bc8-7e96-49cf-829a-4f602640c040.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853110-1ec1a539-b0e1-41fb-80bb-e46082a3fdde.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853151-565ccf97-aeca-4725-9eb5-612c830e6c23.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853170-a10eff5d-1d1b-454c-99f2-f614ec462d75.jpg" width="18%"></img> 
+<img src="https://user-images.githubusercontent.com/25641763/131853193-aebdd457-f3ec-4796-a4c9-0dc7e5cc1bfa.jpg" width="18%"></img> 
