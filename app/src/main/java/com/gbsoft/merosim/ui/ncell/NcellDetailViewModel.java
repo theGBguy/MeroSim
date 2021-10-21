@@ -45,6 +45,9 @@ public class NcellDetailViewModel extends AndroidViewModel {
     private final MutableLiveData<Integer> errorRecipient = new MutableLiveData<>();
     private final MutableLiveData<Integer> errorAmount = new MutableLiveData<>();
 
+    public final MutableLiveData<String> lowBalanceCallNo = new MutableLiveData<>();
+    private final MutableLiveData<Integer> errorLowBalanceCallNo = new MutableLiveData<>();
+
     private final MutableLiveData<Event<Integer>> snackMsg = new MutableLiveData<>();
 
     private final Repository repository;
@@ -68,17 +71,26 @@ public class NcellDetailViewModel extends AndroidViewModel {
         return sim.getSimSlotIndex();
     }
 
-    boolean isDataInvalid() {
-        if (!Validator.isPhoneNumberValid(recipient.getValue())) {
-            errorRecipient.setValue(R.string.error_recipient);
+    boolean isTransferDataInvalid() {
+        if (!Validator.isPhoneNumberValid(Sim.NCELL, recipient.getValue())) {
+            errorRecipient.setValue(R.string.ncell_error_recipient);
             return true;
         }
         errorRecipient.setValue(null);
         if (!Validator.isAmountValid(Sim.NAMASTE, amount.getValue())) {
-            errorAmount.setValue(R.string.error_amount);
+            errorAmount.setValue(R.string.ncell_error_amount);
             return true;
         }
         errorAmount.setValue(null);
+        return false;
+    }
+
+    boolean isLowBalanceNumberInvalid() {
+        if (!Validator.isPhoneNumberValid(Sim.NCELL, lowBalanceCallNo.getValue())) {
+            errorLowBalanceCallNo.setValue(R.string.ncell_error_recipient);
+            return true;
+        }
+        errorLowBalanceCallNo.setValue(null);
         return false;
     }
 
@@ -131,6 +143,10 @@ public class NcellDetailViewModel extends AndroidViewModel {
 
     public LiveData<Integer> getErrorAmount() {
         return errorAmount;
+    }
+
+    public LiveData<Integer> getErrorLowBalanceCallNo() {
+        return errorLowBalanceCallNo;
     }
 
     public LiveData<Event<Integer>> getSnackMsg() {

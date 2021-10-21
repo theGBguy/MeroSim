@@ -22,6 +22,13 @@ public class SmartCell extends Sim {
 
     public static final String CUSTOMER_CARE_NO = "4242";
     public static final String USSD_BALANCE_TRANSFER = "*131*%s*%s*123456#";
+    public static final String USSD_LOAN = "*129*40#";
+    public static final String MCA = "4270";
+    public static final String MCA_SUBSCRIBE = "SUB";
+    public static final String MCA_UNSUBSCRIBE = "UNSUB";
+    public static final String USSD_CRBT_SUB = "*171#";
+    public static final String USSD_CRBT_UNSUB = "*171*6*3#";
+
 
     public SmartCell() {
         this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, -1);

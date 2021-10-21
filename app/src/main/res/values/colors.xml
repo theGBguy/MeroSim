@@ -15,14 +15,14 @@
   -->
 
 <resources>
-    <color name="colorPrimary500">#377381</color>
-    <color name="colorPrimary200">#94bac3</color>
-    <color name="colorPrimary700">#1e515c</color>
-    <color name="colorPrimary900">#002a32</color>
+    <color name="colorPrimary500">#355c7d</color>
+    <color name="colorPrimary200">#728da4</color>
+    <color name="colorPrimary700">#2a4a64</color>
+    <color name="colorPrimary900">#20374b</color>
 
-    <color name="colorSecondary500">#7d4944</color>
-    <color name="colorSecondary200">#c4a29e</color>
-    <color name="colorSecondary700">#603533</color>
+    <color name="colorSecondary500">#f67280</color>
+    <color name="colorSecondary200">#f99ca6</color>
+    <color name="colorSecondary700">#c55b66</color>
 
     <color name="colorAccent">@color/colorSecondary200</color>
 

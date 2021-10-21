@@ -84,7 +84,8 @@ public class NcellDetailFragment extends Fragment implements OnContactFoundListe
     }
 
     @Override
-    public void onContactFound(@NonNull String name) {
+    public void onContactFound(@NonNull String name, @NonNull String number) {
+        viewModel.recipient.setValue(number);
         binding.ncellTilRecipient.setHelperText(getResources().getString(R.string.tiet_selected_recipient, name));
         new Handler().postDelayed(() -> binding.ncellTilRecipient.setHelperText(null), 3000);
     }

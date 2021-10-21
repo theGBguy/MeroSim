@@ -35,6 +35,4 @@ public abstract class UssdResponseCallback extends TelephonyManager.UssdResponse
     public void onReceiveUssdResponseCancelled(TelephonyManager telephonyManager, String request, String cancellationMsg) {
     }
 
-    ;
-
 }

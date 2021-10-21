@@ -54,12 +54,14 @@ public class UssdService extends AccessibilityService {
 
         String response;
         if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
-            response = event.getText().toString();
+            response = event.getText().get(0).toString() + " ";
         else
             response = nodeInfo.getText().toString();
 //        performGlobalAction(GLOBAL_ACTION_BACK);
-        cancelDialog(event);
-        sendBroadcast(response);
+        if (UssdController.isRequestOngoing()) {
+            cancelDialog(event);
+            sendBroadcast(response);
+        }
     }
 
     private void sendBroadcast(String response) {

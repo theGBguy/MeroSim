@@ -31,6 +31,7 @@
         <item name="colorOnError">@color/white300</item>
 
         <item name="colorOnPrimary">@color/black900</item>
+        <item name="colorOnSecondary">@color/black900</item>
 
         <item name="android:textViewStyle">@style/Widget.MeroSim.TextView</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Surface</item>

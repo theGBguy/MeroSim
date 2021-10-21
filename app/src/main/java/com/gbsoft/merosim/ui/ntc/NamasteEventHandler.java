@@ -17,6 +17,7 @@ package com.gbsoft.merosim.ui.ntc;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -24,8 +25,8 @@ import androidx.annotation.NonNull;
 import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Namaste;
-import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.ui.LoadingTextView;
+import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 
@@ -41,52 +42,129 @@ public class NamasteEventHandler extends UssdResponseCallback {
     }
 
     public void onPhoneRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(Namaste.USSD_SELF, TelephonyUtils.TYPE_NORMAL, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(Namaste.USSD_SELF);
         ((LoadingTextView) view).resetLoader();
     }
 
     public void onBalanceRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(Namaste.USSD_BALANCE, TelephonyUtils.TYPE_NORMAL, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(Namaste.USSD_BALANCE);
         ((LoadingTextView) view).resetLoader();
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(Namaste.USSD_SIM_OWNER, TelephonyUtils.TYPE_INPUT, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(Namaste.USSD_SIM_OWNER);
     }
 
     public void onCustomerCareClick(View view) {
-        telephonyUtils.call(vm.getCustomerCare().getValue(), vm.getSimSlotIndex());
+        telephonyUtils.dial(vm.getCustomerCare().getValue());
     }
 
     public void onBalanceTransferInfoClick(View view) {
-        Utils.showPopup(view, R.string.ntc_balance_transfer_info);
+        Utils.showInfoDialog(view, R.string.ntc_balance_transfer_info);
+    }
+
+    public void onNamasteCreditInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ntc_credit_info);
+    }
+
+    public void onFNFInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ntc_fnf_info);
+    }
+
+    public void onMCAInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ntc_mca_info);
+    }
+
+    public void onCRBTInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ntc_crbt_info);
     }
 
     public void onBalanceTransferClick(View view) {
-        if (vm.isDataInvalid()) return;
-        telephonyUtils.sendUssdRequest(
-                String.format(Locale.getDefault(), Namaste.USSD_BALANCE_TRANSFER,
-                        vm.securityCode.getValue(), vm.recipient.getValue(), vm.amount.getValue()),
-                TelephonyUtils.TYPE_NORMAL,
+        if (vm.isTransferDataInvalid()) return;
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Namaste.USSD_BALANCE_TRANSFER,
+                vm.securityCode.getValue(), vm.recipient.getValue(), vm.amount.getValue()));
+    }
+
+    public void onBtnStartClick(View view) {
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.START);
+    }
+
+    public void onBtnStatusClick(View view) {
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STATUS);
+    }
+
+    public void onBtnStopClick(View view) {
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STOP);
+    }
+
+    public void onBtnFNFSubscribeClick(View view) {
+        String phone = vm.getPhone().getValue();
+        if (!TextUtils.isEmpty(phone))
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_SUB, phone));
+        else
+            SnackUtils.showMessage(view, "Please refresh the phone number above to subscribe!");
+    }
+
+    public void onBtnFNFModifyClick(View view) {
+        String oldPhone = vm.oldPhone.getValue();
+        String newPhone = vm.newPhone.getValue();
+        if (!(TextUtils.isEmpty(oldPhone) && TextUtils.isEmpty(newPhone))) {
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_MODIFY, oldPhone, newPhone));
+        } else
+            SnackUtils.showMessage(view, "Please enter correct old and new phone numbers!");
+    }
+
+    public void onBtnFNFDeleteClick(View view) {
+        String deletePhone = vm.deletePhone.getValue();
+        if (!TextUtils.isEmpty(deletePhone))
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_DELETE, deletePhone));
+        else
+            SnackUtils.showMessage(view, "Please enter correct phone number to delete!");
+    }
+
+    public void onBtnFNFQueryClick(View view) {
+        telephonyUtils.sendSms(Namaste.NAMASTE_FNF, Namaste.FNF_QUERY);
+    }
+
+    public void onBtnMCASubscribeClick(View view) {
+//        telephonyUtils.sendSms(Namaste.NAMASTE_MCA, Namaste.SUBSCRIBE_MCA);
+        makeUSSDRequestWithoutOverlay(Namaste.SUBSCRIBE_MCA);
+    }
+
+    public void onBtnMCAStatusClick(View view) {
+//        telephonyUtils.sendSms(Namaste.NAMASTE_MCA, Namaste.STATUS);
+        makeUSSDRequestWithoutOverlay(Namaste.STATUS_MCA);
+    }
+
+    public void onBtnMCAUnsubscribeClick(View view) {
+//        telephonyUtils.sendSms(Namaste.NAMASTE_MCA, Namaste.UNSUBSCRIBE_MCA);
+        makeUSSDRequestWithoutOverlay(Namaste.UNSUBSCRIBE_MCA);
+    }
+
+    public void onBtnCRBTSubscribeClick(View view) {
+        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, String.format(Locale.getDefault(), Namaste.SUBSCRIBE_CRBT, vm.songCode));
+    }
+
+    public void onBtnCRBTUnsubscribeClick(View view) {
+        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, Namaste.UNSUBSCRIBE_CRBT);
+    }
+
+    private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
+        telephonyUtils.sendUssdRequestWithoutOverlay(
+                ussdRequest,
+                TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
                 this
         );
     }
 
-    public void onNamasteCreditInfoClick(View view) {
-        Utils.showPopup(view, R.string.ntc_credit_info);
-    }
-
-    public void onBtnStartClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Sim.START);
-    }
-
-    public void onBtnStatusClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Sim.STATUS);
-    }
-
-    public void onBtnStopClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Sim.STOP);
+    private void makeUSSDRequestWithOverlay(String ussdRequest) {
+        telephonyUtils.sendUssdRequestWithOverlay(
+                ussdRequest,
+                TelephonyUtils.TYPE_INPUT,
+                vm.getSimSlotIndex(),
+                this
+        );
     }
 
     @Override

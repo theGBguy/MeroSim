@@ -19,24 +19,52 @@ import android.text.TextUtils;
 
 import com.gbsoft.merosim.data.Sim;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Validator {
     public static boolean isSecurityCodeValid(String securityCode) {
-        return !(securityCode == null || TextUtils.isEmpty(securityCode));
+        return !TextUtils.isEmpty(securityCode);
     }
 
-    public static boolean isPhoneNumberValid(String phoneNo) {
-        if (phoneNo == null || TextUtils.isEmpty(phoneNo)) return false;
-        return phoneNo.startsWith("98") && phoneNo.length() == 10;
-    }
+    public static boolean isPhoneNumberValid(String simName, String phoneNo) {
+        if (TextUtils.isEmpty(phoneNo)) return false;
 
-    public static boolean isAmountValid(String simName, String amount) {
-        if (amount == null || TextUtils.isEmpty(amount)) return false;
+        String pattern = "";
         switch (simName) {
             case Sim.NAMASTE:
-                int amountInt = Integer.parseInt(amount);
+                pattern = "98[456][0-9]{7}";
+                break;
+            case Sim.NCELL:
+                pattern = "98[0-2][0-9]{7}";
+                break;
+            case Sim.SMART_CELL:
+                pattern = "9[68][128][0-9]{7}";
+                break;
+        }
+
+        Pattern phoneNoPattern = Pattern.compile(pattern);
+        Matcher phoneNoMatcher = phoneNoPattern.matcher(phoneNo);
+
+        return phoneNoMatcher.find();
+    }
+
+//    public static boolean isPhoneNumbersValid(String... phoneNos) {
+//        for (String phoneNo : phoneNos) {
+//            if (!isPhoneNumberValid(phoneNo)) return false;
+//        }
+//        return true;
+//    }
+
+    public static boolean isAmountValid(String simName, String amount) {
+        if (TextUtils.isEmpty(amount)) return false;
+
+        int amountInt = Integer.parseInt(amount);
+        switch (simName) {
+            case Sim.NAMASTE:
                 return amountInt >= 10 && amountInt <= 500;
             case Sim.NCELL:
-                return false;
+                return amountInt >= 10 && amountInt <= 200;
             case Sim.SMART_CELL:
                 return false;
         }

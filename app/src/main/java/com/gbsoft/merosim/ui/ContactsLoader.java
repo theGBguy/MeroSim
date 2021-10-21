@@ -76,7 +76,8 @@ public class ContactsLoader implements LoaderManager.LoaderCallbacks<Cursor> {
                 String name = data.getString(1);
                 if (TextUtils.isEmpty(name))
                     name = "Unknown Contact";
-                onContactFoundListener.onContactFound(name);
+                String number = data.getString(0);
+                onContactFoundListener.onContactFound(name, number);
             }
         }
     }

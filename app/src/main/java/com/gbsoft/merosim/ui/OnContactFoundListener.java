@@ -18,5 +18,5 @@ package com.gbsoft.merosim.ui;
 import androidx.annotation.NonNull;
 
 public interface OnContactFoundListener {
-    void onContactFound(@NonNull String name);
+    void onContactFound(@NonNull String name, @NonNull String number);
 }

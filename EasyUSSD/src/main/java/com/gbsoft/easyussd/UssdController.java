@@ -76,15 +76,21 @@ public class UssdController {
             callback.onReceiveUssdResponseCancelled(null, request, context.getString(R.string.ussd_response_cancelled_alt));
             return;
         }
-        if (withOverlay && verifyOverlayService() && verifyAccessibilityService()) {
-            if (customOverlayLayout != -1)
-                overlayServiceIntent.putExtra(OverlayService.CUSTOM_LAYOUT_ID, customOverlayLayout);
-            context.startService(overlayServiceIntent);
+        if (withOverlay) {
+            if (verifyOverlayService() && verifyAccessibilityService()) {
+                if (customOverlayLayout != -1)
+                    overlayServiceIntent.putExtra(OverlayService.CUSTOM_LAYOUT_ID, customOverlayLayout);
+                context.startService(overlayServiceIntent);
 
-            this.currentRequest = request;
-            this.callback = callback;
-            registerBroadcast();
-            sendUssdRequest(request, simSlotIndex);
+                this.currentRequest = request;
+                this.callback = callback;
+                registerBroadcast();
+                sendUssdRequest(request, simSlotIndex, true);
+            } else {
+                callback.onReceiveUssdResponseFailed(null, request, R.string.ussd_response_failed_lack_permission);
+            }
+        } else {
+            sendUssdRequest(request, simSlotIndex, false);
         }
     }
 
@@ -94,8 +100,9 @@ public class UssdController {
         }
     }
 
-    private void sendUssdRequest(String request, int simSlotIndex) {
-        isRequestOngoing = true;
+    private void sendUssdRequest(String request, int simSlotIndex, boolean isBlocking) {
+        if (isBlocking)
+            isRequestOngoing = true;
         context.startActivity(getActionCallIntent(Uri.parse("tel:" + Uri.encode(request)), simSlotIndex));
     }
 
@@ -146,15 +153,12 @@ public class UssdController {
     }
 
     private boolean verifyOverlayService() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.canDrawOverlays(context))
-                return true;
-            else {
-                showOverlayDialog();
-                return false;
-            }
-        } else
+        if (Settings.canDrawOverlays(context))
+            return true;
+        else {
+            showOverlayDialog();
             return false;
+        }
     }
 
     private void showAccessibilityDialog() {

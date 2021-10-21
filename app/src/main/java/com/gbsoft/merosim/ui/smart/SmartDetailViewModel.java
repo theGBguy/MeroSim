@@ -42,7 +42,6 @@ public class SmartDetailViewModel extends AndroidViewModel {
     public final MutableLiveData<String> amount = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> errorRecipient = new MutableLiveData<>();
-    private final MutableLiveData<Integer> errorAmount = new MutableLiveData<>();
 
     private final MutableLiveData<Event<Integer>> snackMsg = new MutableLiveData<>();
 
@@ -67,16 +66,11 @@ public class SmartDetailViewModel extends AndroidViewModel {
     }
 
     boolean isDataInvalid() {
-        if (!Validator.isPhoneNumberValid(recipient.getValue())) {
-            errorRecipient.setValue(R.string.error_recipient);
+        if (!Validator.isPhoneNumberValid(Sim.SMART_CELL, recipient.getValue())) {
+            errorRecipient.setValue(R.string.smart_error_recipient);
             return true;
         }
         errorRecipient.setValue(null);
-        if (!Validator.isAmountValid(Sim.NAMASTE, amount.getValue())) {
-            errorAmount.setValue(R.string.error_amount);
-            return true;
-        }
-        errorAmount.setValue(null);
         return false;
     }
 
@@ -112,10 +106,6 @@ public class SmartDetailViewModel extends AndroidViewModel {
 
     public LiveData<Integer> getErrorRecipient() {
         return errorRecipient;
-    }
-
-    public LiveData<Integer> getErrorAmount() {
-        return errorAmount;
     }
 
     public LiveData<Event<Integer>> getSnackMsg() {

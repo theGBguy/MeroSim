@@ -15,6 +15,7 @@
 
 package com.gbsoft.merosim.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -22,21 +23,19 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
-import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
+import com.gbsoft.merosim.intermediaries.PrefsUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class Utils {
 
+    @SuppressLint("MissingPermission")
     public static void vibrateIfNecessary(Context context) {
         if (shouldVibrate(context)) {
             Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
@@ -48,7 +47,7 @@ public class Utils {
     }
 
     private static boolean shouldVibrate(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("key_vibrate", true);
+        return PrefsUtils.getDefaultSharedPrefs(context).getBoolean("key_vibrate", true);
     }
 
     // send 0 for ntc, 1 for ncell and 2 for smartcell
@@ -82,15 +81,33 @@ public class Utils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
     }
 
-    public static void showPopup(View anchor, @StringRes int info) {
+    public static void showInfoDialog(View anchor, @StringRes int info) {
+//        int length = Utils.dpToPx(context.getResources(), 320);
+//        View popupView = LayoutInflater.from(context).inflate(R.layout.layout_info, null);
+//
+//        PopupWindow popup = new PopupWindow(popupView, length, length, true);
+//        popup.setElevation(20);
+//        if (isNightMode(context.getResources()))
+//            popup.setBackgroundDrawable(new ColorDrawable(context.getColor(R.color.black900)));
+//        else
+//            popup.setBackgroundDrawable(new ColorDrawable(context.getColor(R.color.white300)));
+//        popup.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//
+//        popupView.setOnClickListener(v -> popup.dismiss());
+//
+//        popup.showAsDropDown(anchor, 0, 0, Gravity.BOTTOM | Gravity.END);
+//
+//        TextView tvBalanceTransferInfo = popupView.findViewById(R.id.tv_content);
+//        tvBalanceTransferInfo.setText(HtmlCompat.fromHtml(context.getString(info), 0));
         Context context = anchor.getContext();
-        int length = Utils.dpToPx(context.getResources(), 320);
-        View popupView = LayoutInflater.from(context).inflate(R.layout.layout_info, null);
-        PopupWindow popup = new PopupWindow(popupView, length, length, true);
-        popup.showAsDropDown(anchor, 0, 0, Gravity.BOTTOM | Gravity.END);
-        popupView.setOnClickListener(v -> popup.dismiss());
-
-        TextView tvBalanceTransferInfo = popupView.findViewById(R.id.tv_content);
-        tvBalanceTransferInfo.setText(HtmlCompat.fromHtml(context.getString(info), 0));
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.info_txt)
+                .setIcon(R.drawable.ic_baseline_info_24)
+                .setMessage(HtmlCompat.fromHtml(context.getString(info), 0).toString())
+                .setCancelable(true)
+                .setPositiveButton(R.string.dialog_positive_btn_txt, (dialog, id) ->
+                        dialog.dismiss())
+                .show();
     }
+
 }

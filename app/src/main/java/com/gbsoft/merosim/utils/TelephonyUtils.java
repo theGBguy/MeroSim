@@ -72,12 +72,22 @@ public class TelephonyUtils {
     }
 
     @SuppressLint("MissingPermission")
-    public void sendUssdRequest(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback) {
+    public void sendUssdRequestWithOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback) {
         if (PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
                 telephonyManager.sendUssdRequest(ussdRequest, callback, new Handler());
             else
                 ussdController.sendUssdRequest(ussdRequest, simSlotIndex, true, callback);
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public void sendUssdRequestWithoutOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback) {
+        if (PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
+                telephonyManager.sendUssdRequest(ussdRequest, callback, new Handler());
+            else
+                ussdController.sendUssdRequest(ussdRequest, simSlotIndex, false, callback);
         }
     }
 

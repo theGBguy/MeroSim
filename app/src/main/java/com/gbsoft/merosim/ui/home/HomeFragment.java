@@ -17,11 +17,9 @@ package com.gbsoft.merosim.ui.home;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Interpolator;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +27,8 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.transition.Fade;
-import androidx.transition.Slide;
-import androidx.transition.TransitionSet;
 
 import com.gbsoft.merosim.databinding.FragmentHomeBinding;
-import com.gbsoft.merosim.ui.PropagatingTransition;
 import com.gbsoft.merosim.utils.PermissionUtils;
 
 public class HomeFragment extends Fragment {

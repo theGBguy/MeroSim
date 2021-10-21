@@ -42,6 +42,10 @@ public class NamasteDetailViewModel extends AndroidViewModel {
     public final MutableLiveData<String> securityCode = new MutableLiveData<>();
     public final MutableLiveData<String> recipient = new MutableLiveData<>();
     public final MutableLiveData<String> amount = new MutableLiveData<>();
+    public final MutableLiveData<String> oldPhone = new MutableLiveData<>();
+    public final MutableLiveData<String> newPhone = new MutableLiveData<>();
+    public final MutableLiveData<String> deletePhone = new MutableLiveData<>();
+    public final MutableLiveData<String> songCode = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> errorSecurityCode = new MutableLiveData<>();
     private final MutableLiveData<Integer> errorRecipient = new MutableLiveData<>();
@@ -71,19 +75,19 @@ public class NamasteDetailViewModel extends AndroidViewModel {
         return sim.getSimSlotIndex();
     }
 
-    boolean isDataInvalid() {
+    boolean isTransferDataInvalid() {
         if (!Validator.isSecurityCodeValid(securityCode.getValue())) {
             errorSecurityCode.setValue(R.string.error_security_code);
             return true;
         }
         errorSecurityCode.setValue(null);
-        if (!Validator.isPhoneNumberValid(recipient.getValue())) {
-            errorRecipient.setValue(R.string.error_recipient);
+        if (!Validator.isPhoneNumberValid(Sim.NAMASTE, recipient.getValue())) {
+            errorRecipient.setValue(R.string.ntc_error_recipient);
             return true;
         }
         errorRecipient.setValue(null);
         if (!Validator.isAmountValid(Sim.NAMASTE, amount.getValue())) {
-            errorAmount.setValue(R.string.error_amount);
+            errorAmount.setValue(R.string.ntc_error_amount);
             return true;
         }
         errorAmount.setValue(null);

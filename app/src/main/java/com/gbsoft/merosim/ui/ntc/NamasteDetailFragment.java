@@ -107,7 +107,8 @@ public class NamasteDetailFragment extends Fragment implements OnContactFoundLis
     }
 
     @Override
-    public void onContactFound(@NonNull String name) {
+    public void onContactFound(@NonNull String name, @NonNull String number) {
+        viewModel.recipient.setValue(number);
         binding.ntcTilRecipient.setHelperText(getResources().getString(R.string.tiet_selected_recipient, name));
         new Handler().postDelayed(() -> binding.ntcTilRecipient.setHelperText(null), 3000);
     }

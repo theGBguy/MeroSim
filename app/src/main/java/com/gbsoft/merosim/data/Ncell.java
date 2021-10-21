@@ -23,6 +23,12 @@ public class Ncell extends Sim {
 
     public static final String CUSTOMER_CARE_NO = "9005";
     public static final String USSD_BALANCE_TRANSFER = "*17122*%s*%s#";
+    public static final String USSD_SAPATI = "*9988#";
+    public static final String USSD_MY5 = "*5599%s#";
+    public static final String USSD_MCN_ACTIVATE = "*100*2*2*1*1#";
+    public static final String USSD_MCN_DEACTIVATE = "*100*2*2*1*2#";
+    public static final String USSD_PRBT = "17117";
+    public static final String LOW_BALANCE_CALL = "17102%s";
 
     public Ncell() {
         this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, Sim.UNAVAILABLE, -1);

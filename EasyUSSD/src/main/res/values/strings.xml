@@ -22,6 +22,7 @@
     <string name="btn_cancel_txt">Cancel processing</string>
     <string name="ussd_response_cancelled_msg">Ussd request has been cancelled as per your request.</string>
     <string name="ussd_response_cancelled_alt">Another request is in processing. Please wait!</string>
+    <string name="ussd_response_failed_lack_permission">Overlay and accessibility permission is not granted!</string>
 
     <string name="dialog_accessibility_title">Accessibility service not enabled!</string>
     <string name="dialog_accessibility_msg">You must enable accessibility service to use this feature.</string>

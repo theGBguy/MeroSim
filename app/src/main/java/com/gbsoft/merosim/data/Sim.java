@@ -26,10 +26,6 @@ public class Sim implements Parcelable {
     public static final String SMART_CELL = "SmartCell";
     public static final String NONE = "None";
 
-    public static final String START = "START";
-    public static final String STATUS = "STATUS";
-    public static final String STOP = "STOP";
-
     public static final String UNAVAILABLE = "(unavailable)";
 
     private String name;

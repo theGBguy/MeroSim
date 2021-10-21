@@ -20,6 +20,7 @@
     <string name="nav_header_title">Mero Sim Utility App</string>
     <string name="nav_header_subtitle">chiran604@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="info_txt">Info</string>
 
     <!--    string resources for navigation drawer menu-->
     <string name="menu_home">Home</string>
@@ -92,8 +93,19 @@
     <string name="ussd_failed_snack_msg">Ussd request has failed to receive any response! Please try again some minutes later!</string>
     <string name="ussd_response_cancelled_msg">Ussd request was cancelled!</string>
 
+    <string name="btn_subscribe_txt">Subscribe</string>
+    <string name="btn_unsubscribe_txt">Unsubscribe</string>
+    <string name="tv_mca_txt">Missed Call Alert(MCA)</string>
+    <string name="btn_transfer">Transfer</string>
+    <string name="btn_status_txt">Status</string>
+    <string name="btn_start_txt">Start</string>
+    <string name="btn_stop_txt">Stop</string>
+    <string name="btn_activate_txt">Activate</string>
+    <string name="btn_deactivate_txt">Deactivate</string>
+
+
     <!--    string resources for Ntc-->
-    <string name="ntc_balance_transfer_info">&lt;b&gt;Here are few things to note about balance transfer:&lt;/b&gt;
+    <string name="ntc_balance_transfer_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
        &lt;ul&gt;
 	        &lt;li&gt;You need to know your security code to transfer your balance.To find the security code, type \"scode\" and send sms to 1415.You should get security code in message reply shortly.&lt;/li&gt;
 	        &lt;li&gt;You can transfer balance from Rs. 10 up to Rs. 500 only per transfer.&lt;/li&gt;
@@ -104,7 +116,7 @@
         &lt;/ul&gt;
     </string>
 
-    <string name="ntc_credit_info">&lt;b&gt;About Namaste Credit&lt;/b&gt;
+    <string name="ntc_credit_info">&lt;b&gt;ABOUT NAMASTE CREDIT&lt;/b&gt;
 	    &lt;ul&gt;
 	    	&lt;li&gt;It is loan service provided by Namaste for it\'s GSM customers.&lt;/li&gt;
 	    	&lt;li&gt;The debt is automatically cleared in the next recharge.&lt;/li&gt;
@@ -114,36 +126,177 @@
 	    &lt;/ul&gt;
     </string>
 
+    <string name="ntc_fnf_info">&lt;b&gt;ABOUT FRIENDS &amp;amp; FAMILY&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;It is a special service which allows you to make call to 5 different Namaste number in discounted price.&lt;/li&gt;
+            &lt;li&gt;The voice tariff is 55 paisa/minute for GSM/CDMA post-paid and 70 paisa/minute for pre-paid subscriber.&lt;/li&gt;
+            &lt;li&gt;The service can be enabled for free.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_mca_info">&lt;b&gt;ABOUT MISSED CALL ALERT&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;This service provides you the information about the calls that you were unable to receive.&lt;/li&gt;
+            &lt;li&gt;This service can be enabled free of cost and it is auto-renewed as well.&lt;/li&gt;
+            &lt;li&gt;Upon successful subscription of the service, you will receive a SMS in the format: &quot;You have a missed call from 984XXXXXXX(no.) at 2021-05-19 01:00:30&quot; where no. represents the total call attempt.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_crbt_info">&lt;b&gt;ABOUT CALLER RING BACK TONE&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;This service replaces the boring standard ringback tone with hit songs and dialogues.&lt;/li&gt;
+            &lt;li&gt;Send \"top\" to 1455 to get the top songs crbt code.&lt;li&gt;
+            &lt;li&gt;Caller tune subscription charge : Rs. 5 weekly and Rs. 20 monthly&lt;/li&gt;
+            &lt;li&gt;Tone charge : Rs. 2.5 weekly and Rs. 10 monthly&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
     <string name="tv_transfer_balance_txt">Transfer balance</string>
     <string name="ntc_tiet_security_code_hint">Enter Security Code</string>
     <string name="tiet_recipient_hint">Enter recipient phone no.</string>
     <string name="tiet_selected_recipient">Selected recipient: %s</string>
     <string name="tiet_amount_hint">Enter amount(in Rs.)</string>
-    <string name="btn_transfer">Transfer</string>
 
     <string name="error_security_code">Please enter valid security code.</string>
-    <string name="error_recipient">Please enter recipient\'s 10 digits NTC phone number.</string>
-    <string name="error_amount">Please enter amount(in Rs.) between 10 and 500.</string>
+    <string name="ntc_error_recipient">Please enter recipient\'s 10 digits NTC phone number.</string>
+    <string name="ntc_error_amount">Please enter amount(in Rs.) between 10 and 500.</string>
 
     <string name="ntc_tv_namaste_credit_txt">Namaste Credit</string>
-    <string name="ncell_tv_ncell_sapati_txt">Ncell Sapati</string>
-    <string name="ntc_btn_status_txt">Status</string>
-    <string name="ncell_btn_take_sapati_txt">Take Sapati</string>
-    <string name="ntc_btn_start_txt">Start</string>
-    <string name="ntc_btn_stop_txt">Stop</string>
     <string name="ntc_tv_4g_txt">4G</string>
     <string name="ntc_btn_enable_4g_txt">Enable 4G</string>
     <string name="ntc_btn_dismiss">Dismiss</string>
-    <string name="ntc_tv_4g_info_txt">Enable 4G if you haven\'t already to enjoy faster data, better voice calls and many more.</string>
-    <string name="ntc_tv_fnf_info_txt"><![CDATA[Friends & Family]]></string>
-    <string name="ntc_btn_subscribe_txt">Subscribe</string>
-    <string name="ntc_btn_unsubscribe_txt">Unsubscribe</string>
+    <string name="ntc_tv_4g_info">Enable 4G if you haven\'t already to enjoy faster data, better voice calls and many more.</string>
+    <string name="ntc_tv_fnf_info"><![CDATA[Friends & Family]]></string>
     <string name="ntc_btn_modify_txt">Modify</string>
     <string name="ntc_btn_delete_txt">Delete</string>
     <string name="ntc_btn_query_txt">Query</string>
     <string name="ntc_modify_old_hint">Old phone no.</string>
     <string name="ntc_modify_new_hint">New phone no.</string>
     <string name="ntc_delete_hint">Phone no. to delete</string>
-    <string name="tv_mca_info_txt">Missed Call Alert(MCA)</string>
-    <string name="ntc_tv_crbt_info_txt">Caller Ring Back Tone(CRBT)</string>
+    <string name="ntc_tv_crbt_info">Caller Ring Back Tone(CRBT)</string>
+    <string name="ntc_song_code_hint">Enter song code</string>
+    <string name="ntc_til_security_code_helper_txt">Click the save button to save the security code for next use.</string>
+
+    <!--    string resources for ncell      -->
+
+    <string name="ncell_transfer_balance_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
+       &lt;ul&gt;
+            &lt;li&gt;You can transfer balance from Rs. 10 up to Rs. 200 only per transfer.&lt;/li&gt;
+        	&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;
+        	&lt;li&gt;The service charge for the balance transfer is Rs. 1(excluding taxes) in Ncell.&lt;/li&gt;
+            &lt;li&gt;You can only transfer balance up to 3 times a day.&lt;/li&gt;
+        	&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_error_recipient">Please enter recipient\'s 10 digits Ncell phone number.</string>
+    <string name="ncell_error_amount">Please enter amount(in Rs.) between 10 and 200.</string>
+
+    <string name="ncell_tv_ncell_sapati_txt">Ncell Sapati</string>
+    <string name="ncell_sapati_info">
+        &lt;b&gt;ABOUT NCELL SAPATI&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;The main balance should be less than Rs. 5.&lt;/li&gt;
+            &lt;li&gt;Charge : Loan amount(Rs. 40) + Rs. 2(exclusive of taxes)&lt;/li&gt;
+            &lt;li&gt;The subscriber should have used the sim for more than 15 days.&lt;/li&gt;
+            &lt;li&gt;Previous sapati(if taken) must be cleared.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+    <string name="ncell_btn_take_sapati_txt">Take Sapati</string>
+
+    <string name="ncell_tv_my5_txt">MY 5</string>
+    <string name="ncell_my5_info">
+        &lt;b&gt;ABOUT MY5 SERVICE&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;It allows you to make calls to 5 different Ncell numbers in discounted price.&lt;/li&gt;
+        &lt;li&gt;Tariff : 99 paisa/min(Rs. 1.29/min with tax)&lt;/li&gt;
+        &lt;li&gt;Charge : Rs. 25.54/month&lt;/li&gt;
+        &lt;li&gt;For one month trial, dial 5588.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_btn_add_no_txt">Add number</string>
+    <string name="ncell_btn_modify_no_txt">Modify number</string>
+    <string name="ncell_btn_delete_no_txt">Delete number</string>
+    <string name="ncell_btn_query_no_txt">Query numbers</string>
+
+
+    <string name="ncell_tv_mcn_txt">Missed Call Notification</string>
+    <string name="ncell_mcn_info">
+        &lt;b&gt;ABOUT MISSED CALL NOTIFICATION&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;There is no activation charge to enable this service.&lt;/li&gt;
+        &lt;li&gt;You will receive SMS about the calls that you missed when you were outside the network coverage , enable flight mode or switch off the phone.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_tv_prbt_txt">PRBT</string>
+    <string name="ncell_prbt_info">
+        &lt;b&gt;ABOUT PRBT SERVICE&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;It replaces the boring callback tone with your favourite music or tune.&lt;/li&gt;
+        &lt;li&gt;PRBT service charge : Rs. 10 monthly&lt;/li&gt;
+        &lt;li&gt;PRBT tone charge : Rs. 10 monthly&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_tv_low_balance_call_txt">Low Balance Call</string>
+    <string name="ncell_low_balance_call_info">
+        &lt;b&gt;ABOUT LOW BALANCE CALL&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;It is a call service for user having or zero balance.&lt;/li&gt;
+        &lt;li&gt;The balance will be deducted from the receiver\'s side.&lt;/li&gt;
+        &lt;li&gt;The receiver is played a voice message and need to press 1 to accept the call.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+    <string name="ncell_tiet_enter_ph_no_hint">Enter phone number</string>
+    <string name="ncell_btn_make_low_balance_call_txt">Make a low balance call</string>
+
+    <!--    string resources for smart      -->
+
+    <string name="smart_balance_transfer_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
+       &lt;ul&gt;
+	        &lt;li&gt;There is no limit in no. of times or the amount of balance transfer in SmartCell.&lt;/li&gt;
+        	&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;
+        	&lt;li&gt;The service charge for the balance transfer is free in SmartCell.&lt;/li&gt;
+        	&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_error_recipient">Please enter recipient\'s 10 digits SmartCell phone number.</string>
+
+    <string name="smart_tv_loan_txt">Loan</string>
+    <string name="smart_loan_info">
+        &lt;b&gt;ABOUT SMARTCELL LOAN&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;The main balance should be equal to or less than Re. 1.&lt;/li&gt;
+            &lt;li&gt;Service Charge : Rs. 2(exclusive of taxes)&lt;/li&gt;
+            &lt;li&gt;The subscriber should have used the sim for more than 3 months.&lt;/li&gt;
+            &lt;li&gt;Previous loan(if taken) must be cleared.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+    <string name="smart_btn_take_loan_txt">Take a loan</string>
+
+    <string name="smart_mca_info">
+        &lt;b&gt;ABOUT MISSED CALL ALERTS&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;Service Charge : Rs. 6(exclusive of taxes)&lt;/li&gt;
+        &lt;li&gt;You will receive SMS with the caller phone number and no. of times you missed the calls from the same number.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_crbt_info">
+        &lt;b&gt;ABOUT CRBT SERVICE&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;It replaces the boring callback tone with your favourite music or tune.&lt;/li&gt;
+        &lt;li&gt;Service charge : Rs. 12.77 monthly&lt;/li&gt;
+        &lt;li&gt;Tone charge : Rs. 12.77 monthly&lt;/li&gt;
+        &lt;li&gt;Both service and track will be auto renewed each month.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <!--    &lt;b&gt;&lt;/b&gt;
+            &lt;ul&gt;
+            &lt;li&gt;&lt;/li&gt;
+            &lt;/ul&gt;-->
 </resources>

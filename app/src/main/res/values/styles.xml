@@ -32,10 +32,12 @@
         <item name="colorOnError">@color/white50</item>
 
         <item name="colorOnPrimary">@color/white50</item>
+        <item name="colorOnSecondary">@color/white50</item>
 
         <item name="android:textViewStyle">@style/Widget.MeroSim.TextView</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        </item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MeroSim.SmallComponent
         </item>

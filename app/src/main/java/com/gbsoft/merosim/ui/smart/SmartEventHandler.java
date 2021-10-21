@@ -40,12 +40,12 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onPhoneRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(SmartCell.USSD_SELF, TelephonyUtils.TYPE_NORMAL, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(SmartCell.USSD_SELF);
         ((LoadingTextView) view).resetLoader();
     }
 
     public void onBalanceRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(SmartCell.USSD_BALANCE, TelephonyUtils.TYPE_NORMAL, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(SmartCell.USSD_BALANCE);
         ((LoadingTextView) view).resetLoader();
     }
 
@@ -54,15 +54,60 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onBalanceTransferInfoClick(View view) {
-        Utils.showPopup(view, R.string.ntc_balance_transfer_info);
+        Utils.showInfoDialog(view, R.string.smart_balance_transfer_info);
+    }
+
+    public void onLoanInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.smart_loan_info);
+    }
+
+    public void onMCAInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.smart_mca_info);
+    }
+
+    public void onCRBTInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.smart_crbt_info);
     }
 
     public void onBalanceTransferClick(View view) {
         if (vm.isDataInvalid()) return;
-        telephonyUtils.sendUssdRequest(
-                String.format(Locale.getDefault(), SmartCell.USSD_BALANCE_TRANSFER,
-                        vm.recipient.getValue(), vm.amount.getValue()),
-                TelephonyUtils.TYPE_NORMAL,
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), SmartCell.USSD_BALANCE_TRANSFER,
+                vm.recipient.getValue(), vm.amount.getValue()));
+    }
+
+    public void onTakeLoanClick(View view) {
+        makeUSSDRequestWithoutOverlay(SmartCell.USSD_LOAN);
+    }
+
+    public void onMCAActivateClick(View view) {
+        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_SUBSCRIBE);
+    }
+
+    public void onMCADeactivateClick(View view) {
+        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_UNSUBSCRIBE);
+    }
+
+    public void onCRBTSubscribeClick(View view) {
+        makeUSSDRequestWithoutOverlay(SmartCell.USSD_CRBT_SUB);
+    }
+
+    public void onCRBTUnsubscribeClick(View view) {
+        makeUSSDRequestWithoutOverlay(SmartCell.USSD_CRBT_UNSUB);
+    }
+
+    private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
+        telephonyUtils.sendUssdRequestWithoutOverlay(
+                ussdRequest,
+                TelephonyUtils.TYPE_INPUT,
+                vm.getSimSlotIndex(),
+                this
+        );
+    }
+
+    private void makeUSSDRequestWithOverlay(String ussdRequest) {
+        telephonyUtils.sendUssdRequestWithOverlay(
+                ussdRequest,
+                TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
                 this
         );
@@ -98,5 +143,11 @@ public class SmartEventHandler extends UssdResponseCallback {
         }
         vm.setSnackMsg(R.string.ussd_failed_snack_msg);
         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
+    }
+
+    @Override
+    public void onReceiveUssdResponseCancelled(TelephonyManager telephonyManager, String request, String cancellationMsg) {
+        super.onReceiveUssdResponseCancelled(telephonyManager, request, cancellationMsg);
+        vm.setSnackMsg(R.string.ussd_response_cancelled_msg);
     }
 }

@@ -39,12 +39,12 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                style="@style/ThemeOverlay.MeroSim.CardView"
                 android:id="@+id/smart_ll_loan"
+                style="@style/ThemeOverlay.MeroSim.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_margin="8dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/smart_cl_transfer_balance">
@@ -56,7 +56,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Loan"
+                    android:background="@drawable/ripple"
+                    android:onClick="@{eventhandler::onLoanInfoClick}"
+                    android:text="@string/smart_tv_loan_txt"
                     app:drawableEndCompat="@drawable/ic_baseline_info_24" />
 
                 <com.google.android.material.button.MaterialButton
@@ -66,11 +68,12 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Take a loan" />
+                    android:onClick="@{eventhandler::onTakeLoanClick}"
+                    android:text="@string/smart_btn_take_loan_txt" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_smart_mcn"
+                android:id="@+id/cl_smart_mca"
                 style="@style/ThemeOverlay.MeroSim.CardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,45 +83,49 @@
                 app:layout_constraintTop_toBottomOf="@id/smart_ll_loan">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/smart_tv_mcn_info"
+                    android:id="@+id/smart_tv_mca_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Missed Call Notification"
+                    android:background="@drawable/ripple"
+                    android:onClick="@{eventhandler::onMCAInfoClick}"
+                    android:text="@string/tv_mca_txt"
                     app:drawableEndCompat="@drawable/ic_baseline_info_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/smart_btn_mcn_activate"
+                    android:id="@+id/smart_btn_mca_activate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Activate"
+                    android:onClick="@{eventhandler::onMCAActivateClick}"
+                    android:text="@string/btn_activate_txt"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/smart_btn_mcn_deactivate"
+                    app:layout_constraintEnd_toStartOf="@+id/smart_btn_mca_deactivate"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/smart_tv_mcn_info" />
+                    app:layout_constraintTop_toBottomOf="@+id/smart_tv_mca_info" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/smart_btn_mcn_deactivate"
+                    android:id="@+id/smart_btn_mca_deactivate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="Deactivate"
+                    android:onClick="@{eventhandler::onMCADeactivateClick}"
+                    android:text="@string/btn_deactivate_txt"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toEndOf="@+id/smart_btn_mcn_activate"
-                    app:layout_constraintTop_toBottomOf="@+id/smart_tv_mcn_info" />
+                    app:layout_constraintStart_toEndOf="@+id/smart_btn_mca_activate"
+                    app:layout_constraintTop_toBottomOf="@+id/smart_tv_mca_info" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -183,7 +190,6 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    app:errorRes="@{safeUnbox(vm.errorAmount)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/smart_til_recipient">
@@ -294,6 +300,7 @@
                     app:layout_constraintTop_toBottomOf="@id/smart_tv_balance"
                     tools:text="Customer Care: 1498" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/smart_cl_crbt"
                 style="@style/ThemeOverlay.MeroSim.CardView"
@@ -306,7 +313,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_smart_mcn">
+                app:layout_constraintTop_toBottomOf="@id/cl_smart_mca">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/smart_tv_crbt_info"
@@ -315,7 +322,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text="@string/ntc_tv_crbt_info_txt"
+                    android:background="@drawable/ripple"
+                    android:onClick="@{eventhandler::onCRBTInfoClick}"
+                    android:text="@string/ntc_tv_crbt_info"
                     app:drawableEndCompat="@drawable/ic_baseline_info_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -328,7 +337,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/ntc_btn_subscribe_txt"
+                    android:onClick="@{eventhandler::onCRBTSubscribeClick}"
+                    android:text="@string/btn_subscribe_txt"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/smart_btn_crbt_unsubscribe"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -342,7 +352,8 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="@string/ntc_btn_unsubscribe_txt"
+                    android:onClick="@{eventhandler::onCRBTUnsubscribeClick}"
+                    android:text="@string/btn_unsubscribe_txt"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

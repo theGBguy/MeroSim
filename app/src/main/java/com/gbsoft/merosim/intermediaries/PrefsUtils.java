@@ -61,7 +61,7 @@ public class PrefsUtils {
         return details;
     }
 
-    private static SharedPreferences getDefaultSharedPrefs(Context context) {
+    public static SharedPreferences getDefaultSharedPrefs(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 

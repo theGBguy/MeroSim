@@ -56,10 +56,4 @@
         android:label="@string/nav_smart_detail"
         tools:layout="@layout/fragment_smart_detail" />
 
-    <fragment
-        android:id="@+id/nav_test"
-        android:name="com.gbsoft.merosim.ui.test.TestFragment"
-        android:label="Test"
-        tools:layout="@layout/fragment_test" />
-
 </navigation>

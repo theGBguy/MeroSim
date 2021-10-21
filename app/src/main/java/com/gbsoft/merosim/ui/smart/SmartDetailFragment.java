@@ -36,8 +36,6 @@ import com.gbsoft.merosim.ui.PickPhoneNumber;
 import com.gbsoft.merosim.utils.EventObserver;
 import com.gbsoft.merosim.utils.SnackUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 public class SmartDetailFragment extends Fragment implements OnContactFoundListener {
     private FragmentSmartDetailBinding binding;
     private SmartDetailViewModel viewModel;
@@ -84,7 +82,8 @@ public class SmartDetailFragment extends Fragment implements OnContactFoundListe
     }
 
     @Override
-    public void onContactFound(@NonNull @NotNull String name) {
+    public void onContactFound(@NonNull String name, @NonNull String number) {
+        viewModel.recipient.setValue(number);
         binding.smartTilRecipient.setHelperText(getResources().getString(R.string.tiet_selected_recipient, name));
         new Handler().postDelayed(() -> binding.smartTilRecipient.setHelperText(null), 3000);
     }

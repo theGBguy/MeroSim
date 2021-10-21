@@ -103,7 +103,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
         int slotIndex = telephonyUtils.getSimSlotIndex(model.getSimChooseData());
 
         if (PermissionUtils.isAllPermissionsGranted(requireContext()))
-            telephonyUtils.sendUssdRequest(ussdRequest, TelephonyUtils.TYPE_NORMAL, slotIndex, callback);
+            telephonyUtils.sendUssdRequestWithOverlay(ussdRequest, TelephonyUtils.TYPE_NORMAL, slotIndex, callback);
         else {
             SnackUtils.showMessage(requireView(), R.string.permission_denied_text);
             binding.stepperForm.cancelFormCompletionOrCancellationAttempt();

@@ -40,17 +40,17 @@ public class NcellEventHandler extends UssdResponseCallback {
     }
 
     public void onPhoneRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(Ncell.USSD_SELF, TelephonyUtils.TYPE_INPUT, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(Ncell.USSD_SELF);
         ((LoadingTextView) view).resetLoader();
     }
 
     public void onBalanceRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(Ncell.USSD_BALANCE, TelephonyUtils.TYPE_INPUT, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(Ncell.USSD_BALANCE);
         ((LoadingTextView) view).resetLoader();
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        telephonyUtils.sendUssdRequest(Ncell.USSD_SIM_OWNER, TelephonyUtils.TYPE_INPUT, vm.getSimSlotIndex(), this);
+        makeUSSDRequestWithOverlay(Ncell.USSD_SIM_OWNER);
     }
 
     public void onCustomerCareClick(View view) {
@@ -58,23 +58,107 @@ public class NcellEventHandler extends UssdResponseCallback {
     }
 
     public void onBalanceTransferInfoClick(View view) {
-        Utils.showPopup(view, R.string.ntc_balance_transfer_info);
+        Utils.showInfoDialog(view, R.string.ncell_transfer_balance_info);
+    }
+
+    // sapati, my5, mcn, prbt, low balance
+
+    public void onSapatiInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ncell_sapati_info);
+    }
+
+    public void onMy5InfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ncell_my5_info);
+    }
+
+    public void onMCNInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ncell_mcn_info);
+    }
+
+    public void onPRBTInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ncell_prbt_info);
+    }
+
+    public void onLowBalanceCallInfoClick(View view) {
+        Utils.showInfoDialog(view, R.string.ncell_low_balance_call_info);
     }
 
     public void onBalanceTransferClick(View view) {
-        if (vm.isDataInvalid()) return;
-        telephonyUtils.sendUssdRequest(
-                String.format(Locale.getDefault(), Ncell.USSD_BALANCE_TRANSFER,
-                        vm.recipient.getValue(), vm.amount.getValue()),
-                TelephonyUtils.TYPE_NORMAL,
-                vm.getSimSlotIndex(),
-                this
+        if (vm.isTransferDataInvalid()) return;
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_BALANCE_TRANSFER,
+                vm.recipient.getValue(), vm.amount.getValue()));
+    }
 
+    public void onBtnTakeSapatiClick(View view) {
+        makeUSSDRequestWithoutOverlay(Ncell.USSD_SAPATI);
+    }
+
+    public void onBtnMy5ActivateClick(View view) {
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 1));
+    }
+
+    public void onBtnMy5AddNumberClick(View view) {
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 2));
+    }
+
+    public void onBtnMy5ModifyNumberClick(View view) {
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 3));
+    }
+
+    public void onBtnMy5DeleteNumberClick(View view) {
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 4));
+    }
+
+    public void onBtnMy5QueryNumberClick(View view) {
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 5));
+    }
+
+    public void onBtnMy5DeactivateClick(View view) {
+        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 6));
+    }
+
+    public void onBtnMCNActivateClick(View view) {
+        makeUSSDRequestWithoutOverlay(Ncell.USSD_MCN_ACTIVATE);
+    }
+
+    public void onBtnMCNDeactivateClick(View view) {
+        makeUSSDRequestWithoutOverlay(Ncell.USSD_MCN_DEACTIVATE);
+    }
+
+    public void onBtnPRBTActivateClick(View view) {
+        makeUSSDRequestWithoutOverlay("*" + Ncell.USSD_PRBT + "#");
+    }
+
+    public void onBtnPRBTDeactivateClick(View view) {
+        telephonyUtils.sendSms(Ncell.USSD_PRBT, "R");
+    }
+
+    public void onBtnMakeLowBalanceCallClick(View view) {
+        if (vm.isLowBalanceNumberInvalid()) return;
+        telephonyUtils.call(
+                String.format(Locale.getDefault(),
+                        Ncell.LOW_BALANCE_CALL,
+                        vm.lowBalanceCallNo.getValue()),
+                vm.getSimSlotIndex()
         );
     }
 
-    public void onNcellCreditInfoClick(View view) {
-        Utils.showPopup(view, R.string.ntc_credit_info);
+    private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
+        telephonyUtils.sendUssdRequestWithoutOverlay(
+                ussdRequest,
+                TelephonyUtils.TYPE_INPUT,
+                vm.getSimSlotIndex(),
+                this
+        );
+    }
+
+    private void makeUSSDRequestWithOverlay(String ussdRequest) {
+        telephonyUtils.sendUssdRequestWithOverlay(
+                ussdRequest,
+                TelephonyUtils.TYPE_INPUT,
+                vm.getSimSlotIndex(),
+                this
+        );
     }
 
     @Override
@@ -113,6 +197,12 @@ public class NcellEventHandler extends UssdResponseCallback {
         }
         vm.setSnackMsg(R.string.ussd_failed_snack_msg);
         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
+    }
+
+    @Override
+    public void onReceiveUssdResponseCancelled(TelephonyManager telephonyManager, String request, String cancellationMsg) {
+        super.onReceiveUssdResponseCancelled(telephonyManager, request, cancellationMsg);
+        vm.setSnackMsg(R.string.ussd_response_cancelled_msg);
     }
 
 }

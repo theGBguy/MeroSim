@@ -22,8 +22,32 @@ public class Namaste extends Sim {
     public static final String USSD_RECHARGE = "*412*%s#";
     public static final String USSD_BALANCE_TRANSFER = "*422*%s*%s*%s#";
 
+    public static final String START = "START";
+    public static final String STATUS = "STATUS";
+    public static final String STOP = "STOP";
+    public static final String SUBSCRIBE_CRBT = "sub %s";
+    public static final String UNSUBSCRIBE_CRBT = "unsub";
+
     public static final String CUSTOMER_CARE_NO = "1498";
     public static final String NAMASTE_CREDIT_NO = "1477";
+    public static final String NAMASTE_FNF = "1415";
+    // formatted args should be the own phone no
+    public static final String FNF_SUB = "FNFSUB*%s";
+    // formatted args should be old and new phone no respectively
+    public static final String FNF_MODIFY = "FNFMOD*%s*%s";
+    // formatted args should be phone no to delete from fnf service
+    public static final String FNF_DELETE = "FNFDEL*%s";
+    public static final String FNF_QUERY = "FNFINQ";
+
+    //    public static final String NAMASTE_MCA = "1400";
+    //    public static final String SUBSCRIBE_MCA = "sub mca";
+    //    public static final String UNSUBSCRIBE_MCA = "unsub mca";
+    public static final String SUBSCRIBE_MCA = "*1400*1#";
+    public static final String UNSUBSCRIBE_MCA = "*1400*2#";
+    public static final String STATUS_MCA = "*1400*3#";
+
+    public static final String NAMASTE_CRBT = "1455";
+
 
     public Namaste() {
         this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, Sim.UNAVAILABLE, -1);
