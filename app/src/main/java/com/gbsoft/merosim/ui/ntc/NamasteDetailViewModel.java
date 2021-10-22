@@ -68,6 +68,8 @@ public class NamasteDetailViewModel extends AndroidViewModel {
         phone.setValue(sim.getPhoneNo());
         balance.setValue(sim.getBalance());
         simOwner.setValue(sim.getSimOwner());
+
+        securityCode.setValue(repository.getSecurityCode(getAppContext()));
     }
 
 
@@ -131,6 +133,10 @@ public class NamasteDetailViewModel extends AndroidViewModel {
             this.simOwner.setValue(simOwner);
             repository.saveSimOwner(getAppContext(), sim.getSimSlotIndex(), simOwner);
         }
+    }
+
+    public void saveSecurityCode() {
+        repository.saveSecurityCode(getAppContext(), securityCode.getValue());
     }
 
     public LiveData<String> getCustomerCare() {

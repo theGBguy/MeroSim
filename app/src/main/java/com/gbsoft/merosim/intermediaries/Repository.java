@@ -43,4 +43,12 @@ public class Repository {
     public void saveSimOwner(Context context, int slotIndex, String simOwner) {
         PrefsUtils.saveSimOwner(context, slotIndex, simOwner);
     }
+
+    public void saveSecurityCode(Context context, String securityCode) {
+        PrefsUtils.saveSecurityCode(context, securityCode);
+    }
+
+    public String getSecurityCode(Context context) {
+        return PrefsUtils.getSecurityCode(context);
+    }
 }

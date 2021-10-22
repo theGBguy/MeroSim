@@ -22,25 +22,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentNamasteDetailBinding;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
-import com.gbsoft.merosim.ui.ContactsLoader;
-import com.gbsoft.merosim.ui.OnContactFoundListener;
-import com.gbsoft.merosim.ui.PermissionFixerContract;
-import com.gbsoft.merosim.ui.PickPhoneNumber;
 import com.gbsoft.merosim.utils.EventObserver;
 import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class NamasteDetailFragment extends BaseTelecomFragment {
     private FragmentNamasteDetailBinding binding;
@@ -67,6 +58,8 @@ public class NamasteDetailFragment extends BaseTelecomFragment {
             if (msg == 0) return;
             SnackUtils.showMessage(view, msg);
         }));
+
+        binding.ntcTilSecurityCode.setEndIconOnClickListener(v -> viewModel.saveSecurityCode());
 
         binding.ntcTilRecipient.setEndIconOnClickListener(v -> {
             if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_CONTACTS)) {

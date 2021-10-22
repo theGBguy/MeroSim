@@ -29,6 +29,7 @@ public class PrefsUtils {
     public static final String KEY_BALANCE = "sim%d_balance";
     public static final String KEY_SIM_OWNER = "sim%d_sim_owner";
     public static final String UNAVAILABLE = "(unavailable)";
+    public static final String KEY_SECURITY_CODE = "scode";
 
     public static void savePhone(Context context, int slotIndex, String phone) {
         getDefaultSharedPrefs(context)
@@ -49,6 +50,17 @@ public class PrefsUtils {
                 .edit()
                 .putString(getFormattedKey(KEY_SIM_OWNER, slotIndex), simOwner)
                 .apply();
+    }
+
+    public static void saveSecurityCode(Context context, String securityCode) {
+        getDefaultSharedPrefs(context)
+                .edit()
+                .putString(KEY_SECURITY_CODE, securityCode)
+                .apply();
+    }
+
+    public static String getSecurityCode(Context context) {
+        return getDefaultSharedPrefs(context).getString(KEY_SECURITY_CODE, "");
     }
 
 
