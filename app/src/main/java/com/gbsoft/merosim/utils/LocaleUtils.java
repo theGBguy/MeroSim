@@ -16,8 +16,20 @@
 package com.gbsoft.merosim.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import androidx.preference.PreferenceManager;
+
+import com.gbsoft.merosim.R;
 
 public class LocaleUtils {
+
+    public static String getLocale(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
+        boolean isNepaliOn = preferences.getBoolean(context.getApplicationContext().getString(R.string.key_language), false);
+        return isNepaliOn ? "ne" : "en";
+    }
+
     public static boolean isNepali(Context context) {
         String lang;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)

@@ -10,22 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/22
  */
 
-package com.gbsoft.merosim;
+package com.gbsoft.merosim.ui;
 
-import android.app.Application;
-
-import com.gbsoft.merosim.utils.LocaleUtils;
-import com.yariksoffice.lingver.Lingver;
-
-public class MyApplication extends Application {
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Lingver.init(this, LocaleUtils.getLocale(getApplicationContext()));
-    }
-
+public interface PermissionFixerContract {
+    void fixPermission(String permission);
 }

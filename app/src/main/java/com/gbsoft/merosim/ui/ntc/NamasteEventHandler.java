@@ -25,30 +25,32 @@ import androidx.annotation.NonNull;
 import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Namaste;
-import com.gbsoft.merosim.ui.LoadingTextView;
+import com.gbsoft.merosim.data.Sim;
+import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
+import com.gbsoft.merosim.utils.Validator;
 
 import java.util.Locale;
 
 public class NamasteEventHandler extends UssdResponseCallback {
     private final NamasteDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
+    private final PermissionFixerContract fixerContract;
 
-    public NamasteEventHandler(Context context, @NonNull NamasteDetailViewModel vm) {
+    public NamasteEventHandler(Context context, @NonNull NamasteDetailViewModel vm, PermissionFixerContract fixerContract) {
         this.vm = vm;
+        this.fixerContract = fixerContract;
         this.telephonyUtils = new TelephonyUtils(context);
     }
 
     public void onPhoneRefreshClick(View view) {
         makeUSSDRequestWithOverlay(Namaste.USSD_SELF);
-        ((LoadingTextView) view).resetLoader();
     }
 
     public void onBalanceRefreshClick(View view) {
         makeUSSDRequestWithOverlay(Namaste.USSD_BALANCE);
-        ((LoadingTextView) view).resetLoader();
     }
 
     public void onSimOwnerRefreshClick(View view) {
@@ -86,21 +88,21 @@ public class NamasteEventHandler extends UssdResponseCallback {
     }
 
     public void onBtnStartClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.START);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.START, fixerContract);
     }
 
     public void onBtnStatusClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STATUS);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STATUS, fixerContract);
     }
 
     public void onBtnStopClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STOP);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STOP, fixerContract);
     }
 
     public void onBtnFNFSubscribeClick(View view) {
         String phone = vm.getPhone().getValue();
-        if (!TextUtils.isEmpty(phone))
-            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_SUB, phone));
+        if (Validator.isPhoneNumberValid(Sim.NAMASTE, phone))
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_SUB, phone), fixerContract);
         else
             SnackUtils.showMessage(view, "Please refresh the phone number above to subscribe!");
     }
@@ -108,22 +110,22 @@ public class NamasteEventHandler extends UssdResponseCallback {
     public void onBtnFNFModifyClick(View view) {
         String oldPhone = vm.oldPhone.getValue();
         String newPhone = vm.newPhone.getValue();
-        if (!(TextUtils.isEmpty(oldPhone) && TextUtils.isEmpty(newPhone))) {
-            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_MODIFY, oldPhone, newPhone));
+        if (Validator.arePhoneNumbersValid(Sim.NAMASTE, oldPhone, newPhone)) {
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_MODIFY, oldPhone, newPhone), fixerContract);
         } else
-            SnackUtils.showMessage(view, "Please enter correct old and new phone numbers!");
+            SnackUtils.showMessage(view, "Please enter correct old and new NTC phone numbers!");
     }
 
     public void onBtnFNFDeleteClick(View view) {
         String deletePhone = vm.deletePhone.getValue();
-        if (!TextUtils.isEmpty(deletePhone))
-            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_DELETE, deletePhone));
+        if (Validator.isPhoneNumberValid(Sim.NAMASTE, deletePhone))
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_DELETE, deletePhone), fixerContract);
         else
-            SnackUtils.showMessage(view, "Please enter correct phone number to delete!");
+            SnackUtils.showMessage(view, "Please enter correct NTC phone number to delete!");
     }
 
     public void onBtnFNFQueryClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_FNF, Namaste.FNF_QUERY);
+        telephonyUtils.sendSms(Namaste.NAMASTE_FNF, Namaste.FNF_QUERY, fixerContract);
     }
 
     public void onBtnMCASubscribeClick(View view) {
@@ -142,11 +144,15 @@ public class NamasteEventHandler extends UssdResponseCallback {
     }
 
     public void onBtnCRBTSubscribeClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, String.format(Locale.getDefault(), Namaste.SUBSCRIBE_CRBT, vm.songCode));
+        String songCode = vm.songCode.getValue();
+        if (TextUtils.isEmpty(songCode))
+            SnackUtils.showMessage(view, "Please do not leave the song code field empty!");
+        else
+            telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, String.format(Locale.getDefault(), Namaste.SUBSCRIBE_CRBT, vm.songCode), fixerContract);
     }
 
     public void onBtnCRBTUnsubscribeClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, Namaste.UNSUBSCRIBE_CRBT);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, Namaste.UNSUBSCRIBE_CRBT, fixerContract);
     }
 
     private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
@@ -154,7 +160,8 @@ public class NamasteEventHandler extends UssdResponseCallback {
                 ussdRequest,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
-                this
+                this,
+                fixerContract
         );
     }
 
@@ -163,7 +170,8 @@ public class NamasteEventHandler extends UssdResponseCallback {
                 ussdRequest,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
-                this
+                this,
+                fixerContract
         );
     }
 

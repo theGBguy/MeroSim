@@ -15,39 +15,29 @@
 
 package com.gbsoft.merosim.ui.ncell;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.loader.app.LoaderManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentNcellDetailBinding;
-import com.gbsoft.merosim.ui.ContactsLoader;
-import com.gbsoft.merosim.ui.OnContactFoundListener;
-import com.gbsoft.merosim.ui.PickPhoneNumber;
+import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.utils.EventObserver;
+import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-public class NcellDetailFragment extends Fragment implements OnContactFoundListener {
+public class NcellDetailFragment extends BaseTelecomFragment {
     private FragmentNcellDetailBinding binding;
     private NcellDetailViewModel viewModel;
-    private ContactsLoader loader;
-
-    private final ActivityResultLauncher<Void> contactPicker =
-            registerForActivityResult(
-                    new PickPhoneNumber(),
-                    uri -> loader.restartLoader(LoaderManager.getInstance(NcellDetailFragment.this), uri)
-            );
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -62,10 +52,9 @@ public class NcellDetailFragment extends Fragment implements OnContactFoundListe
 
         viewModel = new ViewModelProvider(this).get(NcellDetailViewModel.class);
         binding.setVm(viewModel);
-        binding.setEventhandler(new NcellEventHandler(requireContext(), viewModel));
+        binding.setEventhandler(new NcellEventHandler(requireContext(), viewModel, fixerContract));
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        loader = new ContactsLoader(requireContext(), this);
         viewModel.init(requireArguments());
 
         viewModel.getSnackMsg().observe(getViewLifecycleOwner(), new EventObserver<>(msg -> {
@@ -73,7 +62,13 @@ public class NcellDetailFragment extends Fragment implements OnContactFoundListe
             SnackUtils.showMessage(view, msg);
         }));
 
-        binding.ncellTilRecipient.setEndIconOnClickListener(v -> contactPicker.launch(null));
+        binding.ncellTilRecipient.setEndIconOnClickListener(v -> {
+            if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_CONTACTS)) {
+                contactPicker.launch(null);
+            } else {
+                handlePermission(Manifest.permission.READ_CONTACTS, getString(R.string.perm_read_contacts_msg), readContactsPermissionLauncher);
+            }
+        });
     }
 
     @Override

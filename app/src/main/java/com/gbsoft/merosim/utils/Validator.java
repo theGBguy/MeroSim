@@ -49,12 +49,34 @@ public class Validator {
         return phoneNoMatcher.find();
     }
 
-//    public static boolean isPhoneNumbersValid(String... phoneNos) {
-//        for (String phoneNo : phoneNos) {
-//            if (!isPhoneNumberValid(phoneNo)) return false;
-//        }
-//        return true;
-//    }
+    public static boolean arePhoneNumbersValid(String simName, String... phoneNo) {
+        for (String phone : phoneNo) {
+            if (TextUtils.isEmpty(phone)) return false;
+        }
+
+        String pattern = "";
+        switch (simName) {
+            case Sim.NAMASTE:
+                pattern = "98[456][0-9]{7}";
+                break;
+            case Sim.NCELL:
+                pattern = "98[0-2][0-9]{7}";
+                break;
+            case Sim.SMART_CELL:
+                pattern = "9[68][128][0-9]{7}";
+                break;
+        }
+
+        Pattern phoneNoPattern = Pattern.compile(pattern);
+        boolean isValid = true;
+
+        for (String phone : phoneNo) {
+            Matcher phoneMatcher = phoneNoPattern.matcher(phone);
+            isValid = isValid && phoneMatcher.find();
+        }
+
+        return isValid;
+    }
 
     public static boolean isAmountValid(String simName, String amount) {
         if (TextUtils.isEmpty(amount)) return false;

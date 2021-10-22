@@ -15,6 +15,7 @@
 
 package com.gbsoft.merosim.ui.ntc;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -30,22 +32,19 @@ import androidx.loader.app.LoaderManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentNamasteDetailBinding;
+import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.ContactsLoader;
 import com.gbsoft.merosim.ui.OnContactFoundListener;
+import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.ui.PickPhoneNumber;
 import com.gbsoft.merosim.utils.EventObserver;
+import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class NamasteDetailFragment extends Fragment implements OnContactFoundListener {
+public class NamasteDetailFragment extends BaseTelecomFragment {
     private FragmentNamasteDetailBinding binding;
     private NamasteDetailViewModel viewModel;
-    private ContactsLoader loader;
-
-    private final ActivityResultLauncher<Void> contactPicker =
-            registerForActivityResult(
-                    new PickPhoneNumber(),
-                    uri -> loader.restartLoader(LoaderManager.getInstance(NamasteDetailFragment.this), uri)
-            );
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,50 +53,30 @@ public class NamasteDetailFragment extends Fragment implements OnContactFoundLis
         return binding.getRoot();
     }
 
-//    private void startTransition() {
-//        PropagatingTransition transition = new PropagatingTransition(
-//                (ViewGroup) binding.getRoot(),
-//                binding.ntcTvPhone,
-//                new TransitionSet().addTransition(new Fade(Fade.IN))
-//                        .setInterpolator((Interpolator) input -> (input - 0.5f) * 2)
-//                        .addTransition(new Slide(Gravity.BOTTOM)),
-//                600,
-//                null,
-//                null
-//        );
-//        transition.init();
-//        transition.start();
-//    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(NamasteDetailViewModel.class);
         binding.setVm(viewModel);
-        binding.setEventhandler(new NamasteEventHandler(requireContext(), viewModel));
+        binding.setEventhandler(new NamasteEventHandler(requireContext(), viewModel, fixerContract));
         binding.setLifecycleOwner(getViewLifecycleOwner());
 
-        loader = new ContactsLoader(requireContext(), this);
         viewModel.init(requireArguments());
-
 
         viewModel.getSnackMsg().observe(getViewLifecycleOwner(), new EventObserver<>(msg -> {
             if (msg == 0) return;
             SnackUtils.showMessage(view, msg);
         }));
 
-        binding.ntcTilRecipient.setEndIconOnClickListener(v -> contactPicker.launch(null));
-
-//        ViewGroup parent = (ViewGroup) view.getParent();
-//        parent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//                parent.getViewTreeObserver().removeOnPreDrawListener(this);
-//                startTransition();
-//                return true;
-//            }
-//        });
+        binding.ntcTilRecipient.setEndIconOnClickListener(v -> {
+            if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_CONTACTS)) {
+                contactPicker.launch(null);
+            } else {
+                handlePermission(Manifest.permission.READ_CONTACTS, getString(R.string.perm_read_contacts_msg), readContactsPermissionLauncher);
+            }
+        });
     }
+
 
     @Override
     public void onDestroyView() {

@@ -15,30 +15,17 @@
 
 package com.gbsoft.merosim.utils;
 
-import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
 public class PermissionUtils {
-    private static final int PERMISSIONS_REQUEST_CODE = 1000;
-    private static final String[] requiredPermissions = new String[]{Manifest.permission.CALL_PHONE, Manifest.permission.SEND_SMS,
-            Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_CONTACTS};
 
-    public static void checkAndRequestPermissions(FragmentActivity activity) {
-        if (!isAllPermissionsGranted(activity)) {
-            ActivityCompat.requestPermissions(activity, requiredPermissions, PERMISSIONS_REQUEST_CODE);
-        }
-    }
-
-    public static boolean isAllPermissionsGranted(Context context) {
-        for (String permission : requiredPermissions) {
-            if (!isPermissionGranted(context, permission)) return false;
-        }
-        return true;
+    public static boolean shouldShowRequestPermissionRationale(Activity activity, String permission) {
+        return ActivityCompat.shouldShowRequestPermissionRationale(activity, permission);
     }
 
     public static boolean isPermissionGranted(Context context, String permission) {

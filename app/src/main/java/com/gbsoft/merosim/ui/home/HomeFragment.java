@@ -15,12 +15,15 @@
 
 package com.gbsoft.merosim.ui.home;
 
+import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -28,8 +31,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.gbsoft.merosim.R;
+import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.databinding.FragmentHomeBinding;
 import com.gbsoft.merosim.utils.PermissionUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
@@ -37,6 +46,17 @@ public class HomeFragment extends Fragment {
 
     private SimRecyclerAdapter adapter;
     private RVEmptyObserver simListObv;
+
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                List<Sim> simList;
+                if (isGranted)
+                    simList = viewModel.getSimList();
+                else
+                    simList = new ArrayList<>();
+                adapter = new SimRecyclerAdapter(simList);
+                binding.rvSimList.setAdapter(adapter);
+            });
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -55,13 +75,32 @@ public class HomeFragment extends Fragment {
         binding.rvSimList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvSimList.setHasFixedSize(true);
 
-        adapter = new SimRecyclerAdapter(viewModel.getSimList());
-        binding.rvSimList.setAdapter(adapter);
+        handleReadPhoneStatePermission();
 
         simListObv = new RVEmptyObserver(binding.rvSimList, binding.tvNoSim);
         adapter.registerAdapterDataObserver(simListObv);
+    }
 
-        PermissionUtils.checkAndRequestPermissions(requireActivity());
+    private void handleReadPhoneStatePermission() {
+        if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_PHONE_STATE)) {
+            adapter = new SimRecyclerAdapter(viewModel.getSimList());
+            binding.rvSimList.setAdapter(adapter);
+        } else if (PermissionUtils.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_PHONE_STATE)) {
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.perm_dialog_title))
+                    .setMessage(getString(R.string.perm_read_phone_state_msg))
+                    .setCancelable(true)
+                    .setPositiveButton(getString(R.string.positive_dialog_btn_txt), (dialog, which) -> {
+                        requestPermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .show();
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
+        }
     }
 
     @Override

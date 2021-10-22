@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.SmartCell;
-import com.gbsoft.merosim.ui.LoadingTextView;
+import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 
@@ -33,24 +33,24 @@ import java.util.Locale;
 public class SmartEventHandler extends UssdResponseCallback {
     private final SmartDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
+    private final PermissionFixerContract fixerContract;
 
-    public SmartEventHandler(Context context, @NonNull SmartDetailViewModel vm) {
+    public SmartEventHandler(Context context, @NonNull SmartDetailViewModel vm, PermissionFixerContract fixerContract) {
         this.vm = vm;
+        this.fixerContract = fixerContract;
         this.telephonyUtils = new TelephonyUtils(context);
     }
 
     public void onPhoneRefreshClick(View view) {
         makeUSSDRequestWithOverlay(SmartCell.USSD_SELF);
-        ((LoadingTextView) view).resetLoader();
     }
 
     public void onBalanceRefreshClick(View view) {
         makeUSSDRequestWithOverlay(SmartCell.USSD_BALANCE);
-        ((LoadingTextView) view).resetLoader();
     }
 
     public void onCustomerCareClick(View view) {
-        telephonyUtils.call(vm.getCustomerCare().getValue(), vm.getSimSlotIndex());
+        telephonyUtils.dial(vm.getCustomerCare().getValue());
     }
 
     public void onBalanceTransferInfoClick(View view) {
@@ -80,11 +80,11 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onMCAActivateClick(View view) {
-        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_SUBSCRIBE);
+        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_SUBSCRIBE, fixerContract);
     }
 
     public void onMCADeactivateClick(View view) {
-        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_UNSUBSCRIBE);
+        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_UNSUBSCRIBE, fixerContract);
     }
 
     public void onCRBTSubscribeClick(View view) {
@@ -100,7 +100,8 @@ public class SmartEventHandler extends UssdResponseCallback {
                 ussdRequest,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
-                this
+                this,
+                fixerContract
         );
     }
 
@@ -109,7 +110,8 @@ public class SmartEventHandler extends UssdResponseCallback {
                 ussdRequest,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
-                this
+                this,
+                fixerContract
         );
     }
 

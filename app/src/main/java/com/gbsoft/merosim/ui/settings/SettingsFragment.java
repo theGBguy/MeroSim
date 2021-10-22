@@ -15,14 +15,13 @@
 
 package com.gbsoft.merosim.ui.settings;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
+import com.gbsoft.merosim.utils.LocaleUtils;
 import com.yariksoffice.lingver.Lingver;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -47,18 +46,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.key_language))) {
-            Lingver.getInstance().setLocale(requireActivity().getApplicationContext(), getLocale());
+            Lingver.getInstance().setLocale(requireActivity().getApplicationContext(), LocaleUtils.getLocale(requireContext()));
             requireActivity().recreate();
         }
     }
 
-    private String getLocale() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getAppContext());
-        boolean isNepaliOn = preferences.getBoolean(getAppContext().getString(R.string.key_language), false);
-        return isNepaliOn ? "ne" : "en";
-    }
-
-    private Context getAppContext() {
-        return requireActivity().getApplicationContext();
-    }
 }

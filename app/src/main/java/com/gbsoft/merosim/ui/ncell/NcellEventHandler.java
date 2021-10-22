@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Ncell;
-import com.gbsoft.merosim.ui.LoadingTextView;
+import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 
@@ -33,20 +33,20 @@ import java.util.Locale;
 public class NcellEventHandler extends UssdResponseCallback {
     private final NcellDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
+    private final PermissionFixerContract fixerContract;
 
-    public NcellEventHandler(Context context, @NonNull NcellDetailViewModel vm) {
+    public NcellEventHandler(Context context, @NonNull NcellDetailViewModel vm, PermissionFixerContract fixerContract) {
         this.vm = vm;
+        this.fixerContract = fixerContract;
         this.telephonyUtils = new TelephonyUtils(context);
     }
 
     public void onPhoneRefreshClick(View view) {
         makeUSSDRequestWithOverlay(Ncell.USSD_SELF);
-        ((LoadingTextView) view).resetLoader();
     }
 
     public void onBalanceRefreshClick(View view) {
         makeUSSDRequestWithOverlay(Ncell.USSD_BALANCE);
-        ((LoadingTextView) view).resetLoader();
     }
 
     public void onSimOwnerRefreshClick(View view) {
@@ -54,7 +54,7 @@ public class NcellEventHandler extends UssdResponseCallback {
     }
 
     public void onCustomerCareClick(View view) {
-        telephonyUtils.call(vm.getCustomerCare().getValue(), vm.getSimSlotIndex());
+        telephonyUtils.dial(vm.getCustomerCare().getValue());
     }
 
     public void onBalanceTransferInfoClick(View view) {
@@ -130,7 +130,7 @@ public class NcellEventHandler extends UssdResponseCallback {
     }
 
     public void onBtnPRBTDeactivateClick(View view) {
-        telephonyUtils.sendSms(Ncell.USSD_PRBT, "R");
+        telephonyUtils.sendSms(Ncell.USSD_PRBT, "R", fixerContract);
     }
 
     public void onBtnMakeLowBalanceCallClick(View view) {
@@ -139,7 +139,8 @@ public class NcellEventHandler extends UssdResponseCallback {
                 String.format(Locale.getDefault(),
                         Ncell.LOW_BALANCE_CALL,
                         vm.lowBalanceCallNo.getValue()),
-                vm.getSimSlotIndex()
+                vm.getSimSlotIndex(),
+                fixerContract
         );
     }
 
@@ -148,7 +149,8 @@ public class NcellEventHandler extends UssdResponseCallback {
                 ussdRequest,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
-                this
+                this,
+                fixerContract
         );
     }
 
@@ -157,7 +159,8 @@ public class NcellEventHandler extends UssdResponseCallback {
                 ussdRequest,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
-                this
+                this,
+                fixerContract
         );
     }
 

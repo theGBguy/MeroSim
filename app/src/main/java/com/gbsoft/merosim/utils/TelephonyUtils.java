@@ -37,6 +37,7 @@ import com.gbsoft.merosim.data.Ncell;
 import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.data.SmartCell;
 import com.gbsoft.merosim.intermediaries.PrefsUtils;
+import com.gbsoft.merosim.ui.PermissionFixerContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,22 +73,26 @@ public class TelephonyUtils {
     }
 
     @SuppressLint("MissingPermission")
-    public void sendUssdRequestWithOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback) {
+    public void sendUssdRequestWithOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
         if (PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
                 telephonyManager.sendUssdRequest(ussdRequest, callback, new Handler());
             else
                 ussdController.sendUssdRequest(ussdRequest, simSlotIndex, true, callback);
+        } else {
+            fixerContract.fixPermission(Manifest.permission.CALL_PHONE);
         }
     }
 
     @SuppressLint("MissingPermission")
-    public void sendUssdRequestWithoutOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback) {
+    public void sendUssdRequestWithoutOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
         if (PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
                 telephonyManager.sendUssdRequest(ussdRequest, callback, new Handler());
             else
                 ussdController.sendUssdRequest(ussdRequest, simSlotIndex, false, callback);
+        } else {
+            fixerContract.fixPermission(Manifest.permission.CALL_PHONE);
         }
     }
 
@@ -117,22 +122,20 @@ public class TelephonyUtils {
 
     public List<Sim> getSimList() {
         List<Sim> simsList = new ArrayList<>();
-        if (PermissionUtils.isAllPermissionsGranted(context)) {
-            for (SubscriptionInfo subsInfo : getSubsInfoList()) {
-                String simName = subsInfo.getCarrierName().toString();
-                int simSlotIndex = subsInfo.getSimSlotIndex();
-                List<String> details = PrefsUtils.retrieveSimDetails(context, simSlotIndex);
-                switch (simName) {
-                    case Sim.NAMASTE:
-                        simsList.add(new Namaste(details.get(0), details.get(1), details.get(2), simSlotIndex));
-                        break;
-                    case Sim.NCELL:
-                        simsList.add(new Ncell(details.get(0), details.get(1), details.get(2), simSlotIndex));
-                        break;
-                    case Sim.SMART_CELL:
-                        simsList.add(new SmartCell(details.get(0), details.get(1), simSlotIndex));
-                        break;
-                }
+        for (SubscriptionInfo subsInfo : getSubsInfoList()) {
+            String simName = subsInfo.getCarrierName().toString();
+            int simSlotIndex = subsInfo.getSimSlotIndex();
+            List<String> details = PrefsUtils.retrieveSimDetails(context, simSlotIndex);
+            switch (simName) {
+                case Sim.NAMASTE:
+                    simsList.add(new Namaste(details.get(0), details.get(1), details.get(2), simSlotIndex));
+                    break;
+                case Sim.NCELL:
+                    simsList.add(new Ncell(details.get(0), details.get(1), details.get(2), simSlotIndex));
+                    break;
+                case Sim.SMART_CELL:
+                    simsList.add(new SmartCell(details.get(0), details.get(1), simSlotIndex));
+                    break;
             }
         }
         return simsList;
@@ -208,19 +211,35 @@ public class TelephonyUtils {
         context.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(number))));
     }
 
-    public void call(String number, int simSlotIndex) {
-        ussdController.call(number, simSlotIndex);
+    public void call(String number, int simSlotIndex, PermissionFixerContract fixerContract) {
+        if (isCallPhoneGranted()) {
+            ussdController.call(number, simSlotIndex);
+        } else {
+            fixerContract.fixPermission(Manifest.permission.CALL_PHONE);
+        }
     }
 
-    public void sendSms(String number, String message) {
-        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+    public void sendSms(String number, String message, PermissionFixerContract fixerContract) {
+        if (isSendSmsGranted()) {
+            Intent smsIntent = new Intent(Intent.ACTION_VIEW);
 //        smsIntent.setDataAndType(Uri.parse("smsto:"), "vnd.android-dir/mms-sms");
-        smsIntent.setData(Uri.parse("smsto:" + number));
-        smsIntent.putExtra("sms_body", message);
-        try {
-            context.startActivity(smsIntent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "No activity found to handle this intent", Toast.LENGTH_LONG).show();
+            smsIntent.setData(Uri.parse("smsto:" + number));
+            smsIntent.putExtra("sms_body", message);
+            try {
+                context.startActivity(smsIntent);
+            } catch (ActivityNotFoundException e) {
+                Toast.makeText(context, "No activity found to handle this intent", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            fixerContract.fixPermission(Manifest.permission.SEND_SMS);
         }
+    }
+
+    private boolean isCallPhoneGranted() {
+        return PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE);
+    }
+
+    private boolean isSendSmsGranted() {
+        return PermissionUtils.isPermissionGranted(context, Manifest.permission.SEND_SMS);
     }
 }

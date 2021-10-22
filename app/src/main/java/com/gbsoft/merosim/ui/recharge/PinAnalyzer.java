@@ -28,7 +28,6 @@ import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
-import com.google.mlkit.vision.text.TextRecognizerOptionsInterface;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.util.List;
@@ -63,14 +62,13 @@ public class PinAnalyzer implements ImageAnalysis.Analyzer {
                             List<Text.Line> lines = textBlock.getLines();
                             for (Text.Line line : lines) {
                                 List<Text.Element> elements = line.getElements();
-                                if ((simName.equals(Sim.NAMASTE) && elements.size() == 3)
+                                if ((simName.equals(Sim.NAMASTE) || (simName.equals(Sim.SMART_CELL)) && elements.size() == 3)
                                         || (simName.equals(Sim.NCELL) && elements.size() == 4)) {
                                     String scanned = getPinFromLine(line);
                                     if (scanned.length() == 16) {
-                                        listener.onTextRecognized(getPinFromLine(line));
+                                        listener.onTextRecognized(scanned);
                                         pinAnalysis.clearAnalyzer();
-                                    }
-                                    else
+                                    } else
                                         listener.onRecognizationFailed(new Exception("Couldn't scan the pin!!"));
                                     break;
                                 }

@@ -232,7 +232,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.gbsoft.merosim.ui.LoadingTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/smart_tv_balance"
                     style="@style/Widget.MeroSim.TextView.Clickable"
                     android:layout_width="wrap_content"
@@ -242,21 +242,16 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/ripple"
                     android:drawablePadding="4dp"
-                    android:minWidth="186dp"
-                    android:minHeight="27dp"
                     android:onClick="@{eventhandler::onBalanceRefreshClick}"
                     android:text="@{@string/balance_txt(vm.balance)}"
-                    app:corners="8"
                     app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
-                    app:height_weight="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/smart_tv_phone"
-                    app:width_weight="1"
                     tools:text="Balance: Rs. 100" />
 
-                <com.gbsoft.merosim.ui.LoadingTextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/smart_tv_phone"
                     style="@style/Widget.MeroSim.TextView.Clickable"
                     android:layout_width="wrap_content"
@@ -266,18 +261,13 @@
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/ripple"
                     android:drawablePadding="4dp"
-                    android:minWidth="212dp"
-                    android:minHeight="27dp"
                     android:onClick="@{eventhandler::onPhoneRefreshClick}"
                     android:text="@{@string/phone_txt(vm.phone)}"
-                    app:corners="8"
                     app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
-                    app:height_weight="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:width_weight="1"
                     tools:text="Phone: 9843776289" />
 
                 <com.google.android.material.textview.MaterialTextView

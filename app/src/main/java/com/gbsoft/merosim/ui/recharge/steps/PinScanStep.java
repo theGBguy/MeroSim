@@ -15,6 +15,7 @@
 
 package com.gbsoft.merosim.ui.recharge.steps;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,12 +36,15 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.StepPinScanBinding;
+import com.gbsoft.merosim.ui.home.SimRecyclerAdapter;
 import com.gbsoft.merosim.ui.recharge.OnTextRecognizedListener;
 import com.gbsoft.merosim.ui.recharge.PinAnalyzer;
 import com.gbsoft.merosim.ui.recharge.RechargeViewModel;
 import com.gbsoft.merosim.utils.LocaleUtils;
+import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.Utils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 

@@ -70,7 +70,7 @@ dependencies {
     implementation 'com.ernestoyaquello.stepperform:vertical-stepper-form:2.5.0'
 
     // loading library
-    implementation 'io.github.elye:loaderviewlibrary:3.0.0'
+//    implementation 'io.github.elye:loaderviewlibrary:3.0.0'
 
     // library to recognize text from the camera frames
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'

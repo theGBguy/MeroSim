@@ -35,8 +35,19 @@
     <string name="sim_name_ncell">Ncell</string>
     <string name="sim_name_smart">SmartCell</string>
 
+    <!--    string resources of permission      -->
+    <string name="perm_dialog_title">Permission not granted!</string>
+    <string name="perm_read_phone_state_msg">Read phone state permission is needed to find out the information about the sim cards inserted in the device.</string>
+    <string name="positive_dialog_btn_txt">OK</string>
+    <string name="negative_dialog_btn_txt">Cancel</string>
+    <string name="permission_granted_txt">%s permission has been granted successfully. You can use the feature now without a hiccup.</string>
+    <string name="perm_camera_msg">Camera permission is needed to scan the recharge cards. </string>
+    <string name="perm_call_phone_msg">Call phone permission is needed to send the ussd request in background.</string>
+    <string name="perm_read_contacts_msg">Read contacts permission is needed to find a phone number from your contact list.</string>
+    <string name="perm_send_sms_msg">Send sms permission is needed to send sms to activate/deactivate services.</string>
+
     <!--    string resources for RechargeFragment-->
-    <string name="permission_denied_text">Required permissions are not granted</string>
+    <string name="permission_denied_txt">Required permissions are not granted</string>
     <string name="no_sim_text">Sim card is not inserted!</string>
 
     <!--    string resources for Step-->

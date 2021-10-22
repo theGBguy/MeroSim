@@ -8,9 +8,11 @@
         <entry key="app/src/main/res/drawable/ripple.xml" value="0.2035" />
         <entry key="app/src/main/res/layout/fragment_namaste_detail.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_ncell_detail.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_recharge.xml" value="0.12368421052631579" />
         <entry key="app/src/main/res/layout/fragment_smart_detail.xml" value="0.12" />
         <entry key="app/src/main/res/layout/fragment_test.xml" value="0.15" />
         <entry key="app/src/main/res/layout/layout_info.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.12368421052631579" />
         <entry key="app/src/main/res/layout/test.xml" value="0.12368421052631579" />
         <entry key="app/src/main/res/menu/menu_drawer.xml" value="0.12368421052631579" />
       </map>

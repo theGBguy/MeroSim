@@ -32,7 +32,7 @@
     <string name="sim_name_smart">स्मार्टसेल</string>
 
     <!--    string resources for RechargeFragment-->
-    <string name="permission_denied_text">आवश्यक अनुमतिहरू प्रदान गरिएको छैन</string>
+    <string name="permission_denied_txt">आवश्यक अनुमतिहरू प्रदान गरिएको छैन</string>
     <string name="no_sim_text">सिम कार्ड राखिएको छैन!</string>
 
     <!--    string resources for Step-->
