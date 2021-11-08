@@ -10,13 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/10/22
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,12 +35,13 @@ import com.gbsoft.merosim.utils.SnackUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class BaseTelecomFragment extends Fragment implements OnContactFoundListener {
+    public static final String SERVICE_ACCESSIBILITY = "accessibility";
+    public static final String SERVICE_OVERLAY = "overlay";
     private ContactsLoader loader;
 
     protected final ActivityResultLauncher<Void> contactPicker =
-            registerForActivityResult(
-                    new PickPhoneNumber(),
-                    uri -> loader.restartLoader(LoaderManager.getInstance(BaseTelecomFragment.this), uri)
+            registerForActivityResult(new PickPhoneNumber(), uri ->
+                    loader.restartLoader(LoaderManager.getInstance(BaseTelecomFragment.this), uri)
             );
 
     protected final ActivityResultLauncher<String> readContactsPermissionLauncher =
@@ -66,10 +70,19 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
             });
 
     protected final PermissionFixerContract fixerContract = permission -> {
-        if (permission.equals(Manifest.permission.CALL_PHONE)) {
-            handlePermission(permission, getString(R.string.perm_call_phone_msg), callPhonePermissionLauncher);
-        } else {
-            handlePermission(permission, getString(R.string.perm_send_sms_msg), sendSmsPermissionLauncher);
+        switch (permission) {
+            case Manifest.permission.CALL_PHONE:
+                handlePermission(permission, getString(R.string.perm_call_phone_msg), callPhonePermissionLauncher);
+                break;
+            case Manifest.permission.SEND_SMS:
+                handlePermission(permission, getString(R.string.perm_send_sms_msg), sendSmsPermissionLauncher);
+                break;
+            case SERVICE_ACCESSIBILITY:
+                showAccessibilityDialog();
+                break;
+            case SERVICE_OVERLAY:
+                showOverlayDialog();
+                break;
         }
     };
 
@@ -104,5 +117,35 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
     @Override
     public void onContactFound(@NonNull String name, @NonNull String number) {
 
+    }
+
+    protected void launchContactPicker() {
+        if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_CONTACTS)) {
+            contactPicker.launch(null);
+        } else {
+            handlePermission(Manifest.permission.READ_CONTACTS, getString(R.string.perm_read_contacts_msg), readContactsPermissionLauncher);
+        }
+    }
+
+    private void showAccessibilityDialog() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(com.gbsoft.easyussd.R.string.dialog_accessibility_title)
+                .setMessage(com.gbsoft.easyussd.R.string.dialog_accessibility_msg)
+                .setCancelable(true)
+                .setPositiveButton(com.gbsoft.easyussd.R.string.dialog_positive_btn_txt, (dialog, id) ->
+                        startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)))
+                .show();
+    }
+
+    private void showOverlayDialog() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(com.gbsoft.easyussd.R.string.dialog_overlay_title)
+                .setMessage(com.gbsoft.easyussd.R.string.dialog_overlay_msg)
+                .setCancelable(true)
+                .setPositiveButton(com.gbsoft.easyussd.R.string.dialog_positive_btn_txt, (dialog, id) -> {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + requireContext().getPackageName()));
+                    startActivity(intent);
+                }).show();
     }
 }
