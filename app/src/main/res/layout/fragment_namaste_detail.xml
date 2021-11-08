@@ -10,7 +10,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/05/31
+  ~ Last modified: 2021/10/25
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -61,7 +61,7 @@
                     android:drawablePadding="4dp"
                     android:onClick="@{eventhandler::onBalanceTransferInfoClick}"
                     android:text="@string/tv_transfer_balance_txt"
-                    app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                    app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -72,9 +72,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    app:endIconDrawable="@drawable/ic_baseline_save_24"
+                    app:endIconDrawable="@drawable/ic_round_save_24"
                     app:endIconMode="custom"
                     app:errorRes="@{safeUnbox(vm.errorSecurityCode)}"
                     app:helperText="@string/ntc_til_security_code_helper_txt"
@@ -99,7 +99,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    app:endIconDrawable="@drawable/ic_baseline_contacts_24"
+                    app:endIconDrawable="@drawable/ic_round_contacts_24"
                     app:endIconMode="custom"
                     app:errorRes="@{safeUnbox(vm.errorRecipient)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -121,7 +121,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     app:errorRes="@{safeUnbox(vm.errorAmount)}"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +143,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onBalanceTransferClick}"
@@ -162,87 +162,96 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:background="@drawable/card_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ntc_tv_balance"
-                    style="@style/Widget.MeroSim.TextView.Clickable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_sim_owner"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
-                    android:drawablePadding="4dp"
-                    android:onClick="@{eventhandler::onBalanceRefreshClick}"
-                    android:text="@{@string/balance_txt(vm.balance)}"
-                    app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_phone"
-                    tools:text="Balance: Rs. 100" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ntc_tv_phone"
-                    style="@style/Widget.MeroSim.TextView.Clickable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
-                    android:drawablePadding="4dp"
-                    android:onClick="@{eventhandler::onPhoneRefreshClick}"
-                    android:text="@{@string/phone_txt(vm.phone)}"
-                    app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_owner"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Phone: 9843776289" />
+                    app:srcCompat="@drawable/ic_round_person_24"
+                    app:tint="?colorPrimary" />
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ntc_tv_customer_care"
-                    style="@style/Widget.MeroSim.TextView.Clickable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/ripple"
-                    android:drawablePadding="4dp"
-                    android:onClick="@{eventhandler::onCustomerCareClick}"
-                    android:text="@{@string/customer_care_txt(vm.customerCare)}"
-                    app:drawableEndCompat="@drawable/ic_baseline_call_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_sim_owner"
-                    tools:text="Customer Care: 1498" />
-
-                <com.google.android.material.textview.MaterialTextView
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/ntc_tv_sim_owner"
-                    style="@style/Widget.MeroSim.TextView.Clickable"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
-                    android:drawablePadding="4dp"
                     android:onClick="@{eventhandler::onSimOwnerRefreshClick}"
-                    android:text="@{@string/sim_owner_txt(vm.simOwner)}"
-                    app:drawableEndCompat="@drawable/ic_baseline_refresh_24"
+                    android:text="@{vm.simOwner}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/vertical_guideline"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_sim_owner"
+                    tools:text="Chiranjeevi Pandey" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ntc_tv_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:onClick="@{eventhandler::onPhoneRefreshClick}"
+                    android:text="@{vm.phone}"
+                    app:icon="@drawable/ic_round_call_24"
+                    app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_balance"
-                    tools:text="Sim Owner: Chiranjeevi Pandey" />
+                    app:layout_constraintTop_toTopOf="@+id/iv_sim_owner"
+                    tools:text="9846090898" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ntc_tv_sim_balance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:onClick="@{eventhandler::onBalanceRefreshClick}"
+                    android:text="@{vm.balance}"
+                    app:icon="@drawable/ic_nepali_rupee"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_phone"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_phone"
+                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_phone"
+                    tools:text="Rs. 100" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ntc_btn_call_customer_care"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="@{eventhandler::onCustomerCareClick}"
+                    android:text="@string/btn_call_customer_care_txt"
+                    app:icon="@drawable/ic_round_support_agent_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_hint"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/vertical_guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tv_hint_txt"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_sim_balance" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -268,7 +277,7 @@
                     android:background="@drawable/ripple"
                     android:onClick="@{eventhandler::onNamasteCreditInfoClick}"
                     android:text="@string/ntc_tv_namaste_credit_txt"
-                    app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                    app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -278,7 +287,7 @@
                     android:id="@+id/ntc_btn_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onBtnStatusClick}"
                     android:text="@string/btn_status_txt"
@@ -350,7 +359,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/ntc_til_modify_old"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -438,7 +447,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:onClick="@{eventhandler::onBtnFNFSubscribeClick}"
                     android:text="@string/btn_subscribe_txt"
@@ -456,7 +465,7 @@
                     android:background="@drawable/ripple"
                     android:onClick="@{eventhandler::onFNFInfoClick}"
                     android:text="@string/ntc_tv_fnf_info"
-                    app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                    app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -485,7 +494,7 @@
                     android:background="@drawable/ripple"
                     android:onClick="@{eventhandler::onMCAInfoClick}"
                     android:text="@string/tv_mca_txt"
-                    app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                    app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -494,7 +503,7 @@
                     android:id="@+id/ntc_btn_mca_subscribe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onBtnMCASubscribeClick}"
                     android:text="@string/btn_subscribe_txt"
@@ -508,7 +517,7 @@
                     android:id="@+id/ntc_btn_mca_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onBtnMCAStatusClick}"
                     android:text="@string/btn_status_txt"
@@ -523,7 +532,7 @@
                     android:id="@+id/ntc_btn_mca_unsubscribe"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onBtnMCAUnsubscribeClick}"
                     android:text="@string/btn_unsubscribe_txt"
@@ -559,7 +568,7 @@
                     android:background="@drawable/ripple"
                     android:onClick="@{eventhandler::onCRBTInfoClick}"
                     android:text="@string/ntc_tv_crbt_info"
-                    app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                    app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -569,7 +578,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="@id/cl_crbt"
                     app:layout_constraintStart_toStartOf="@id/cl_crbt"
@@ -582,7 +591,7 @@
                         android:ems="10"
                         android:hint="@string/ntc_song_code_hint"
                         android:inputType="phone"
-                        android:text="@={vm.songCode}"/>
+                        android:text="@={vm.songCode}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -591,7 +600,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:onClick="@{eventhandler::onBtnCRBTSubscribeClick}"
                     android:text="@string/btn_subscribe_txt"
@@ -605,7 +614,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onBtnCRBTUnsubscribeClick}"

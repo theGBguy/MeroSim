@@ -10,14 +10,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/06/03
+  ~ Last modified: 2021/10/25
   -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="?colorPrimaryVariant" />
+    <item android:drawable="@drawable/ic_blob_haikei" />
     <item
-        android:width="500dp"
-        android:height="500dp"
+        android:width="400dp"
+        android:height="400dp"
         android:drawable="@drawable/ic_splash_foreground"
         android:gravity="center" />
 </layer-list>

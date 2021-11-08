@@ -10,7 +10,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/05/31
+  ~ Last modified: 2021/10/25
   -->
 
 <resources>
@@ -18,7 +18,7 @@
     <style name="Theme.MeroSim" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary200</item>
-        <item name="colorPrimaryDark">@color/colorPrimary200</item>
+        <item name="colorPrimaryDark">?colorSurface</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:colorBackground">@color/black900</item>
@@ -35,6 +35,8 @@
 
         <item name="android:textViewStyle">@style/Widget.MeroSim.TextView</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Surface</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        </item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MeroSim.SmallComponent
         </item>

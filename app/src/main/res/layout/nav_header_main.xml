@@ -10,13 +10,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/05/31
+  ~ Last modified: 2021/06/04
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
+    android:background="@drawable/header_bg"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -32,7 +33,9 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white50"
         android:gravity="center"
+        android:layout_marginTop="16dp"
         android:text="@string/nav_header_title"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 

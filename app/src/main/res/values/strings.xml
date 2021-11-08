@@ -10,7 +10,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/05/31
+  ~ Last modified: 2021/10/28
   -->
 
 <resources>
@@ -40,7 +40,8 @@
     <string name="perm_read_phone_state_msg">Read phone state permission is needed to find out the information about the sim cards inserted in the device.</string>
     <string name="positive_dialog_btn_txt">OK</string>
     <string name="negative_dialog_btn_txt">Cancel</string>
-    <string name="permission_granted_txt">%s permission has been granted successfully. You can use the feature now without a hiccup.</string>
+    <string name="permission_granted_txt">Permission has been granted successfully. You can use the feature now without a hiccup.</string>
+    <string name="permission_not_granted_txt">These permissions are required in order to enhance the functionality of this app.</string>
     <string name="perm_camera_msg">Camera permission is needed to scan the recharge cards. </string>
     <string name="perm_call_phone_msg">Call phone permission is needed to send the ussd request in background.</string>
     <string name="perm_read_contacts_msg">Read contacts permission is needed to find a phone number from your contact list.</string>
@@ -73,7 +74,7 @@
     <string name="btn_next_text">Recharge</string>
     <string name="confirm_details_text">Confirm the details</string>
     <string name="tv_confirm_sim">Carrier : %1$s</string>
-    <string name="tv_confirm_pin">Pin : </string>
+    <string name="tv_confirm_pin">Pin</string>
     <string name="edtTxt_scanned_pin_num_hint">Scanned pin number</string>
     <string name="wrong_scanning_text">Edit the pin in case if it is wrong</string>
     <string name="accessibility_service_description">It is used to intercept the ussd response dialog to get the response text for sophisticated response display. It is absolutely safe to use.</string>
@@ -265,6 +266,7 @@
 
     <!--    string resources for smart      -->
 
+    <string name="smart_sim_owner_text">Smart cell doesn\'t provide a way to query sim owner information.</string>
     <string name="smart_balance_transfer_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
        &lt;ul&gt;
 	        &lt;li&gt;There is no limit in no. of times or the amount of balance transfer in SmartCell.&lt;/li&gt;
@@ -305,6 +307,10 @@
         &lt;li&gt;Both service and track will be auto renewed each month.&lt;/li&gt;
         &lt;/ul&gt;
     </string>
+    <string name="tv_hint_txt">Clicking above buttons will refresh the respective value.</string>
+    <string name="btn_call_customer_care_txt">Call customer care</string>
+    <string name="unavail_txt">Unavailable</string>
+    <string name="btn_take_pic">Take pic</string>
 
     <!--    &lt;b&gt;&lt;/b&gt;
             &lt;ul&gt;

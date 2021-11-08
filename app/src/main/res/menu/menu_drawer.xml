@@ -11,7 +11,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/05/31
+  ~ Last modified: 2021/10/24
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,17 +21,17 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_baseline_home_24"
+            android:icon="@drawable/ic_round_home_24"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_recharge"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_round_document_scanner_24"
             android:title="@string/menu_recharge" />
     </group>
     <group>
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_baseline_settings_24"
+            android:icon="@drawable/ic_round_settings_24"
             android:title="@string/menu_settings" />
     </group>
 </menu>
