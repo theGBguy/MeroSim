@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 
@@ -36,12 +36,14 @@ import com.gbsoft.merosim.data.Namaste;
 import com.gbsoft.merosim.data.Ncell;
 import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.data.SmartCell;
-import com.gbsoft.merosim.intermediaries.PrefsUtils;
+import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,50 +52,79 @@ public class TelephonyUtils {
     public final static int TYPE_INPUT = 1;
 
     private final Context context;
+    private final Map<Integer, TelephonyManager> telephonyManagers;
     private final TelephonyManager telephonyManager;
     private final SubscriptionManager subscriptionManager;
     private final UssdController ussdController;
     private List<SubscriptionInfo> subsInfoList;
 
-    public TelephonyUtils(Context context) {
+    @SuppressLint("StaticFieldLeak")
+    private static TelephonyUtils INSTANCE;
+
+    public static TelephonyUtils getInstance(Context context) {
+        if (INSTANCE == null) {
+            synchronized (TelephonyUtils.class) {
+                if (INSTANCE == null)
+                    INSTANCE = new TelephonyUtils(context.getApplicationContext());
+            }
+        }
+        return INSTANCE;
+    }
+
+    private TelephonyUtils(Context context) {
         this.context = context;
+        this.telephonyManagers = new HashMap<>();
         this.telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         this.subscriptionManager = (SubscriptionManager) context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE);
         this.ussdController = new UssdController(context);
+        initializeTelephonyManagers();
+    }
+
+    private void initializeTelephonyManagers() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            for (SubscriptionInfo subsInfo : getSubsInfoList()) {
+                telephonyManagers.put(subsInfo.getSimSlotIndex(),
+                        telephonyManager.createForSubscriptionId(subsInfo.getSubscriptionId()));
+            }
+        } else {
+            telephonyManagers.put(0, telephonyManager);
+        }
     }
 
     @SuppressLint("MissingPermission")
-    public List<SubscriptionInfo> getSubsInfoList() {
-        if (subsInfoList == null && PermissionUtils
-                .isPermissionGranted(context, Manifest.permission.READ_PHONE_STATE))
+    private List<SubscriptionInfo> getSubsInfoList() {
+        if (subsInfoList == null)
             subsInfoList = subscriptionManager.getActiveSubscriptionInfoList();
-        else
-            subsInfoList = new ArrayList<>();
         return subsInfoList;
     }
 
     @SuppressLint("MissingPermission")
-    public void sendUssdRequestWithOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
-        if (PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
+    public void sendUssdRequest(String ussdRequest, boolean withOverlay, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
+        if (isAllCallPermissionGranted(fixerContract)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
-                telephonyManager.sendUssdRequest(ussdRequest, callback, new Handler());
+                telephonyManagers.get(simSlotIndex).sendUssdRequest(ussdRequest, callback, new Handler());
             else
-                ussdController.sendUssdRequest(ussdRequest, simSlotIndex, true, callback);
-        } else {
-            fixerContract.fixPermission(Manifest.permission.CALL_PHONE);
+                ussdController.sendUssdRequest(ussdRequest, simSlotIndex, withOverlay, callback);
         }
     }
 
-    @SuppressLint("MissingPermission")
-    public void sendUssdRequestWithoutOverlay(String ussdRequest, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
-        if (PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
-                telephonyManager.sendUssdRequest(ussdRequest, callback, new Handler());
-            else
-                ussdController.sendUssdRequest(ussdRequest, simSlotIndex, false, callback);
-        } else {
+    private boolean isAllCallPermissionGranted(PermissionFixerContract fixerContract) {
+        if (!PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
             fixerContract.fixPermission(Manifest.permission.CALL_PHONE);
+            return false;
         }
+
+        if (!Utils.isAccessibilityServiceEnabled(context)) {
+            fixerContract.fixPermission(BaseTelecomFragment.SERVICE_ACCESSIBILITY);
+            return false;
+        }
+
+        if (!Utils.isOverlayServiceEnabled(context)) {
+            fixerContract.fixPermission(BaseTelecomFragment.SERVICE_OVERLAY);
+            return false;
+        }
+
+        return true;
     }
 
     public int getSimSlotIndex(String simName) {
@@ -104,7 +135,60 @@ public class TelephonyUtils {
         return -1;
     }
 
-    public String getRechargeUssdRequest(String simName, String pin) {
+    public List<Sim> getSimList() {
+        List<Sim> simsList = new ArrayList<>();
+        for (SubscriptionInfo subsInfo : getSubsInfoList()) {
+            String simName = subsInfo.getCarrierName().toString();
+            int simSlotIndex = subsInfo.getSimSlotIndex();
+            switch (simName) {
+                case Sim.NAMASTE:
+                    simsList.add(new Namaste(simSlotIndex));
+                    break;
+                case Sim.NCELL:
+                    simsList.add(new Ncell(simSlotIndex));
+                    break;
+                case Sim.SMART_CELL:
+                    simsList.add(new SmartCell(simSlotIndex));
+                    break;
+            }
+        }
+        return simsList;
+    }
+
+    public static String getBalanceText(String response) {
+        // Compile regular expression
+        Pattern pattern = Pattern.compile("Rs. ([0-9]*\\.[0-9]+)", Pattern.CASE_INSENSITIVE);
+        // Match regex against input
+        Matcher matcher = pattern.matcher(response);
+        // Use results...
+        if (matcher.find())
+            return matcher.group(0);
+        else return Sim.UNAVAILABLE;
+    }
+
+    public static String getPhoneText(String response) {
+        // Compile regular expression
+        Pattern pattern = Pattern.compile("9?7?7?(\\d{10})", Pattern.CASE_INSENSITIVE);
+        // Match regex against input
+        Matcher matcher = pattern.matcher(response);
+        // Use results...
+        if (matcher.find())
+            return matcher.group(1);
+        else return Sim.UNAVAILABLE;
+    }
+
+    public static String getSimOwnerText(String response) {
+        // Compile regular expression
+        Pattern pattern = Pattern.compile("(\\w+\\s\\w+)[(.]", Pattern.CASE_INSENSITIVE);
+        // Match regex against input
+        Matcher matcher = pattern.matcher(response);
+        // Use results...
+        if (matcher.find())
+            return matcher.group(1);
+        else return Sim.UNAVAILABLE;
+    }
+
+    public static String getRechargeUssdRequest(String simName, String pin) {
         String ussdRequest = null;
         switch (simName) {
             case Sim.NAMASTE:
@@ -120,95 +204,10 @@ public class TelephonyUtils {
         return ussdRequest;
     }
 
-    public List<Sim> getSimList() {
-        List<Sim> simsList = new ArrayList<>();
-        for (SubscriptionInfo subsInfo : getSubsInfoList()) {
-            String simName = subsInfo.getCarrierName().toString();
-            int simSlotIndex = subsInfo.getSimSlotIndex();
-            List<String> details = PrefsUtils.retrieveSimDetails(context, simSlotIndex);
-            switch (simName) {
-                case Sim.NAMASTE:
-                    simsList.add(new Namaste(details.get(0), details.get(1), details.get(2), simSlotIndex));
-                    break;
-                case Sim.NCELL:
-                    simsList.add(new Ncell(details.get(0), details.get(1), details.get(2), simSlotIndex));
-                    break;
-                case Sim.SMART_CELL:
-                    simsList.add(new SmartCell(details.get(0), details.get(1), simSlotIndex));
-                    break;
-            }
-        }
-        return simsList;
-    }
-
-//    public String getBalanceText(String simName, String response) {
-//        String balance = "";
-//        switch (simName) {
-//            case Sim.NAMASTE:
-//                String balanceStart = response.substring(16);
-//                balance = balanceStart.substring(0, balanceStart.indexOf(' ', 4));
-//                break;
-//            case Sim.NCELL:
-//                String balanceStart2 = response.substring(8);
-//                balance = balanceStart2.substring(0, balanceStart2.indexOf('.', 8));
-//                break;
-//            case Sim.SMART_CELL:
-//                break;
-//        }
-//        return balance;
-//    }
-//    public String getSimOwnerText(String simName, String response) {
-//        String simOwner = "";
-//        switch (simName) {
-//            case Sim.NAMASTE:
-//                simOwner = response.substring(response.indexOf(':') + 1,
-//                        response.indexOf('('));
-//                break;
-//            case Sim.NCELL:
-//                simOwner = response.substring(response.indexOf("of") + 3,
-//                        response.indexOf('.'));
-//                break;
-//            case Sim.SMART_CELL:
-//                break;
-//        }
-//        return simOwner;
-//    }
-
-    public static String getBalanceText(String response) {
-        // Compile regular expression
-        Pattern pattern = Pattern.compile("Rs. ([0-9]*\\.[0-9]+)", Pattern.CASE_INSENSITIVE);
-        // Match regex against input
-        Matcher matcher = pattern.matcher(response);
-        // Use results...
-        if (matcher.find())
-            return matcher.group(0);
-        else return "";
-    }
-
-    public static String getPhoneText(String response) {
-        // Compile regular expression
-        Pattern pattern = Pattern.compile("9?7?7?(\\d{10})", Pattern.CASE_INSENSITIVE);
-        // Match regex against input
-        Matcher matcher = pattern.matcher(response);
-        // Use results...
-        if (matcher.find())
-            return matcher.group(1);
-        else return "";
-    }
-
-    public static String getSimOwnerText(String response) {
-        // Compile regular expression
-        Pattern pattern = Pattern.compile("(\\w+\\s\\w+)[(.]", Pattern.CASE_INSENSITIVE);
-        // Match regex against input
-        Matcher matcher = pattern.matcher(response);
-        // Use results...
-        if (matcher.find())
-            return matcher.group(1);
-        else return "";
-    }
-
     public void dial(String number) {
-        context.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(number))));
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(number)));
+        dialIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(dialIntent);
     }
 
     public void call(String number, int simSlotIndex, PermissionFixerContract fixerContract) {
@@ -223,6 +222,7 @@ public class TelephonyUtils {
         if (isSendSmsGranted()) {
             Intent smsIntent = new Intent(Intent.ACTION_VIEW);
 //        smsIntent.setDataAndType(Uri.parse("smsto:"), "vnd.android-dir/mms-sms");
+            smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             smsIntent.setData(Uri.parse("smsto:" + number));
             smsIntent.putExtra("sms_body", message);
             try {

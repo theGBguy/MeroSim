@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/19
  */
 
 package com.gbsoft.merosim.data;
@@ -32,6 +32,10 @@ public class Ncell extends Sim {
 
     public Ncell() {
         this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, Sim.UNAVAILABLE, -1);
+    }
+
+    public Ncell(int simSlotIndex) {
+        this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, Sim.UNAVAILABLE, simSlotIndex);
     }
 
     public Ncell(String phoneNo, String balance, String simOwner, int simSlotIndex) {

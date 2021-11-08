@@ -10,17 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim;
 
 import android.app.Application;
+import android.os.Handler;
+
+import androidx.core.os.HandlerCompat;
 
 import com.gbsoft.merosim.utils.LocaleUtils;
 import com.yariksoffice.lingver.Lingver;
 
-public class MyApplication extends Application {
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class MeroSimApp extends Application {
+    private ExecutorService executor;
+    private Handler mainThreadHandler;
 
     @Override
     public void onCreate() {
@@ -28,4 +36,15 @@ public class MyApplication extends Application {
         Lingver.init(this, LocaleUtils.getLocale(getApplicationContext()));
     }
 
+    public ExecutorService getExecutor() {
+        if (executor == null)
+            executor = Executors.newFixedThreadPool(4);
+        return executor;
+    }
+
+    public Handler getMainThreadHandler() {
+        if (mainThreadHandler == null)
+            mainThreadHandler = HandlerCompat.createAsync(getMainLooper());
+        return mainThreadHandler;
+    }
 }

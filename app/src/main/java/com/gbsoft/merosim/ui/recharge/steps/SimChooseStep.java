@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.recharge.steps;
@@ -20,11 +20,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import androidx.lifecycle.Observer;
+
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.databinding.StepSimChooseBinding;
 import com.gbsoft.merosim.ui.recharge.RechargeViewModel;
-import com.gbsoft.merosim.utils.TelephonyUtils;
 
 import java.util.List;
 
@@ -84,36 +85,41 @@ public class SimChooseStep extends Step<String> implements RadioGroup.OnCheckedC
             model.setSimChooseData(Sim.NCELL);
         else if (checkedId == R.id.rdo_btn_smartcell)
             model.setSimChooseData(Sim.SMART_CELL);
-        else
-            model.setSimChooseData(Sim.NONE);
-        markAsCompletedOrUncompleted(true);
+        markAsCompleted(true);
     }
 
     @Override
     protected void onStepOpened(boolean animated) {
-        List<Sim> carriers = new TelephonyUtils(getContext()).getSimList();
-        String currentSim = model.getSimChooseData();
+        model.querySimCardDetails();
+        model.getLiveSimList().observeForever(new Observer<List<Sim>>() {
+            @Override
+            public void onChanged(List<Sim> sims) {
+                model.getLiveSimList().removeObserver(this);
 
-        for (Sim carrier : carriers) {
-            String name = carrier.getName();
-            switch (name) {
-                case Sim.NAMASTE:
-                    binding.rdoBtnNtc.setEnabled(true);
-                    if (TextUtils.equals(name, currentSim))
-                        binding.rdoBtnNtc.setChecked(true);
-                    break;
-                case Sim.NCELL:
-                    binding.rdoBtnNcell.setEnabled(true);
-                    if (TextUtils.equals(name, currentSim))
-                        binding.rdoBtnNcell.setChecked(true);
-                    break;
-                case Sim.SMART_CELL:
-                    binding.rdoBtnSmartcell.setEnabled(true);
-                    if (TextUtils.equals(name, currentSim))
-                        binding.rdoBtnSmartcell.setChecked(true);
-                    break;
+                String currentSim = model.getSimChooseData();
+
+                for (Sim sim : sims) {
+                    String name = sim.getName();
+                    switch (name) {
+                        case Sim.NAMASTE:
+                            binding.rdoBtnNtc.setEnabled(true);
+                            if (TextUtils.equals(name, currentSim))
+                                binding.rdoBtnNtc.setChecked(true);
+                            break;
+                        case Sim.NCELL:
+                            binding.rdoBtnNcell.setEnabled(true);
+                            if (TextUtils.equals(name, currentSim))
+                                binding.rdoBtnNcell.setChecked(true);
+                            break;
+                        case Sim.SMART_CELL:
+                            binding.rdoBtnSmartcell.setEnabled(true);
+                            if (TextUtils.equals(name, currentSim))
+                                binding.rdoBtnSmartcell.setChecked(true);
+                            break;
+                    }
+                }
             }
-        }
+        });
     }
 
     @Override

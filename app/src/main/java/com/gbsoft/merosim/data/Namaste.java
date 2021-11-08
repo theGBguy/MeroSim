@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/19
  */
 
 package com.gbsoft.merosim.data;
@@ -51,6 +51,10 @@ public class Namaste extends Sim {
 
     public Namaste() {
         this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, Sim.UNAVAILABLE, -1);
+    }
+
+    public Namaste(int simSlotIndex) {
+        this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, Sim.UNAVAILABLE, simSlotIndex);
     }
 
     public Namaste(String phoneNo, String balance, String simOwner, int simSlotIndex) {

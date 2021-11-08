@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/06/01
  */
 
 package com.gbsoft.merosim.ui.home;
@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RVEmptyObserver extends RecyclerView.AdapterDataObserver {
+public class RecyclerViewEmptyObserver extends RecyclerView.AdapterDataObserver {
     private final RecyclerView recyclerView;
     private final TextView emptyTextView;
 
-    public RVEmptyObserver(RecyclerView recyclerView, TextView emptyTextView) {
+    public RecyclerViewEmptyObserver(RecyclerView recyclerView, TextView emptyTextView) {
         this.recyclerView = recyclerView;
         this.emptyTextView = emptyTextView;
         onDataChanged();

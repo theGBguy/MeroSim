@@ -10,25 +10,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.intermediaries;
 
 import android.content.Context;
+import android.os.Handler;
 
 import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class Repository {
-    public List<Sim> getSimList(Context context) {
-        return new TelephonyUtils(context).getSimList();
+    private final ExecutorService executor;
+    private final Handler mainThreadHandler;
+
+    public Repository(ExecutorService executor, Handler mainThreadHandler) {
+        this.executor = executor;
+        this.mainThreadHandler = mainThreadHandler;
     }
 
-    public List<String> retrieveSimDetails(Context context, int slotIndex) {
-        return PrefsUtils.retrieveSimDetails(context, slotIndex);
+    public void querySimCardDetails(Context context, RepoCallback<List<Sim>> callback) {
+        executor.execute(() -> {
+            List<Sim> simList = retrieveCachedSimDetails(context);
+            mainThreadHandler.post(() -> callback.onComplete(new Result.Success<>(simList)));
+        });
+    }
+
+    private List<Sim> retrieveCachedSimDetails(Context context) {
+        TelephonyUtils utils = TelephonyUtils.getInstance(context);
+        List<Sim> simList = new ArrayList<>();
+        if (utils != null)
+            simList = TelephonyUtils.getInstance(context).getSimList();
+        for (Sim sim : simList) {
+            List<String> simDetails = PrefsUtils.retrieveSimDetails(context, sim.getSimSlotIndex());
+            sim.setPhoneNo(simDetails.get(0));
+            sim.setBalance(simDetails.get(1));
+            sim.setSimOwner(simDetails.get(2));
+        }
+        return simList;
     }
 
     public void savePhone(Context context, int slotIndex, String phone) {
@@ -50,5 +74,13 @@ public class Repository {
 
     public String getSecurityCode(Context context) {
         return PrefsUtils.getSecurityCode(context);
+    }
+
+    public String getRechargeUSSDRequest(String simChooseData, String pinScanData) {
+        return TelephonyUtils.getRechargeUssdRequest(simChooseData, pinScanData);
+    }
+
+    public int getSimSlotIndex(Context context, String simName) {
+        return TelephonyUtils.getInstance(context).getSimSlotIndex(simName);
     }
 }

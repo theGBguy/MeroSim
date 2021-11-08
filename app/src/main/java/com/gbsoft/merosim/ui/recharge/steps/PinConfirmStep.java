@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/06/01
  */
 
 package com.gbsoft.merosim.ui.recharge.steps;
@@ -23,7 +23,7 @@ import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.databinding.StepPinConfirmBinding;
 import com.gbsoft.merosim.ui.recharge.RechargeViewModel;
 import com.gbsoft.merosim.utils.LocaleUtils;
-import com.google.android.material.snackbar.Snackbar;
+import com.gbsoft.merosim.utils.SnackUtils;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
@@ -63,8 +63,7 @@ public class PinConfirmStep extends Step<Void> {
 
     @Override
     protected void onStepOpened(boolean animated) {
-        Snackbar.make(getContentLayout(), getContext().getString(R.string.wrong_scanning_text),
-                Snackbar.LENGTH_LONG).show();
+        SnackUtils.showMessage(getContentLayout(), R.string.wrong_scanning_text);
         String simChosen = model.getSimChooseData();
         String pinScanned = model.getPinScanData();
 
@@ -88,7 +87,7 @@ public class PinConfirmStep extends Step<Void> {
         }
 
         binding.tvConfirmSim.setText(getContext().getString(R.string.tv_confirm_sim, simChosen));
-        binding.etScannedPin.setText(pinScanned);
+        binding.tietScannedPin.setText(pinScanned);
     }
 
     @Override

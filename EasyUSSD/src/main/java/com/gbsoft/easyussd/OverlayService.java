@@ -30,7 +30,6 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 
 public class OverlayService extends Service {
-    public static final String CUSTOM_LAYOUT_ID = "custom_layout_id";
     public static final String SHOULD_CANCEL = "should_cancel";
 
     private WindowManager windowManager;
@@ -43,18 +42,15 @@ public class OverlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        @LayoutRes int layoutId = R.layout.layout_overlay;
-        boolean shouldCancel = false;
-        if (intent.getExtras() != null) {
-            layoutId = intent.getIntExtra(CUSTOM_LAYOUT_ID, R.layout.layout_overlay);
-            shouldCancel = intent.getBooleanExtra(SHOULD_CANCEL, false);
-        }
+//        boolean shouldCancel = false;
+//        if (intent.getExtras() != null)
+//            shouldCancel = intent.getBooleanExtra(SHOULD_CANCEL, false);
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        overlay = LayoutInflater.from(this).inflate(layoutId, null, false);
+        overlay = LayoutInflater.from(this).inflate(R.layout.layout_overlay, null, false);
 
-        if (shouldCancel)
-            cancel();
+//        if (shouldCancel)
+//            cancel();
 
         overlay.findViewById(R.id.btn_cancel).setOnClickListener(v -> {
             cancel();

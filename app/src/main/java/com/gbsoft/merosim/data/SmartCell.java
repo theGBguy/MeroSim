@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/19
  */
 
 package com.gbsoft.merosim.data;
@@ -32,6 +32,10 @@ public class SmartCell extends Sim {
 
     public SmartCell() {
         this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, -1);
+    }
+
+    public SmartCell(int simSlotIndex) {
+        this(Sim.UNAVAILABLE, Sim.UNAVAILABLE, simSlotIndex);
     }
 
     public SmartCell(String phoneNo, String balance, int simSlotIndex) {

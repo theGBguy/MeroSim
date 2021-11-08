@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/10
  */
 
 package com.gbsoft.merosim.data;
@@ -19,6 +19,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class Sim implements Parcelable {
     public static final String NAMASTE = "Namaste";
@@ -100,6 +102,19 @@ public class Sim implements Parcelable {
 
     public void setSimSlotIndex(int simSlotIndex) {
         this.simSlotIndex = simSlotIndex;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sim sim = (Sim) o;
+        return simSlotIndex == sim.simSlotIndex && name.equals(sim.name) && phoneNo.equals(sim.phoneNo) && balance.equals(sim.balance) && simOwner.equals(sim.simOwner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, phoneNo, balance, simOwner, simSlotIndex);
     }
 
     @NotNull

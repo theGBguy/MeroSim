@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.home;
@@ -32,31 +32,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.gbsoft.merosim.R;
-import com.gbsoft.merosim.data.Sim;
 import com.gbsoft.merosim.databinding.FragmentHomeBinding;
 import com.gbsoft.merosim.utils.PermissionUtils;
+import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
 
     private SimRecyclerAdapter adapter;
-    private RVEmptyObserver simListObv;
+    private RecyclerViewEmptyObserver simListObv;
 
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                List<Sim> simList;
-                if (isGranted)
-                    simList = viewModel.getSimList();
-                else
-                    simList = new ArrayList<>();
-                adapter = new SimRecyclerAdapter(simList);
-                binding.rvSimList.setAdapter(adapter);
-            });
+    private final ActivityResultLauncher<String> readPhoneStatePermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(),
+                    isGranted -> viewModel.querySimCardDetails());
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -75,31 +65,32 @@ public class HomeFragment extends Fragment {
         binding.rvSimList.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvSimList.setHasFixedSize(true);
 
-        handleReadPhoneStatePermission();
+        simListObv = new RecyclerViewEmptyObserver(binding.rvSimList, binding.tvNoSim);
+        adapter = new SimRecyclerAdapter(simListObv);
+        binding.rvSimList.setAdapter(adapter);
 
-        simListObv = new RVEmptyObserver(binding.rvSimList, binding.tvNoSim);
         adapter.registerAdapterDataObserver(simListObv);
+
+        handleReadPhoneStatePermission();
     }
 
     private void handleReadPhoneStatePermission() {
         if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_PHONE_STATE)) {
-            adapter = new SimRecyclerAdapter(viewModel.getSimList());
-            binding.rvSimList.setAdapter(adapter);
+            viewModel.querySimCardDetails();
+            viewModel.getLiveSimList().observe(getViewLifecycleOwner(), sims -> adapter.submitList(sims));
         } else if (PermissionUtils.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_PHONE_STATE)) {
             new MaterialAlertDialogBuilder(requireContext())
                     .setTitle(getString(R.string.perm_dialog_title))
                     .setMessage(getString(R.string.perm_read_phone_state_msg))
                     .setCancelable(true)
                     .setPositiveButton(getString(R.string.positive_dialog_btn_txt), (dialog, which) -> {
-                        requestPermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
+                        readPhoneStatePermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
                         dialog.dismiss();
                     })
-                    .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> {
-                        dialog.dismiss();
-                    })
+                    .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> dialog.dismiss())
                     .show();
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
+            readPhoneStatePermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
         }
     }
 

@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.smart;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -30,7 +29,6 @@ import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentSmartDetailBinding;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.utils.EventObserver;
-import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
 
 public class SmartDetailFragment extends BaseTelecomFragment {
@@ -60,13 +58,7 @@ public class SmartDetailFragment extends BaseTelecomFragment {
             SnackUtils.showMessage(view, msg);
         }));
 
-        binding.smartTilRecipient.setEndIconOnClickListener(v -> {
-            if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_CONTACTS)) {
-                contactPicker.launch(null);
-            } else {
-                handlePermission(Manifest.permission.READ_CONTACTS, getString(R.string.perm_read_contacts_msg), readContactsPermissionLauncher);
-            }
-        });
+        binding.smartTilRecipient.setEndIconOnClickListener(v -> launchContactPicker());
     }
 
     @Override

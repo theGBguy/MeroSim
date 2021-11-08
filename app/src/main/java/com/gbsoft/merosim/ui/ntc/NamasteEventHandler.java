@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.ntc;
@@ -26,6 +26,7 @@ import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Namaste;
 import com.gbsoft.merosim.data.Sim;
+import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.TelephonyUtils;
@@ -35,26 +36,28 @@ import com.gbsoft.merosim.utils.Validator;
 import java.util.Locale;
 
 public class NamasteEventHandler extends UssdResponseCallback {
+    private final Context context;
     private final NamasteDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
     private final PermissionFixerContract fixerContract;
 
     public NamasteEventHandler(Context context, @NonNull NamasteDetailViewModel vm, PermissionFixerContract fixerContract) {
+        this.context = context;
         this.vm = vm;
         this.fixerContract = fixerContract;
-        this.telephonyUtils = new TelephonyUtils(context);
+        this.telephonyUtils = TelephonyUtils.getInstance(context);
     }
 
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(Namaste.USSD_SELF);
+        makeUSSDRequest(Namaste.USSD_SELF, true);
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(Namaste.USSD_BALANCE);
+        makeUSSDRequest(Namaste.USSD_BALANCE, true);
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(Namaste.USSD_SIM_OWNER);
+        makeUSSDRequest(Namaste.USSD_SIM_OWNER, true);
     }
 
     public void onCustomerCareClick(View view) {
@@ -83,8 +86,8 @@ public class NamasteEventHandler extends UssdResponseCallback {
 
     public void onBalanceTransferClick(View view) {
         if (vm.isTransferDataInvalid()) return;
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Namaste.USSD_BALANCE_TRANSFER,
-                vm.securityCode.getValue(), vm.recipient.getValue(), vm.amount.getValue()));
+        makeUSSDRequest(String.format(Locale.getDefault(), Namaste.USSD_BALANCE_TRANSFER,
+                vm.securityCode.getValue(), vm.recipient.getValue(), vm.amount.getValue()), false);
     }
 
     public void onBtnStartClick(View view) {
@@ -130,17 +133,17 @@ public class NamasteEventHandler extends UssdResponseCallback {
 
     public void onBtnMCASubscribeClick(View view) {
 //        telephonyUtils.sendSms(Namaste.NAMASTE_MCA, Namaste.SUBSCRIBE_MCA);
-        makeUSSDRequestWithoutOverlay(Namaste.SUBSCRIBE_MCA);
+        makeUSSDRequest(Namaste.SUBSCRIBE_MCA, false);
     }
 
     public void onBtnMCAStatusClick(View view) {
 //        telephonyUtils.sendSms(Namaste.NAMASTE_MCA, Namaste.STATUS);
-        makeUSSDRequestWithoutOverlay(Namaste.STATUS_MCA);
+        makeUSSDRequest(Namaste.STATUS_MCA, false);
     }
 
     public void onBtnMCAUnsubscribeClick(View view) {
 //        telephonyUtils.sendSms(Namaste.NAMASTE_MCA, Namaste.UNSUBSCRIBE_MCA);
-        makeUSSDRequestWithoutOverlay(Namaste.UNSUBSCRIBE_MCA);
+        makeUSSDRequest(Namaste.UNSUBSCRIBE_MCA, false);
     }
 
     public void onBtnCRBTSubscribeClick(View view) {
@@ -155,19 +158,21 @@ public class NamasteEventHandler extends UssdResponseCallback {
         telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, Namaste.UNSUBSCRIBE_CRBT, fixerContract);
     }
 
-    private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
-        telephonyUtils.sendUssdRequestWithoutOverlay(
-                ussdRequest,
-                TelephonyUtils.TYPE_INPUT,
-                vm.getSimSlotIndex(),
-                this,
-                fixerContract
-        );
-    }
+    private void makeUSSDRequest(String ussdRequest, boolean withOverlay) {
+        if (withOverlay) {
+            if (!Utils.isAccessibilityServiceEnabled(context)) {
+                fixerContract.fixPermission(BaseTelecomFragment.SERVICE_ACCESSIBILITY);
+                return;
+            }
+            if (!Utils.isOverlayServiceEnabled(context)) {
+                fixerContract.fixPermission(BaseTelecomFragment.SERVICE_OVERLAY);
+                return;
+            }
+        }
 
-    private void makeUSSDRequestWithOverlay(String ussdRequest) {
-        telephonyUtils.sendUssdRequestWithOverlay(
+        telephonyUtils.sendUssdRequest(
                 ussdRequest,
+                withOverlay,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
                 this,
@@ -196,19 +201,6 @@ public class NamasteEventHandler extends UssdResponseCallback {
 
     @Override
     public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-        switch (request) {
-            case Namaste.USSD_SELF:
-                vm.setPhone(null);
-                break;
-            case Namaste.USSD_BALANCE:
-                vm.setBalance(null);
-                break;
-            case Namaste.USSD_SIM_OWNER:
-                vm.setSimOwner(null);
-                break;
-            case Namaste.USSD_BALANCE_TRANSFER:
-                break;
-        }
         vm.setSnackMsg(R.string.ussd_failed_snack_msg);
         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
     }

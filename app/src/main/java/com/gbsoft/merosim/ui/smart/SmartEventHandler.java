@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.smart;
@@ -24,29 +24,37 @@ import androidx.annotation.NonNull;
 import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.SmartCell;
+import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
+import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 
 import java.util.Locale;
 
 public class SmartEventHandler extends UssdResponseCallback {
+    private final Context context;
     private final SmartDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
     private final PermissionFixerContract fixerContract;
 
     public SmartEventHandler(Context context, @NonNull SmartDetailViewModel vm, PermissionFixerContract fixerContract) {
+        this.context = context;
         this.vm = vm;
         this.fixerContract = fixerContract;
-        this.telephonyUtils = new TelephonyUtils(context);
+        this.telephonyUtils = TelephonyUtils.getInstance(context);
     }
 
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(SmartCell.USSD_SELF);
+        makeUSSDRequest(SmartCell.USSD_SELF, true);
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(SmartCell.USSD_BALANCE);
+        makeUSSDRequest(SmartCell.USSD_BALANCE, true);
+    }
+
+    public void onSimOwnerRefreshClick(View view) {
+        SnackUtils.showMessage(view, R.string.smart_sim_owner_text);
     }
 
     public void onCustomerCareClick(View view) {
@@ -71,12 +79,12 @@ public class SmartEventHandler extends UssdResponseCallback {
 
     public void onBalanceTransferClick(View view) {
         if (vm.isDataInvalid()) return;
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), SmartCell.USSD_BALANCE_TRANSFER,
-                vm.recipient.getValue(), vm.amount.getValue()));
+        makeUSSDRequest(String.format(Locale.getDefault(), SmartCell.USSD_BALANCE_TRANSFER,
+                vm.recipient.getValue(), vm.amount.getValue()), false);
     }
 
     public void onTakeLoanClick(View view) {
-        makeUSSDRequestWithoutOverlay(SmartCell.USSD_LOAN);
+        makeUSSDRequest(SmartCell.USSD_LOAN, false);
     }
 
     public void onMCAActivateClick(View view) {
@@ -88,26 +96,28 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onCRBTSubscribeClick(View view) {
-        makeUSSDRequestWithoutOverlay(SmartCell.USSD_CRBT_SUB);
+        makeUSSDRequest(SmartCell.USSD_CRBT_SUB, false);
     }
 
     public void onCRBTUnsubscribeClick(View view) {
-        makeUSSDRequestWithoutOverlay(SmartCell.USSD_CRBT_UNSUB);
+        makeUSSDRequest(SmartCell.USSD_CRBT_UNSUB, false);
     }
 
-    private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
-        telephonyUtils.sendUssdRequestWithoutOverlay(
-                ussdRequest,
-                TelephonyUtils.TYPE_INPUT,
-                vm.getSimSlotIndex(),
-                this,
-                fixerContract
-        );
-    }
+    private void makeUSSDRequest(String ussdRequest, boolean withOverlay) {
+        if (withOverlay) {
+            if (!Utils.isAccessibilityServiceEnabled(context)) {
+                fixerContract.fixPermission(BaseTelecomFragment.SERVICE_ACCESSIBILITY);
+                return;
+            }
+            if (!Utils.isOverlayServiceEnabled(context)) {
+                fixerContract.fixPermission(BaseTelecomFragment.SERVICE_OVERLAY);
+                return;
+            }
+        }
 
-    private void makeUSSDRequestWithOverlay(String ussdRequest) {
-        telephonyUtils.sendUssdRequestWithOverlay(
+        telephonyUtils.sendUssdRequest(
                 ussdRequest,
+                withOverlay,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
                 this,
@@ -133,16 +143,6 @@ public class SmartEventHandler extends UssdResponseCallback {
 
     @Override
     public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-        switch (request) {
-            case SmartCell.USSD_SELF:
-                vm.setPhone(null);
-                break;
-            case SmartCell.USSD_BALANCE:
-                vm.setBalance(null);
-                break;
-            case SmartCell.USSD_BALANCE_TRANSFER:
-                break;
-        }
         vm.setSnackMsg(R.string.ussd_failed_snack_msg);
         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
     }

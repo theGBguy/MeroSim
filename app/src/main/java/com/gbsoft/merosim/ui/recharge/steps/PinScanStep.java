@@ -10,21 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/26
  */
 
 package com.gbsoft.merosim.ui.recharge.steps;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.FocusMeteringAction;
-import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.MeteringPoint;
 import androidx.camera.core.MeteringPointFactory;
 import androidx.camera.core.Preview;
@@ -33,38 +39,96 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.StepPinScanBinding;
-import com.gbsoft.merosim.ui.home.SimRecyclerAdapter;
 import com.gbsoft.merosim.ui.recharge.OnTextRecognizedListener;
-import com.gbsoft.merosim.ui.recharge.PinAnalyzer;
 import com.gbsoft.merosim.ui.recharge.RechargeViewModel;
 import com.gbsoft.merosim.utils.LocaleUtils;
-import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.Utils;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.common.InputImage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
 public class PinScanStep extends Step<String> implements OnTextRecognizedListener, View.OnClickListener, View.OnTouchListener {
+    final int STATE_LOADING = 1;
+    final int STATE_PREVIEW = 2;
+    final int STATE_CAPTURED = 3;
+    final int STATE_SCANNED = 4;
+
     private StepPinScanBinding binding;
     private final RechargeViewModel model;
     private Camera camera;
+    private MediaPlayer mediaPlayer;
+    private ImageCapture imageCapture;
     private final LifecycleOwner lifecycleOwner;
-    private static final ExecutorService cameraExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor;
 
-    public PinScanStep(RechargeViewModel model, String title, String nextButtonText, LifecycleOwner lifecycleOwner) {
+    private final MutableLiveData<Integer> state = new MutableLiveData<>();
+    private final Observer<Integer> stateObserver = state -> {
+        if (state == null) return;
+        switch (state) {
+            case STATE_LOADING:
+                showHideProgress(true);
+                showHidePreview(false);
+//                showHideCaptured(false);
+                showHidePin(false);
+                break;
+            case STATE_PREVIEW:
+                showHideProgress(false);
+                showHidePreview(true);
+                showHideCaptured(false);
+                showHidePin(false);
+                break;
+            case STATE_CAPTURED:
+                showHideProgress(true);
+                showHidePreview(false);
+                showHideCaptured(true);
+                showHidePin(false);
+                break;
+            case STATE_SCANNED:
+                showHideProgress(false);
+                showGonePreview(false);
+                showHideCaptured(false);
+                showHidePin(true);
+                break;
+        }
+    };
+
+    private void showHideProgress(boolean show) {
+        binding.groupProgress.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void showGonePreview(boolean show) {
+        binding.groupPreview.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void showHidePreview(boolean show){
+        binding.groupPreview.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void showHideCaptured(boolean show) {
+        binding.ivPreview.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void showHidePin(boolean show) {
+        binding.groupPin.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    public PinScanStep(RechargeViewModel model, String title, String nextButtonText, LifecycleOwner lifecycleOwner, ExecutorService executor) {
         super(title, "", nextButtonText);
         this.model = model;
         this.lifecycleOwner = lifecycleOwner;
+        this.executor = executor;
     }
 
     @Override
@@ -93,18 +157,23 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
     @Override
     protected View createStepContentLayout() {
         binding = StepPinScanBinding.inflate(LayoutInflater.from(getContext()));
+        binding.btnTakePic.setOnClickListener(this);
         binding.btnToggleFlash.setOnClickListener(this);
         binding.btnRetry.setOnClickListener(this);
         binding.preview.setOnTouchListener(PinScanStep.this);
         return binding.getRoot();
     }
 
+    @ExperimentalGetImage
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_toggle_flash) {
+        int id = v.getId();
+        if (id == R.id.btn_toggle_flash) {
             toggleFlash(true);
-        } else if (v.getId() == R.id.btn_retry) {
-            initStep();
+        } else if (id == R.id.btn_take_pic) {
+            takePic();
+        } else if (id == R.id.btn_retry) {
+            initStep(false);
         }
     }
 
@@ -119,11 +188,60 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         }
     }
 
-    private void initStep() {
+    @ExperimentalGetImage
+    private void takePic() {
+        File output = getTempImageFile();
+        if (output == null) return;
+
+        ImageCapture.OutputFileOptions outputFileOptions = new ImageCapture.OutputFileOptions.Builder(output).build();
+        imageCapture.takePicture(outputFileOptions, executor, new ImageCapture.OnImageSavedCallback() {
+            @Override
+            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                Uri imageUri = outputFileResults.getSavedUri();
+
+                mediaPlayer.start();
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (model.isFlashEnabled())
+                        toggleFlash(false);
+                    state.setValue(STATE_CAPTURED);
+                    binding.ivPreview.setImageURI(imageUri);
+                });
+
+                InputImage image;
+                try {
+                    image = InputImage.fromFilePath(getContext(), imageUri);
+                    Utils.recognizeText(model.getSimChooseData(), image, PinScanStep.this);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    state.setValue(STATE_PREVIEW);
+                }
+            }
+
+            @Override
+            public void onError(@NonNull ImageCaptureException exception) {
+                SnackUtils.showMessage(getContentLayout(), "Couldn't capture picture. Please try again later.");
+            }
+        });
+    }
+
+    private File getTempImageFile() {
+        File temp = null;
+        try {
+            temp = File.createTempFile("scanned_pin", ".jpg");
+            temp.deleteOnExit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
+
+    private void initStep(boolean start) {
+        if (start)
+            mediaPlayer = MediaPlayer.create(getContext(), R.raw.camera_shutter_sound);
         startStopCamera(true);
         toggleIconAndText(false);
-        binding.groupPin.setVisibility(View.GONE);
-        binding.groupPreview.setVisibility(View.VISIBLE);
+        state.setValue(STATE_PREVIEW);
         model.setPinScanData("");
     }
 
@@ -163,11 +281,10 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
                 cameraProvider.unbindAll();
 
                 if (start) {
-                    CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
-                    ImageAnalysis pinAnalysis = new ImageAnalysis.Builder().build();
-                    pinAnalysis.setAnalyzer(cameraExecutor, new PinAnalyzer(this, pinAnalysis, model.getSimChooseData()));
-
-                    camera = cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, pinAnalysis);
+                    imageCapture = new ImageCapture.Builder()
+                            .setTargetRotation(binding.preview.getDisplay().getRotation())
+                            .build();
+                    camera = cameraProvider.bindToLifecycle(lifecycleOwner, CameraSelector.DEFAULT_BACK_CAMERA, preview, imageCapture);
                 }
 
             } catch (ExecutionException | InterruptedException e) {
@@ -180,25 +297,16 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         model.setFlashEnabled(isFlashEnabled);
         binding.btnToggleFlash.setText(getContext().getString(isFlashEnabled ? R.string.btn_toggle_flash_off :
                 R.string.btn_toggle_flash_on));
-        binding.btnToggleFlash.setIconResource(isFlashEnabled ? R.drawable.ic_baseline_flash_on_24 :
-                R.drawable.ic_baseline_flash_off_24);
+        binding.btnToggleFlash.setIconResource(isFlashEnabled ? R.drawable.ic_round_flash_on_24 :
+                R.drawable.ic_round_flash_off_24);
     }
 
     @Override
     protected void onStepOpened(boolean animated) {
-        showProgressBar(true);
-        binding.preview.postDelayed(() -> {
-            showProgressBar(false);
-            initStep();
-        }, 2000);
-
-        Snackbar.make(getContentLayout(), getContext().getString(R.string.tap_to_preview_text),
-                Snackbar.LENGTH_LONG).show();
-    }
-
-    private void showProgressBar(boolean show) {
-        binding.preview.setVisibility(show ? View.INVISIBLE : View.VISIBLE);
-        binding.btnToggleFlash.setVisibility(show ? View.GONE : View.VISIBLE);
+        state.setValue(STATE_LOADING);
+        binding.preview.postDelayed(() -> initStep(true), 2000);
+        state.observeForever(stateObserver);
+        SnackUtils.showMessage(getContentLayout(), R.string.tap_to_preview_text);
     }
 
     @Override
@@ -206,6 +314,10 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         if (model.isFlashEnabled())
             toggleFlash(false);
         startStopCamera(false);
+        if (mediaPlayer.isPlaying())
+            mediaPlayer.stop();
+        mediaPlayer.release();
+        state.removeObserver(stateObserver);
     }
 
     @Override
@@ -222,15 +334,16 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
     public void onTextRecognized(String recognizedStr) {
         Utils.vibrateIfNecessary(getContext());
         model.setPinScanData(recognizedStr);
-        binding.groupPreview.setVisibility(View.GONE);
+        state.setValue(STATE_SCANNED);
         binding.tvScannedPin.setText(getContext().getString(R.string.tv_scanned_pin, recognizedStr));
-        binding.groupPin.setVisibility(View.VISIBLE);
         startStopCamera(false);
-        markAsCompletedOrUncompleted(true);
+        markAsCompleted(true);
     }
 
     @Override
     public void onRecognizationFailed(Exception e) {
-        e.printStackTrace();
+        SnackUtils.showMessage(getContentLayout(), "Error occurred : " + e.getMessage());
+        state.setValue(STATE_PREVIEW);
+        markAsUncompleted("", true);
     }
 }

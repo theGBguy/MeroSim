@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.ncell;
@@ -25,6 +25,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.gbsoft.merosim.MeroSimApp;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Ncell;
 import com.gbsoft.merosim.data.Sim;
@@ -53,15 +54,19 @@ public class NcellDetailViewModel extends AndroidViewModel {
     private final Repository repository;
     private Sim sim;
 
-    public NcellDetailViewModel(@NonNull Application application) {
-        super(application);
-        repository = new Repository();
+    public NcellDetailViewModel(@NonNull Application app) {
+        super(app);
+        repository = new Repository(
+                ((MeroSimApp) app).getExecutor(),
+                ((MeroSimApp) app).getMainThreadHandler()
+        );
     }
 
     public void init(Bundle args) {
         if (args == null) return;
         sim = args.getParcelable(SimViewHolder.KEY_SIM);
         if (sim == null) return;
+
         phone.setValue(sim.getPhoneNo());
         balance.setValue(sim.getBalance());
         simOwner.setValue(sim.getSimOwner());
@@ -99,12 +104,10 @@ public class NcellDetailViewModel extends AndroidViewModel {
     }
 
     public void setPhone(String phone) {
-        if (phone == null)
-            this.phone.setValue(this.phone.getValue());
-        else {
-            this.phone.setValue(phone);
-            repository.savePhone(getAppContext(), sim.getSimSlotIndex(), phone);
-        }
+        if (phone == null) return;
+
+        this.phone.setValue(phone);
+        repository.savePhone(getAppContext(), sim.getSimSlotIndex(), phone);
     }
 
     public LiveData<String> getBalance() {
@@ -112,12 +115,10 @@ public class NcellDetailViewModel extends AndroidViewModel {
     }
 
     public void setBalance(String balance) {
-        if (balance == null)
-            this.balance.setValue(this.balance.getValue());
-        else {
-            this.balance.setValue(balance);
-            repository.saveBalance(getAppContext(), sim.getSimSlotIndex(), balance);
-        }
+        if (balance == null) return;
+
+        this.balance.setValue(balance);
+        repository.saveBalance(getAppContext(), sim.getSimSlotIndex(), balance);
     }
 
     public LiveData<String> getSimOwner() {
@@ -125,12 +126,10 @@ public class NcellDetailViewModel extends AndroidViewModel {
     }
 
     public void setSimOwner(String simOwner) {
-        if (simOwner == null)
-            this.simOwner.setValue(this.simOwner.getValue());
-        else {
-            this.simOwner.setValue(simOwner);
-            repository.saveSimOwner(getAppContext(), sim.getSimSlotIndex(), simOwner);
-        }
+        if (simOwner == null) return;
+
+        this.simOwner.setValue(simOwner);
+        repository.saveSimOwner(getAppContext(), sim.getSimSlotIndex(), simOwner);
     }
 
     public LiveData<String> getCustomerCare() {

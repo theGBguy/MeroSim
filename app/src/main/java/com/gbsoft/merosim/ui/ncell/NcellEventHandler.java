@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.ncell;
@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data.Ncell;
+import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
@@ -31,26 +32,28 @@ import com.gbsoft.merosim.utils.Utils;
 import java.util.Locale;
 
 public class NcellEventHandler extends UssdResponseCallback {
+    private final Context context;
     private final NcellDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
     private final PermissionFixerContract fixerContract;
 
     public NcellEventHandler(Context context, @NonNull NcellDetailViewModel vm, PermissionFixerContract fixerContract) {
+        this.context = context;
         this.vm = vm;
         this.fixerContract = fixerContract;
-        this.telephonyUtils = new TelephonyUtils(context);
+        this.telephonyUtils = TelephonyUtils.getInstance(context);
     }
 
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(Ncell.USSD_SELF);
+        makeUSSDRequest(Ncell.USSD_SELF, true);
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(Ncell.USSD_BALANCE);
+        makeUSSDRequest(Ncell.USSD_BALANCE, true);
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        makeUSSDRequestWithOverlay(Ncell.USSD_SIM_OWNER);
+        makeUSSDRequest(Ncell.USSD_SIM_OWNER, true);
     }
 
     public void onCustomerCareClick(View view) {
@@ -85,48 +88,48 @@ public class NcellEventHandler extends UssdResponseCallback {
 
     public void onBalanceTransferClick(View view) {
         if (vm.isTransferDataInvalid()) return;
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_BALANCE_TRANSFER,
-                vm.recipient.getValue(), vm.amount.getValue()));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_BALANCE_TRANSFER,
+                vm.recipient.getValue(), vm.amount.getValue()), false);
     }
 
     public void onBtnTakeSapatiClick(View view) {
-        makeUSSDRequestWithoutOverlay(Ncell.USSD_SAPATI);
+        makeUSSDRequest(Ncell.USSD_SAPATI, false);
     }
 
     public void onBtnMy5ActivateClick(View view) {
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 1));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_MY5, 1), false);
     }
 
     public void onBtnMy5AddNumberClick(View view) {
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 2));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_MY5, 2), false);
     }
 
     public void onBtnMy5ModifyNumberClick(View view) {
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 3));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_MY5, 3), false);
     }
 
     public void onBtnMy5DeleteNumberClick(View view) {
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 4));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_MY5, 4), false);
     }
 
     public void onBtnMy5QueryNumberClick(View view) {
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 5));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_MY5, 5), false);
     }
 
     public void onBtnMy5DeactivateClick(View view) {
-        makeUSSDRequestWithoutOverlay(String.format(Locale.getDefault(), Ncell.USSD_MY5, 6));
+        makeUSSDRequest(String.format(Locale.getDefault(), Ncell.USSD_MY5, 6), false);
     }
 
     public void onBtnMCNActivateClick(View view) {
-        makeUSSDRequestWithoutOverlay(Ncell.USSD_MCN_ACTIVATE);
+        makeUSSDRequest(Ncell.USSD_MCN_ACTIVATE, false);
     }
 
     public void onBtnMCNDeactivateClick(View view) {
-        makeUSSDRequestWithoutOverlay(Ncell.USSD_MCN_DEACTIVATE);
+        makeUSSDRequest(Ncell.USSD_MCN_DEACTIVATE, false);
     }
 
     public void onBtnPRBTActivateClick(View view) {
-        makeUSSDRequestWithoutOverlay("*" + Ncell.USSD_PRBT + "#");
+        makeUSSDRequest("*" + Ncell.USSD_PRBT + "#", false);
     }
 
     public void onBtnPRBTDeactivateClick(View view) {
@@ -144,19 +147,21 @@ public class NcellEventHandler extends UssdResponseCallback {
         );
     }
 
-    private void makeUSSDRequestWithoutOverlay(String ussdRequest) {
-        telephonyUtils.sendUssdRequestWithoutOverlay(
-                ussdRequest,
-                TelephonyUtils.TYPE_INPUT,
-                vm.getSimSlotIndex(),
-                this,
-                fixerContract
-        );
-    }
+    private void makeUSSDRequest(String ussdRequest, boolean withOverlay) {
+        if (withOverlay) {
+            if (!Utils.isAccessibilityServiceEnabled(context)) {
+                fixerContract.fixPermission(BaseTelecomFragment.SERVICE_ACCESSIBILITY);
+                return;
+            }
+            if (!Utils.isOverlayServiceEnabled(context)) {
+                fixerContract.fixPermission(BaseTelecomFragment.SERVICE_OVERLAY);
+                return;
+            }
+        }
 
-    private void makeUSSDRequestWithOverlay(String ussdRequest) {
-        telephonyUtils.sendUssdRequestWithOverlay(
+        telephonyUtils.sendUssdRequest(
                 ussdRequest,
+                withOverlay,
                 TelephonyUtils.TYPE_INPUT,
                 vm.getSimSlotIndex(),
                 this,
@@ -185,19 +190,6 @@ public class NcellEventHandler extends UssdResponseCallback {
 
     @Override
     public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-        switch (request) {
-            case Ncell.USSD_SELF:
-                vm.setPhone(null);
-                break;
-            case Ncell.USSD_BALANCE:
-                vm.setBalance(null);
-                break;
-            case Ncell.USSD_SIM_OWNER:
-                vm.setSimOwner(null);
-                break;
-            case Ncell.USSD_BALANCE_TRANSFER:
-                break;
-        }
         vm.setSnackMsg(R.string.ussd_failed_snack_msg);
         super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
     }

@@ -15,22 +15,35 @@
 
 package com.gbsoft.merosim.ui.home;
 
+import android.text.TextUtils;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 
 import com.gbsoft.merosim.data.Sim;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 
-public class SimRecyclerAdapter extends RecyclerView.Adapter<SimViewHolder> {
-    private final List<Sim> simList;
+public class SimRecyclerAdapter extends ListAdapter<Sim, SimViewHolder> {
+    private final RecyclerViewEmptyObserver emptyObserver;
 
-    public SimRecyclerAdapter(List<Sim> simList) {
-        this.simList = simList;
+    private static final DiffUtil.ItemCallback<Sim> diffCallback = new DiffUtil.ItemCallback<Sim>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Sim oldSim, @NonNull Sim newSim) {
+            return TextUtils.equals(oldSim.getPhoneNo(), newSim.getPhoneNo());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Sim oldItem, @NonNull Sim newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    public SimRecyclerAdapter(RecyclerViewEmptyObserver emptyObserver) {
+        super(diffCallback);
+        this.emptyObserver = emptyObserver;
     }
 
     @NonNull
@@ -41,7 +54,7 @@ public class SimRecyclerAdapter extends RecyclerView.Adapter<SimViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SimViewHolder holder, int position) {
-        holder.bind(simList.get(position));
+        holder.bind(getItem(position));
     }
 
     @Override
@@ -51,12 +64,9 @@ public class SimRecyclerAdapter extends RecyclerView.Adapter<SimViewHolder> {
     }
 
     @Override
-    public int getItemCount() {
-        return simList.size();
-    }
-
-    @Override
-    public void registerAdapterDataObserver(@NonNull @NotNull RecyclerView.AdapterDataObserver observer) {
-        super.registerAdapterDataObserver(observer);
+    public void onCurrentListChanged(@NonNull List<Sim> previousList, @NonNull List<Sim> currentList) {
+        super.onCurrentListChanged(previousList, currentList);
+        if (!currentList.isEmpty())
+            emptyObserver.onChanged();
     }
 }

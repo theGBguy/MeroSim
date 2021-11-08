@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.recharge;
@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.gbsoft.easyussd.UssdResponseCallback;
+import com.gbsoft.merosim.MeroSimApp;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentRechargeBinding;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
@@ -44,26 +45,20 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 
 public class RechargeFragment extends Fragment implements StepperFormListener {
-
     private FragmentRechargeBinding binding;
     private RechargeViewModel model;
-    private TelephonyUtils telephonyUtils;
 
-    private final ActivityResultLauncher<String> cameraPermissionLauncher =
+    private final ActivityResultLauncher<String> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted)
-                    SnackUtils.showMessage(requireView(), R.string.permission_granted_txt, "Camera");
+                    SnackUtils.showMessage(requireView(), R.string.permission_granted_txt);
                 else
-                    SnackUtils.showMessage(requireView(), R.string.perm_camera_msg);
+                    SnackUtils.showMessage(requireView(), R.string.permission_not_granted_txt);
             });
 
-    private final ActivityResultLauncher<String> callPhonePermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted)
-                    SnackUtils.showMessage(requireView(), R.string.permission_granted_txt, "Call phone");
-                else
-                    SnackUtils.showMessage(requireView(), R.string.perm_call_phone_msg);
-            });
+    private final PermissionFixerContract fixerContract = permission ->
+            handlePermission(Manifest.permission.CALL_PHONE, getString(R.string.perm_camera_msg), permissionLauncher);
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -77,8 +72,6 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
         model = new ViewModelProvider(this).get(RechargeViewModel.class);
 
-        telephonyUtils = new TelephonyUtils(requireContext());
-
         SimChooseStep simChooseStep = new SimChooseStep(
                 model,
                 requireContext().getString(R.string.choose_carrier_text),
@@ -89,7 +82,8 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
                 model,
                 requireContext().getString(R.string.scan_pin_text),
                 requireContext().getString(R.string.next_button_text),
-                getViewLifecycleOwner()
+                getViewLifecycleOwner(),
+                ((MeroSimApp) requireActivity().getApplication()).getExecutor()
         );
 
         PinConfirmStep pinConfirmStep = new PinConfirmStep(
@@ -101,7 +95,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
         binding.stepperForm.setup(this, simChooseStep, pinScanStep, pinConfirmStep)
                 .init();
 
-        handlePermission(Manifest.permission.CAMERA, getString(R.string.perm_camera_msg), cameraPermissionLauncher);
+        handlePermission(Manifest.permission.CAMERA, getString(R.string.perm_camera_msg), permissionLauncher);
     }
 
     private void handlePermission(String permission, String message, ActivityResultLauncher<String> launcher) {
@@ -115,9 +109,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
                             launcher.launch(permission);
                             dialog.dismiss();
                         })
-                        .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> {
-                            dialog.dismiss();
-                        })
+                        .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> dialog.dismiss())
                         .show();
             } else {
                 launcher.launch(permission);
@@ -131,35 +123,37 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
         binding = null;
     }
 
-    private final PermissionFixerContract fixerContract = permission ->
-            handlePermission(Manifest.permission.CALL_PHONE, getString(R.string.perm_camera_msg), callPhonePermissionLauncher);
-
     @Override
     public void onCompletedForm() {
-        String ussdRequest = telephonyUtils.getRechargeUssdRequest(model.getSimChooseData(), model.getPinScanData());
-        int slotIndex = telephonyUtils.getSimSlotIndex(model.getSimChooseData());
-
         if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.CALL_PHONE)) {
-            telephonyUtils.sendUssdRequestWithOverlay(ussdRequest, TelephonyUtils.TYPE_NORMAL, slotIndex, callback, fixerContract);
+            TelephonyUtils.getInstance(requireContext()).sendUssdRequest(
+                    model.getRechargeUSSDRequest(),
+                    true,
+                    TelephonyUtils.TYPE_NORMAL,
+                    model.getSimSlotIndex(),
+                    callback,
+                    fixerContract
+            );
         } else {
             binding.stepperForm.cancelFormCompletionOrCancellationAttempt();
-            handlePermission(Manifest.permission.CALL_PHONE, getString(R.string.perm_camera_msg), callPhonePermissionLauncher);
+            handlePermission(Manifest.permission.CALL_PHONE, getString(R.string.perm_call_phone_msg), permissionLauncher);
         }
     }
 
     private final UssdResponseCallback callback = new UssdResponseCallback() {
         @Override
         public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
-            if (response.toString().contains("already")
-                    || response.toString().contains("exist"))
+            String responseStr = response.toString();
+            if (responseStr.contains("already") || responseStr.contains("exist"))
                 binding.stepperForm.cancelFormCompletionOrCancellationAttempt();
-            SnackUtils.showMessage(requireView(), (response.toString()));
+            SnackUtils.showMessage(requireView(), response.toString());
             super.onReceiveUssdResponse(telephonyManager, request, response);
         }
 
         @Override
         public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-            SnackUtils.showMessage(requireView(), R.string.ussd_failed_snack_msg);
+            SnackUtils.showMessage(requireView(), R.string.ussd_response_failed_lack_permission);
+            binding.stepperForm.cancelFormCompletionOrCancellationAttempt();
             super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
         }
     };
