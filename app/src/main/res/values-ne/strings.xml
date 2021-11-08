@@ -11,7 +11,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Last modified: 2021/05/31
+  ~ Last modified: 2021/10/22
   -->
 
 <resources>
@@ -57,7 +57,7 @@
     <string name="btn_next_text">रिचार्ज</string>
     <string name="confirm_details_text">सिम र पिन विवरणहरूको पुष्टि गर्नुहोस्</string>
     <string name="tv_confirm_sim">सिम : %1$s</string>
-    <string name="tv_confirm_pin">पिन : </string>
+    <string name="tv_confirm_pin">पिन</string>
     <string name="edtTxt_scanned_pin_num_hint">स्क्यान गरिएको पिन नम्बर</string>
     <string name="wrong_scanning_text">यदि गलत पिन हो भने पिन सम्पादन गर्नुहोस्</string>
     <string name="accessibility_service_description">यो युएसएसडी प्रतिक्रिया स्क्रिन अवरोध गर्न प्रयोग गरिन्छ्​। यो प्रयोग गर्न पूर्णतया सुरक्षित छ।</string>

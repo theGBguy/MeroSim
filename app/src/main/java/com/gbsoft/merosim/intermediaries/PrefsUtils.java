@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Last modified: 2021/05/31
+ * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.intermediaries;
@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.Locale;
 
 public class PrefsUtils {
-    public static final String KEY_PHONE = "sim%d_phone";
-    public static final String KEY_BALANCE = "sim%d_balance";
-    public static final String KEY_SIM_OWNER = "sim%d_sim_owner";
-    public static final String UNAVAILABLE = "(unavailable)";
-    public static final String KEY_SECURITY_CODE = "scode";
+    private static final String KEY_PHONE = "sim%d_phone";
+    private static final String KEY_BALANCE = "sim%d_balance";
+    private static final String KEY_SIM_OWNER = "sim%d_sim_owner";
+    private static final String UNAVAILABLE = "(unavailable)";
+    private static final String KEY_SECURITY_CODE = "scode";
 
     public static void savePhone(Context context, int slotIndex, String phone) {
         getDefaultSharedPrefs(context)
