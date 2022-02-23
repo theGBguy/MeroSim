@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/21
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/22
  */
 
 package com.gbsoft.merosim.utils;
@@ -21,6 +22,10 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
+
+/*
+* This class contains utility methods related to language.
+*/
 
 public class LocaleUtils {
 
@@ -40,12 +45,23 @@ public class LocaleUtils {
         return lang.equals("ne");
     }
 
-    public static String getPinCodeInNepaliDigit(String pinCode) {
-        char[] pinArr = pinCode.toCharArray();
-        StringBuilder pin = new StringBuilder();
-        for (char c : pinArr) {
-            pin.append((char) ((int) c + 2358));
+    public static String getNumberInNepaliDigit(String engNumber) {
+        char[] num = engNumber.toCharArray();
+        StringBuilder nepaliNum = new StringBuilder();
+        for (char c : num) {
+            if (c == '.' || c == ' ') {
+                nepaliNum.append(c);
+                continue;
+            }
+            if (Character.isDigit(c)) {
+                nepaliNum.append((char) ((int) c + 2358));
+            }
         }
-        return pin.toString();
+        return nepaliNum.toString();
     }
+
+    public static String getBalanceInNepali(String balance) {
+        return "रु" + getNumberInNepaliDigit(balance);
+    }
+
 }

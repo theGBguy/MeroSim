@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui;
@@ -28,11 +29,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
+import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+/*
+ * Base Fragment which implements permission related stuffs and contact picking stuffs
+ * common to all the ntc, ncell and smartcell fragments.
+ */
 
 public class BaseTelecomFragment extends Fragment implements OnContactFoundListener {
     public static final String SERVICE_ACCESSIBILITY = "accessibility";
@@ -97,9 +104,7 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
                             launcher.launch(permission);
                             dialog.dismiss();
                         })
-                        .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> {
-                            dialog.dismiss();
-                        })
+                        .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> dialog.dismiss())
                         .show();
             } else {
                 launcher.launch(permission);
@@ -114,6 +119,7 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
         loader = new ContactsLoader(requireContext(), this);
     }
 
+    // empty implementation; intended to be overridden by child classes
     @Override
     public void onContactFound(@NonNull String name, @NonNull String number) {
 
@@ -129,23 +135,38 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
 
     private void showAccessibilityDialog() {
         new MaterialAlertDialogBuilder(requireContext())
-                .setTitle(com.gbsoft.easyussd.R.string.dialog_accessibility_title)
-                .setMessage(com.gbsoft.easyussd.R.string.dialog_accessibility_msg)
+                .setTitle(R.string.dialog_accessibility_title)
+                .setMessage(R.string.dialog_accessibility_msg)
                 .setCancelable(true)
-                .setPositiveButton(com.gbsoft.easyussd.R.string.dialog_positive_btn_txt, (dialog, id) ->
+                .setPositiveButton(R.string.dialog_positive_btn_txt, (dialog, id) ->
                         startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)))
+                .setNegativeButton(getString(R.string.without_permission_txt), (dialog, which) -> {
+                    dialog.dismiss();
+                    turnOffOverlayPreference();
+                })
                 .show();
     }
 
     private void showOverlayDialog() {
         new MaterialAlertDialogBuilder(requireContext())
-                .setTitle(com.gbsoft.easyussd.R.string.dialog_overlay_title)
-                .setMessage(com.gbsoft.easyussd.R.string.dialog_overlay_msg)
+                .setTitle(R.string.dialog_overlay_title)
+                .setMessage(R.string.dialog_overlay_msg)
                 .setCancelable(true)
-                .setPositiveButton(com.gbsoft.easyussd.R.string.dialog_positive_btn_txt, (dialog, id) -> {
+                .setPositiveButton(R.string.dialog_positive_btn_txt, (dialog, id) -> {
                     Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                             Uri.parse("package:" + requireContext().getPackageName()));
                     startActivity(intent);
-                }).show();
+                })
+                .setNegativeButton(getString(R.string.without_permission_txt), (dialog, which) -> {
+                    dialog.dismiss();
+                    turnOffOverlayPreference();
+                })
+                .show();
+    }
+
+    private void turnOffOverlayPreference() {
+        PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+                .putBoolean(getString(R.string.key_overlay), false)
+                .apply();
     }
 }

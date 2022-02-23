@@ -1,0 +1,33 @@
+/*
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.gbsoft.merosim.telephony;
+
+import android.annotation.SuppressLint;
+import android.telephony.TelephonyManager;
+
+// -1 = Connection problem or invalid MMI code(Return failure).
+// -2 = Other error such as network unavailable
+// -3 = Request cancellation
+/*
+ * Adds the cancellation method to the framework's callback class
+ */
+
+@SuppressLint("NewApi")
+public abstract class UssdResponseCallback extends TelephonyManager.UssdResponseCallback {
+    public void onReceiveUssdResponseCancelled(TelephonyManager telephonyManager, String request, String cancellationMsg) {
+    }
+}

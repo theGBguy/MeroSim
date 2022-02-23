@@ -1,26 +1,33 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/22
  */
 
 package com.gbsoft.merosim.utils;
 
 import android.text.TextUtils;
 
-import com.gbsoft.merosim.data.Sim;
+import com.gbsoft.merosim.model.Sim;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+/*
+ * Validator class's public methods are used to validate email, phone number,
+ * security code and other various inputs across different
+ * part of this app.
+ */
 
 public class Validator {
     public static boolean isSecurityCodeValid(String securityCode) {

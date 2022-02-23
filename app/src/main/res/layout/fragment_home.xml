@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/02/22
+  ~
+  ~ Licensed under GNU General Public License v3.0;
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
-  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
-  ~ Last modified: 2021/05/31
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/adView_home"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_available_sim_txt"
@@ -93,14 +93,25 @@
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/group_progress"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:constraint_referenced_ids="tv_fetching_sim_details,pgbar_fetching_sim_details"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        adview with test id     -->
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

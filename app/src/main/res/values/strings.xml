@@ -1,16 +1,17 @@
 <!--
-  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/02/23
+  ~
+  ~ Licensed under GNU General Public License v3.0;
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
-  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
-  ~ Last modified: 2021/10/28
   -->
 
 <resources>
@@ -26,9 +27,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_recharge">Recharge</string>
     <string name="menu_settings">Settings</string>
-    <string name="nav_ntc_detail">Namaste</string>
-    <string name="nav_ncell_detail">Ncell</string>
-    <string name="nav_smart_detail">SmartCell</string>
+    <string name="nav_ntc_detail" translatable="false">Namaste</string>
+    <string name="nav_ncell_detail" translatable="false">Ncell</string>
+    <string name="nav_smart_detail" translatable="false">SmartCell</string>
 
     <!--    string resources of sim provider-->
     <string name="sim_name_namaste">Namaste</string>
@@ -90,6 +91,12 @@
     <string name="vibrate_pref_title">Vibrate when pin is detected</string>
     <string name="vibrate_summary_on">On</string>
     <string name="vibrate_summary_off">Off</string>
+
+    <!--    Overlay Preferences-->
+    <string name="key_overlay" translatable="false">key_overlay</string>
+    <string name="overlay_pref_title" translatable="false">Overlay</string>
+    <string name="overlay_summary_on" translatable="false">Use overlay whenever possible</string>
+    <string name="overlay_summary_off" translatable="false">Do not use overlay</string>
 
     <!--    string resources for HomeFragment-->
     <string name="tv_available_sim_txt">Your Sim Card/s</string>
@@ -174,7 +181,7 @@
     <string name="ntc_error_amount">Please enter amount(in Rs.) between 10 and 500.</string>
 
     <string name="ntc_tv_namaste_credit_txt">Namaste Credit</string>
-    <string name="ntc_tv_4g_txt">4G</string>
+    <string name="ntc_tv_4g_txt" translatable="false">4G</string>
     <string name="ntc_btn_enable_4g_txt">Enable 4G</string>
     <string name="ntc_btn_dismiss">Dismiss</string>
     <string name="ntc_tv_4g_info">Enable 4G if you haven\'t already to enjoy faster data, better voice calls and many more.</string>
@@ -191,15 +198,7 @@
 
     <!--    string resources for ncell      -->
 
-    <string name="ncell_transfer_balance_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
-       &lt;ul&gt;
-            &lt;li&gt;You can transfer balance from Rs. 10 up to Rs. 200 only per transfer.&lt;/li&gt;
-        	&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;
-        	&lt;li&gt;The service charge for the balance transfer is Rs. 1(excluding taxes) in Ncell.&lt;/li&gt;
-            &lt;li&gt;You can only transfer balance up to 3 times a day.&lt;/li&gt;
-        	&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;
-        &lt;/ul&gt;
-    </string>
+    <string name="ncell_transfer_balance_info">"&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;        &lt;ul&gt;             &lt;li&gt;You can transfer balance from Rs. 10 up to Rs. 200 only per transfer.&lt;/li&gt;         \t&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;         \t&lt;li&gt;The service charge for the balance transfer is Rs. 1(excluding taxes) in Ncell.&lt;/li&gt;             &lt;li&gt;You can only transfer balance up to 3 times a day.&lt;/li&gt;         \t&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;         &lt;/ul&gt;     "</string>
 
     <string name="ncell_error_recipient">Please enter recipient\'s 10 digits Ncell phone number.</string>
     <string name="ncell_error_amount">Please enter amount(in Rs.) between 10 and 200.</string>
@@ -216,7 +215,7 @@
     </string>
     <string name="ncell_btn_take_sapati_txt">Take Sapati</string>
 
-    <string name="ncell_tv_my5_txt">MY 5</string>
+    <string name="ncell_tv_my5_txt" translatable="false">MY 5</string>
     <string name="ncell_my5_info">
         &lt;b&gt;ABOUT MY5 SERVICE&lt;/b&gt;
         &lt;ul&gt;
@@ -238,11 +237,11 @@
         &lt;b&gt;ABOUT MISSED CALL NOTIFICATION&lt;/b&gt;
         &lt;ul&gt;
         &lt;li&gt;There is no activation charge to enable this service.&lt;/li&gt;
-        &lt;li&gt;You will receive SMS about the calls that you missed when you were outside the network coverage , enable flight mode or switch off the phone.&lt;/li&gt;
+        &lt;li&gt;You will receive SMS about the calls that you missed when you were outside the network coverage, enable flight mode or switch off the phone.&lt;/li&gt;
         &lt;/ul&gt;
     </string>
 
-    <string name="ncell_tv_prbt_txt">PRBT</string>
+    <string name="ncell_tv_prbt_txt" translatable="false">PRBT</string>
     <string name="ncell_prbt_info">
         &lt;b&gt;ABOUT PRBT SERVICE&lt;/b&gt;
         &lt;ul&gt;
@@ -309,11 +308,45 @@
     </string>
     <string name="tv_hint_txt">Clicking above buttons will refresh the respective value.</string>
     <string name="btn_call_customer_care_txt">Call customer care</string>
+    <string name="btn_take_packs_txt">Take data, voice and SMS packs</string>
+    <string name="btn_take_data_packs_txt">Take data packs</string>
+    <string name="btn_take_voice_packs_txt">Take voice packs</string>
+    <string name="btn_take_sms_packs_txt">Take SMS packs</string>
     <string name="unavail_txt">Unavailable</string>
     <string name="btn_take_pic">Take pic</string>
+    <string name="summary_about">© Chiranjeevi Pandey</string>
+    <string name="app_version">1.0</string>
+    <string name="title_version">App Version</string>
+    <string name="key_send_feedback" translatable="false">feedback</string>
+    <string name="summary_support">Click here to send email to developer</string>
+    <string name="title_send_feedback">Send feedback</string>
+    <string name="preference_cat_title">About</string>
+    <string name="choose_email_client">Choose an email client</string>
 
+    <string name="greeting_txt">Namaste,\n%s</string>
+    <string name="restart_txt">Please restart the app for better experience.</string>
+    <string name="invalid_song_code_txt">Please do not leave the song code field empty!</string>
+    <string name="okay_txt">Okay</string>
+    <string name="different_name_dialog_title">Different Name Warning!</string>
+    <string name="different_name_dialog_msg">Nepal Telecommunication Authority (NTA) requests everyone to register the sim in their own name. Please visit nearest %s branches with required documents to make that change. Click this link for more info : https://www.gadgetbytenepal.com/how-to-change-sim-card-ownership</string>
+    <string name="without_permission_txt">Ignore</string>
     <!--    &lt;b&gt;&lt;/b&gt;
             &lt;ul&gt;
             &lt;li&gt;&lt;/li&gt;
             &lt;/ul&gt;-->
+
+    <string name="tv_loading_txt">Processing</string>
+    <string name="tv_loading_txt_alt">Cancelling</string>
+    <string name="btn_cancel_txt">Cancel processing</string>
+    <string name="ussd_response_cancelled_alt">Another request is in processing. Please wait!</string>
+    <string name="ussd_response_failed_lack_permission">Overlay and accessibility permission is not granted!</string>
+
+    <string name="dialog_accessibility_title">Accessibility service not enabled!</string>
+    <string name="dialog_accessibility_msg">You must enable accessibility service to use this feature.</string>
+    <string name="dialog_overlay_title">Overlay Permission Not Granted</string>
+    <string name="dialog_overlay_msg">You must grant this permission to allow this app to show overlay on top of the USSD response dialog         to show custom loading dialog. You can turn it off from Settings if you don\'t want overlays.     For your convenience, if you click Ignore button, it will be automatically turned off.</string>
+    <string name="dialog_positive_btn_txt">OK</string>
+
+    <string name="phone_permission_failed">Read phone state permission is not granted!</string>
+    <string name="tv_warning_txt">Note: This overlay will close automatically in 10 seconds.</string>
 </resources>

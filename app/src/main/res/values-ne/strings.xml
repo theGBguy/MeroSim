@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/02/23
+  ~
+  ~ Licensed under GNU General Public License v3.0;
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
-  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
-  ~ Last modified: 2021/10/22
   -->
 
 <resources>
@@ -71,6 +71,7 @@
     <string name="vibrate_pref_title">पिन पत्ता लगाउँदा भाईब्रेट गर्ने भन्ने बारे</string>
     <string name="vibrate_summary_on">गर्ने</string>
     <string name="vibrate_summary_off">नगर्ने</string>
+
     <string name="btn_retry_text">पुनःप्रयास गर्नुहोस्</string>
     <string name="menu_home">होम</string>
     <string name="phone_txt">फोन न् : %s</string>
@@ -78,4 +79,247 @@
     <string name="tv_available_sim_txt">तपाइको सिम कार्डहरु</string>
     <string name="tv_fetching_sim_details_txt">सिम कार्डको विवरण प्राप्त गरिदै छ</string>
     <string name="tv_no_sim_txt">कुनै पनि सिम कार्डहरू फेला परेनन्। कृपया सिम कार्डहरू ठीकसँग राखिएको छ भन्ने सुनिश्चित गरि पुन प्रयास गर्नुहोला</string>
+    <string name="choose_email_client">सुरु गर्नुहोस्</string>
+    <string name="preference_cat_title">यस एपको बारेमा</string>
+    <string name="title_send_feedback">प्रतिक्रिया पठाउनुहोस्</string>
+    <string name="summary_support">सुझाव सहितको इमेल पठाउन यहाँ क्लिक गर्नुहोस्</string>
+    <string name="title_version">एप संस्करण</string>
+    <string name="app_version">१.०</string>
+    <string name="summary_about">© चिरञ्जीवी पाण्डे</string>
+    <string name="btn_take_pic">तस्वीर लिनुहोस्</string>
+    <string name="unavail_txt">उपलब्ध छैन</string>
+    <string name="btn_take_sms_packs_txt">एसएमएस प्याक लिनुहोस्</string>
+    <string name="btn_take_voice_packs_txt">भ्वाइस प्याक लिनुहोस्</string>
+    <string name="btn_take_data_packs_txt">डाटा प्याक लिनुहोस्</string>
+    <string name="btn_take_packs_txt">डाटा, भ्वाइस र एसएमएस प्याक लिनुहोस्</string>
+    <string name="btn_call_customer_care_txt">"ग्राहक सेवामा कल गर्नुहोस् "</string>
+    <string name="tv_hint_txt">नयाँ डाटा प्राप्त गर्न माथीका बटनहरूमा थिच्नुहोस।</string>
+    <string name="smart_btn_take_loan_txt">सापटी लिनुहोस्</string>
+    <string name="smart_tv_loan_txt">"सापटी "</string>
+    <string name="smart_error_recipient">कृपया प्रापकको १० अंकको स्मार्टसेल फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="smart_sim_owner_text">स्मार्ट सेलले सिम मालिकको जानकारी प्रदान गर्दैन।</string>
+    <string name="ncell_btn_make_low_balance_call_txt">कम ब्यालेन्समा कल गर्नुहोस्</string>
+    <string name="ncell_tiet_enter_ph_no_hint">फोन नम्बर टाइप गर्नुहोस्</string>
+    <string name="ncell_tv_low_balance_call_txt">लो ब्यालेन्स कल</string>
+    <string name="perm_send_sms_msg">सेवाहरू सक्रिय/निष्क्रिय गर्न एसएमएस पठाउने अनुमति आवश्यक पर्दछ।</string>
+    <string name="perm_read_contacts_msg">तपाईंको सम्पर्क सूचीबाट फोन नम्बर फेला पार्न सम्पर्कहरू पढ्ने अनुमति आवश्यक पर्दछ।</string>
+    <string name="perm_call_phone_msg">USSD कल गर्न फोन अनुमति आवश्यक पर्दछ।</string>
+    <string name="perm_camera_msg">रिचार्ज कार्डहरू स्क्यान गर्न क्यामेरा अनुमतिको आवश्यकता पर्दछ।</string>
+    <string name="permission_not_granted_txt">यस एपको कार्यक्षमता बढाउनको लागि यी अनुमतिहरू आवश्यक छन्।</string>
+    <string name="permission_granted_txt">अनुमति सफलतापूर्वक प्रदान गरिएको छ। तपाईं अब कुनै झन्झट बिना सुविधा प्रयोग गर्न सक्नुहुन्छ।</string>
+    <string name="negative_dialog_btn_txt">रद्द गर्नुहोस्</string>
+    <string name="positive_dialog_btn_txt">ठिक छ</string>
+    <string name="perm_read_phone_state_msg">यो फोनमा भएका सिम कार्डहरू बारे जानकारी लिन फोन स्टेट अनुमतिको आवश्यकता पर्दछ।</string>
+    <string name="perm_dialog_title">अनुमति दिइएको छैन!</string>
+    <string name="info_txt">जानकारी</string>
+    <string name="sim_owner_txt">सिम ग्राहक: %s</string>
+    <string name="customer_care_txt">ग्राहक सेवा: %s</string>
+    <string name="balance_transfer_snack_msg">आफ्नो नयाँ ब्यालेन्स प्राप्त गर्नको लागि अहिले ब्यालेन्स रिफ्रेस गर्नुहोस्!</string>
+    <string name="ussd_failed_snack_msg">USSD कलको कुनै प्रतिक्रिया आएन! कृपया केहि मिनेट पछि पुन: प्रयास गर्नुहोस्!</string>
+    <string name="ussd_response_cancelled_msg">USSD कल रद्द गरियो!</string>
+    <string name="btn_unsubscribe_txt">सदस्यता रद्द गर्नुहोस्</string>
+    <string name="btn_subscribe_txt">सदस्यता लिनुहोस्</string>
+    <string name="tv_mca_txt">मिस कल अलर्ट</string>
+    <string name="btn_transfer">ब्यालेन्स ट्रान्सफर गर्नुहोस</string>
+    <string name="btn_status_txt">स्थिति</string>
+    <string name="btn_start_txt">सुरु गर्नुहोस्</string>
+    <string name="btn_stop_txt">रद्द गर्नुहोस</string>
+    <string name="btn_activate_txt">सक्रिय गर्नुहोस्</string>
+    <string name="btn_deactivate_txt">निष्क्रिय पार्नुहोस्</string>
+    <string name="tv_transfer_balance_txt">"ब्यालेन्स ट्रान्सफर "</string>
+    <string name="ntc_tiet_security_code_hint">सुरक्षा कोड टाइप गर्नुहोस्</string>
+    <string name="tiet_recipient_hint">प्राप्तकर्ताको फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="tiet_selected_recipient">चयन गरिएको प्राप्तकर्ता: %s</string>
+    <string name="tiet_amount_hint">रकम टाइप गर्नुहोस् (रु. मा)</string>
+    <string name="error_security_code">कृपया आफ्नो सुरक्षा कोड टाइप गर्नुहोस्।</string>
+    <string name="ntc_error_recipient">कृपया प्राप्तकर्ताको १० अंकको NTC फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="ntc_error_amount">कृपया १० र ५०० बीचको रकम (रुमा) टाइप गर्नुहोस्।</string>
+    <string name="ntc_tv_namaste_credit_txt">"नमस्ते क्रेडिट "</string>
+    <string name="ntc_btn_enable_4g_txt">4G सुचारु गर्नुहोस्</string>
+    <string name="ntc_btn_dismiss">खारेज गर्नुहोस्</string>
+    <string name="ntc_tv_4g_info">4G सुरु गर्नुहोस् यदि तपाईंले पहिले नै छिटो डेटा, राम्रो भ्वाइस कलहरू र अन्य धेरैको आनन्द लिनु भएको छैन भने।</string>
+    <string name="ntc_btn_modify_txt">परिमार्जन गर्नुहोस्</string>
+    <string name="ntc_btn_delete_txt">हटाउनुहोस</string>
+    <string name="ntc_btn_query_txt">पहिले नै सेवा सुरु भएका फोन नम्बरहरू हेर्नुहोस्</string>
+    <string name="ntc_modify_old_hint">पुरानो फोन नं.</string>
+    <string name="ntc_modify_new_hint">नयाँ फोन नं.</string>
+    <string name="ntc_delete_hint">हटाउने फोन नं.</string>
+    <string name="ntc_tv_crbt_info">कलर रिङ्ग ब्याक टोन (CRBT)</string>
+    <string name="ntc_song_code_hint">आफ्नो मनपर्ने गीत को कोड टाइप गर्नुहोस्</string>
+    <string name="ntc_til_security_code_helper_txt">अर्को प्रयोगको लागि सुरक्षा कोड सुरक्षित गर्न सेभ बटन क्लिक गर्नुहोस्।</string>
+    <string name="ncell_error_recipient">कृपया प्राप्तकर्ताको १० अंकको Ncell फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="ncell_error_amount">कृपया १० र २०० बीचको रकम (रुमा) टाइप गर्नुहोस्।</string>
+    <string name="ncell_tv_ncell_sapati_txt">एनसेल सापटी</string>
+    <string name="ncell_btn_take_sapati_txt">"सापटी लिनुहोस् "</string>
+    <string name="ncell_btn_add_no_txt">नम्बर थप्नुहोस्</string>
+    <string name="ncell_btn_modify_no_txt">नम्बर परिमार्जन गर्नुहोस्</string>
+    <string name="ncell_btn_delete_no_txt">नम्बर हटाउनुहोस्</string>
+    <string name="ncell_btn_query_no_txt">पहिले नै सेवा सुरु भएका फोन नम्बरहरू हेर्नुहोस्</string>
+    <string name="ntc_balance_transfer_info">&lt;b&gt;ब्यालेन्स ट्रान्सफरको बारेमा&lt;/b&gt;
+        &lt;ul&gt; &lt;li&gt;तपाईंले आफ्नो ब्यालेन्स ट्रान्सफर गर्न आफ्नो सुरक्षा कोड जान्न आवश्यक छ।सुरक्षा कोड पाउन, "scode" टाइप गर्नुहोस् र 1415 मा एसएमएस पठाउनुहोस्। तपाईंले छिट्टै एस एम एसमा सुरक्षा कोड प्राप्त गर्नुहुनेछ।&lt;/li&gt;
+        &lt;li&gt;तपाईंले रु.१० देखि रु.५०० सम्म ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+        &lt;li&gt;तपाईँ एउटा नेटवर्कबाट अर्कोमा ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्न।&lt;/li&gt;
+        &lt;li&gt;नमस्तेमा ब्यालेन्स ट्रान्सफरको सेवा शुल्क लाग्दैन।&lt;/li&gt;
+        &lt;li&gt;तपाईले दिनको २० पटक सम्म मात्र ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+        &lt;li&gt;ब्यालेन्स ट्रान्सफर गर्दा ब्यालेन्सको भ्यालिडिटि बढ्दैन ।&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_credit_info">&lt;b&gt;नमस्ते क्रेडिटको बारेमा&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;यो नमस्तेद्वारा यसको GSM ग्राहकहरूका लागि प्रदान गरिएको सापटी सेवा हो।&lt;/li&gt;
+            &lt;li&gt;सापटी अर्को रिचार्जमा स्वतः काटिनेछ।&lt;/li&gt;
+            &lt;li&gt;सापटी सेवामा कुनै अतिरिक्त शुल्क लगाइएको छैन।&lt;/li&gt;
+            &lt;li&gt;कम ब्यालेन्समा क्रेडिट ब्यालेन्स सेवा स्वतः सुचारु हुन्छ।&lt;/li&gt;
+            &lt;li&gt;विनियोजन गरिएको क्रेडिटको रकम एक ग्राहकबाट अर्को ग्राहकमा फरक हुन्छ र यो लोयल्टीमा आधारित मूल्याङ्कनमा बनाइन्छ। यसको मतलब तपाईंले जति धेरै नमस्ते नेटवर्क प्रयोग गर्नुहुन्छ, त्यति नै बढी क्रेडिट तपाईंलाई प्रदान गरिन्छ।
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_fnf_info">
+        &lt;b&gt;फ्रेन्ड्स &amp; परिवार&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;यो एक विशेष सेवा हो जसले तपाईंलाई सस्तो दरमा ५ फरक नमस्ते नम्बरहरुमा कल गर्न अनुमति दिन्छ।&lt;/li&gt;
+             &lt;li&gt;भ्वाइस ट्यारिफ GSM/CDMA पोस्ट-पेडको लागि 55 पैसा/मिनेट र प्रि-पेड ग्राहकहरूको लागि 70 पैसा/मिनेट हो।&lt;/li&gt;
+             &lt;li&gt;सेवा नि:शुल्क सुचारु गर्न सकिन्छ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_mca_info">
+        &lt;b&gt;मिस्ड कल अलर्ट बारे&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;यो सेवाले तपाईंलाई कलहरू प्राप्त गर्न असमर्थ हुदा ति कलहरुको बारेमा जानकारी प्रदान गर्दछ।&lt;/li&gt;
+             &lt;li&gt;यो सेवा नि:शुल्क सुचारु गर्न सकिन्छ र यो स्वतः नवीकरण पनि हुन्छ।&lt;/li&gt;
+             &lt;li&gt;सेवाको सफल सदस्यता प्राप्त गरेपछि, तपाईंले यो ढाँचामा SMS प्राप्त गर्नुहुनेछ: &quot;तपाईलाइ 984XXXXXXX (नम्बर) बाट 2021-05-19 01:00:30 मा मिस्ड कल आएको छ&quot; जहाँ नम्बरले कतिचोटी मिस्ड कल आयो भनेर जनाउछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_crbt_info">
+        &lt;b&gt;कलर रिङ ब्याक टोन बारे&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;यस सेवाले बोरिङ रिङ्ब्याक टोनलाई हटाइ हिट गीतहरू र संवादहरू राख्छ।&lt;/li&gt;
+             &lt;li&gt;प्रख्यात गीतहरूको CRBT कोड प्राप्त गर्न 1455 मा \"top\" लेखि पठाउनुहोस्।&lt;li&gt;
+             &lt;li&gt;कलर ट्युन सदस्यता शुल्क र.५ साप्ताहिक र रु. २० मासिक रहेको छ।&lt;/li&gt;
+             &lt;li&gt;टोन शुल्क: रु. २.५ साप्ताहिक र रु. १० मासिक रहेको छ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_tv_mcn_txt">
+       मिस्ड कल नोटिफ़िकेसन
+    </string>
+
+    <string name="ntc_tv_fnf_info"><![CDATA[फ्रेन्ड्स एंड फेमिली]]></string>
+
+    <string name="ncell_prbt_info">
+    &lt;b&gt;PRBT सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यसले बोरिङ कलब्याक टोनलाई हटाइ तपाईँको मनपर्ने संगीत वा धुन राख्छ।&lt;/li&gt;
+         &lt;li&gt;PRBT सेवा शुल्क: रु. १० मासिक&lt;/li&gt;
+         &lt;li&gt;PRBT टोन शुल्क: रु. १० मासिक&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_low_balance_call_info">
+        &lt;b&gt;कम ब्यालेन्स कलको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यो कम ब्यालेन्स वा शून्य ब्यालेन्स भएको प्रयोगकर्ताको लागि लक्षित गरिएको कल सेवा हो।&lt;/li&gt;
+         &lt;li&gt;एस सेवा प्रयोग गरि कल गर्दा कल उठाउने व्यक्तिको ब्यालेन्स काटिनेछ।&lt;/li&gt;
+         &lt;li&gt;रकल उठाउने व्यक्तिले भ्वाइस सन्देश सुन्नुहुन्छ र कल स्वीकार गर्न १ थिच्नु पर्छ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_transfer_balance_info">
+        &lt;b&gt;ब्यालेन्स ट्रान्सफरको बारेमा&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;तपाईंले रु.१० देखि रु. २०० सम्म  ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+        &lt;li&gt;तपाईँ एउटा नेटवर्कबाट अर्कोमा ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्न।&lt;/li&gt;
+        &lt;li&gt;ब्यालेन्स ट्रान्सफरको लागि सेवा शुल्क रु. एनसेलमा १ (कर बाहेक)रहेको छ।&lt;/li&gt;
+        &lt;li&gt;तपाईंले दिनमा ३ पटकसम्म मात्र ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+         &lt;li&gt;ब्यालेन्स ट्रान्सफर गर्दा ब्यालेन्सको भ्यालिडिटि बढ्दैन ।&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_sapati_info">
+        &lt;b&gt;एन्सेल सापटी सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;मुख्य ब्यालेन्स रु.५ भन्दा कम हुनुपर्छ।&lt;/li&gt;
+             &lt;li&gt;शुल्क: सापटी रकम (रु. 40) + रु. २ (कर बाहेक)&lt;/li&gt;
+             &lt;li&gt;सब्सक्राइबरले 15 दिन भन्दा बढी सिम प्रयोग गरेको हुनुपर्छ।&lt;/li&gt;
+             &lt;li&gt;यस सेवा लिन पूरानो सापटी चुक्ता गरिएको हुनुपर्दछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_my5_info">
+         &lt;b&gt;MY5 सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यो सेवा प्रयोग गरि तपाइले ५ फरक एनसेल नम्बरहरूमा छुट मूल्यमा कुरा गर्न सक्नुहुन्छ।&lt;/li&gt;
+         &lt;li&gt;शुल्क: 99 पैसा/मिनेट (रु. 1.29/मिनेट कर सहित)&lt;/li&gt;
+         &lt;li&gt;शुल्क: रु. २५.५४/महिना&lt;/li&gt;
+         &lt;li&gt;एक महिनाको परीक्षणको लागि, 5588 डायल गर्नुहोस्।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_mcn_info">
+        &lt;b&gt;मिस्ड कल नोटिफ़िकेसनको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यस सेवा सुरु गर्न कुनै शुल्क लाग्दैन।&lt;/li&gt;
+         &lt;li&gt;तपाईंले नेटवर्क कभरेज बाहिर हुँदा, फ्लाइट मोडमा राख्दा अथवा फोन बन्द हुँदा छुटेका कलहरूको बारेमा SMS प्राप्त गर्नुहुनेछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="smart_balance_transfer_info">
+        &lt;b&gt;ब्यालेन्स ट्रान्सफरको बारेमा&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;SmartCell मा समय वा ब्यालेन्स ट्रान्सफरको मात्राको कुनै सीमा छैन।&lt;/li&gt;
+        &lt;li&gt;तपाईँ एउटा नेटवर्कबाट अर्कोमा ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्न।&lt;/li&gt;
+        &lt;li&gt;स्मार्टसेलमा ब्यालेन्स ट्रान्सफरको सेवा नि:शुल्क छ।&lt;/li&gt;
+        &lt;li&gt;ब्यालेन्स ट्रान्सफर गर्दा ब्यालेन्सको भ्यालिडिटि बढ्दैन ।&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_loan_info">
+        &lt;b&gt;स्मार्ट लोनको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;मुख्य ब्यालेन्स रु. १ बराबर वा कम हुनुपर्छ।&lt;/li&gt;
+             &lt;li&gt;सेवा शुल्क: रु. २ (कर बाहेक)&lt;/li&gt;
+             &lt;li&gt;सब्सक्राइबरले सिम ३ महिनाभन्दा बढी प्रयोग गरेको हुनुपर्छ।&lt;/li&gt;
+            &lt;li&gt;यस सेवा लिन पूरानो सापटी चुक्ता गरिएको हुनुपर्दछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="smart_mca_info">
+        &lt;b&gt;मिस्ड कल अलर्टको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;सेवा शुल्क: रु. ६ (कर बाहेक)&lt;/li&gt;
+         &lt;li&gt;तपाईंलाई कल गर्ने फोन नम्बर र सोही नम्बरबाट कति चोटी कल प्रयास गरियो त्यो सहितको SMS प्राप्त गर्नुहुनेछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="smart_crbt_info">
+         &lt;b&gt;CRBT सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यसले बोरिङ कलब्याक टोनलाई हटाइ तपाईँको मनपर्ने संगीत वा धुन राख्छ।&lt;/li&gt;
+         &lt;li&gt;सेवा शुल्क: रु. १२.७७ मासिक&lt;/li&gt;
+         &lt;li&gt;टोन शुल्क: रु. १२.७७ मासिक&lt;/li&gt;
+         &lt;li&gt;सेवा र ट्र्याक दुवै प्रत्येक महिना स्वत: नवीकरण हुनेछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+    <string name="greeting_txt">नमस्ते, %s</string>
+    <string name="restart_txt">एपको सम्पूर्ण भागको भाषा परिवर्तनका लागि एप पुनः सुचारु गर्नुहोला।</string>
+    <string name="invalid_song_code_txt">कृपया गीत कोड फिल्ड खाली नछोड्नुहोस्!</string>
+    <string name="okay_txt">ओके</string>
+    <string name="different_name_dialog_title">फरक नाम भेटियो !</string>
+    <string name="different_name_dialog_msg">नेपाल दूरसञ्चार प्राधिकरणले सबैलाई आफ्नो नाममा सिम दर्ता गर्न अनुरोध गरेको छ । त्यो परिवर्तन गर्नको लागि आवश्यक कागजातहरू सहित नजिकैको %s शाखाहरूमा जानुहोस्। थप जानकारीको लागि यो लिङ्क क्लिक गर्नुहोस्: https://www.gadgetbytenepal.com/how-to-change-sim-card-ownership/">GadgetByte</string>
+    <string name="without_permission_txt">बेवास्ता गर्नुहोस्</string>
+    <string name="tv_loading_txt">लोड गर्दै</string>
+    <string name="tv_loading_txt_alt">रद्द गर्दै</string>
+    <string name="btn_cancel_txt">लोडिङ रद्द गर्नुहोस्</string>
+    <string name="ussd_response_cancelled_alt">अर्को काम भइरहेको छ। कृपया पर्खनुहोस्!</string>
+    <string name="ussd_response_failed_lack_permission">Overlay र Accessibility अनुमति प्रदान गरिएको छैन!</string>
+    <string name="dialog_accessibility_title">Accessibility सेवा सुरु भएको छैन!</string>
+    <string name="dialog_accessibility_msg">तपाईंले यो सुविधा प्रयोग गर्न Accessibility service सुरु गर्नुपर्छ।</string>
+    <string name="dialog_overlay_title">Overlay देखाउनका अनुमति प्रदान गरिएको छैन</string>
+    <string name="dialog_positive_btn_txt">ठिक छ</string>
+    <string name="dialog_overlay_msg">USSD रेस्पोन्स डायलगमा overlay देखाउन चाहनुहुन्छ भने एपलाई overlay permission दिनुपर्छ। यदि तपाइँ overlay हरू चाहनुहुन्न भने तपाइँ सेटिङबाट यसलाई बन्द गर्न सक्नुहुन्छ। तपाईको सुविधाको लागि, यदि तपाईले ignore बटन क्लिक गर्नुभयो भने, यो स्वचालित रूपमा बन्द हुनेछ।</string>
+    <string name="phone_permission_failed">Read Phone State अनुमति दिइएको छैन!</string>
+    <string name="tv_warning_txt">नोट: यो overlay 10 सेकेन्डमा स्वचालित रूपमा बन्द हुनेछ।</string>
 </resources>

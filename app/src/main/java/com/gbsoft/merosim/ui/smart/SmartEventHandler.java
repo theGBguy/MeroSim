@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.smart;
@@ -21,17 +22,18 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
-import com.gbsoft.merosim.data.SmartCell;
+import com.gbsoft.merosim.model.SmartCell;
+import com.gbsoft.merosim.telephony.TelephonyUtils;
+import com.gbsoft.merosim.telephony.UssdResponseCallback;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.SnackUtils;
-import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 
 import java.util.Locale;
 
+// handles almost all event generated in the smart details fragment screen
 public class SmartEventHandler extends UssdResponseCallback {
     private final Context context;
     private final SmartDetailViewModel vm;
@@ -46,15 +48,19 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequest(SmartCell.USSD_SELF, true);
+        makeUSSDRequest(SmartCell.USSD_SELF, vm.shouldUseOverlay());
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequest(SmartCell.USSD_BALANCE, true);
+        makeUSSDRequest(SmartCell.USSD_BALANCE, vm.shouldUseOverlay());
     }
 
     public void onSimOwnerRefreshClick(View view) {
         SnackUtils.showMessage(view, R.string.smart_sim_owner_text);
+    }
+
+    public void onTakePacksClick(View view) {
+        makeUSSDRequest(SmartCell.USSD_PACKS, false);
     }
 
     public void onCustomerCareClick(View view) {

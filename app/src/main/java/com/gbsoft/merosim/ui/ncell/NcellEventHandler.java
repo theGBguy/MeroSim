@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.ncell;
@@ -21,16 +22,18 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
-import com.gbsoft.merosim.data.Ncell;
+import com.gbsoft.merosim.model.Ncell;
+import com.gbsoft.merosim.model.Sim;
+import com.gbsoft.merosim.telephony.TelephonyUtils;
+import com.gbsoft.merosim.telephony.UssdResponseCallback;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
-import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 
 import java.util.Locale;
 
+// Handles most events generated in Ncell detail fragment screen
 public class NcellEventHandler extends UssdResponseCallback {
     private final Context context;
     private final NcellDetailViewModel vm;
@@ -45,7 +48,7 @@ public class NcellEventHandler extends UssdResponseCallback {
     }
 
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequest(Ncell.USSD_SELF, true);
+        makeUSSDRequest(Ncell.USSD_SELF, vm.shouldUseOverlay());
     }
 
     public void onBalanceRefreshClick(View view) {
@@ -54,6 +57,18 @@ public class NcellEventHandler extends UssdResponseCallback {
 
     public void onSimOwnerRefreshClick(View view) {
         makeUSSDRequest(Ncell.USSD_SIM_OWNER, true);
+    }
+
+    public void onTakeDataPackClick(View view) {
+        makeUSSDRequest(Ncell.USSD_DATA, false);
+    }
+
+    public void onTakeVoicePackClick(View view) {
+        makeUSSDRequest(Ncell.USSD_VOICE, false);
+    }
+
+    public void onTakeSmsPackClick(View view) {
+        makeUSSDRequest(Ncell.USSD_SMS, false);
     }
 
     public void onCustomerCareClick(View view) {
@@ -180,6 +195,9 @@ public class NcellEventHandler extends UssdResponseCallback {
                 break;
             case Ncell.USSD_SIM_OWNER:
                 vm.setSimOwner(TelephonyUtils.getSimOwnerText(response.toString()));
+                if (vm.isUserNameDifferent()) {
+                    Utils.showDifferentNameDialog(context, Sim.NCELL);
+                }
                 break;
             case Ncell.USSD_BALANCE_TRANSFER:
                 vm.setSnackMsg(R.string.balance_transfer_snack_msg);

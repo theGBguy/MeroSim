@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.recharge;
@@ -29,21 +30,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.MeroSimApp;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentRechargeBinding;
+import com.gbsoft.merosim.telephony.TelephonyUtils;
+import com.gbsoft.merosim.telephony.UssdResponseCallback;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.ui.recharge.steps.PinConfirmStep;
 import com.gbsoft.merosim.ui.recharge.steps.PinScanStep;
 import com.gbsoft.merosim.ui.recharge.steps.SimChooseStep;
 import com.gbsoft.merosim.utils.PermissionUtils;
 import com.gbsoft.merosim.utils.SnackUtils;
-import com.gbsoft.merosim.utils.TelephonyUtils;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import ernestoyaquello.com.verticalstepperform.Step;
 import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 
+// This fragment displays a stepper view to assist users
+// in the balance recharge process.
 public class RechargeFragment extends Fragment implements StepperFormListener {
     private FragmentRechargeBinding binding;
     private RechargeViewModel model;
@@ -72,12 +77,12 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
         model = new ViewModelProvider(this).get(RechargeViewModel.class);
 
+        // create instances of all the steps for the stepper view
         SimChooseStep simChooseStep = new SimChooseStep(
                 model,
                 requireContext().getString(R.string.choose_carrier_text),
                 requireContext().getString(R.string.next_button_text)
         );
-
         PinScanStep pinScanStep = new PinScanStep(
                 model,
                 requireContext().getString(R.string.scan_pin_text),
@@ -85,16 +90,21 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
                 getViewLifecycleOwner(),
                 ((MeroSimApp) requireActivity().getApplication()).getExecutor()
         );
-
         PinConfirmStep pinConfirmStep = new PinConfirmStep(
                 model,
                 requireContext().getString(R.string.confirm_details_text),
                 requireContext().getString(R.string.recharge_button_text)
         );
 
+        // initializes the stepper view
         binding.stepperForm.setup(this, simChooseStep, pinScanStep, pinConfirmStep)
                 .init();
 
+        // loads the recharger banner ads
+        binding.adViewRecharge.loadAd(new AdRequest.Builder().build());
+
+        // request camera related permission which is essential to
+        // perform text scan
         handlePermission(Manifest.permission.CAMERA, getString(R.string.perm_camera_msg), permissionLauncher);
     }
 
@@ -125,6 +135,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
     @Override
     public void onCompletedForm() {
+        // initiates the USSD request for recharge when form is completed
         if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.CALL_PHONE)) {
             TelephonyUtils.getInstance(requireContext()).sendUssdRequest(
                     model.getRechargeUSSDRequest(),
@@ -140,6 +151,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
         }
     }
 
+    // callback to handle USSD request's response
     private final UssdResponseCallback callback = new UssdResponseCallback() {
         @Override
         public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
@@ -160,5 +172,15 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
     @Override
     public void onCancelledForm() {
+    }
+
+    @Override
+    public void onStepAdded(int index, Step<?> addedStep) {
+
+    }
+
+    @Override
+    public void onStepRemoved(int index) {
+
     }
 }

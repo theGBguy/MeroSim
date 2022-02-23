@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/22
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/26
  */
 
 package com.gbsoft.merosim.ui.recharge.steps;
@@ -38,6 +39,7 @@ import androidx.camera.core.SurfaceOrientedMeteringPointFactory;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -59,7 +61,9 @@ import java.util.concurrent.ExecutorService;
 
 import ernestoyaquello.com.verticalstepperform.Step;
 
+// represents pin scan step of the stepper view
 public class PinScanStep extends Step<String> implements OnTextRecognizedListener, View.OnClickListener, View.OnTouchListener {
+    // constants to represent different state of pin scan step
     final int STATE_LOADING = 1;
     final int STATE_PREVIEW = 2;
     final int STATE_CAPTURED = 3;
@@ -73,6 +77,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
     private final LifecycleOwner lifecycleOwner;
     private final ExecutorService executor;
 
+    // state to hold the current state of this step
     private final MutableLiveData<Integer> state = new MutableLiveData<>();
     private final Observer<Integer> stateObserver = state -> {
         if (state == null) return;
@@ -112,7 +117,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         binding.groupPreview.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    private void showHidePreview(boolean show){
+    private void showHidePreview(boolean show) {
         binding.groupPreview.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
@@ -140,7 +145,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
     public String getStepDataAsHumanReadableString() {
         String pinCode = getStepData();
         if (LocaleUtils.isNepali(getContext()))
-            pinCode = LocaleUtils.getPinCodeInNepaliDigit(pinCode);
+            pinCode = LocaleUtils.getNumberInNepaliDigit(pinCode);
         return pinCode.isEmpty() ? getContext().getString(R.string.empty_pin_text) : pinCode;
     }
 
@@ -164,6 +169,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         return binding.getRoot();
     }
 
+    // handles different click events
     @ExperimentalGetImage
     @Override
     public void onClick(View v) {
@@ -177,6 +183,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         }
     }
 
+    // toggles the flash
     private void toggleFlash(boolean withMsg) {
         boolean toggled = !model.isFlashEnabled();
         toggleIconAndText(toggled);
@@ -188,6 +195,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         }
     }
 
+    // takes pic and scans the text in order to identify the recharge pin
     @ExperimentalGetImage
     private void takePic() {
         File output = getTempImageFile();
@@ -225,6 +233,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         });
     }
 
+    // generates temporary file name
     private File getTempImageFile() {
         File temp = null;
         try {
@@ -253,6 +262,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
                 case MotionEvent.ACTION_DOWN:
                     return true;
                 case MotionEvent.ACTION_UP:
+                    // focuses the camera on click
                     MeteringPointFactory factory = new SurfaceOrientedMeteringPointFactory(
                             (float) binding.preview.getWidth(), (float) binding.preview.getHeight()
                     );
@@ -270,6 +280,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         return true;
     }
 
+    // starts or stop the camera preview appropriately
     private void startStopCamera(boolean start) {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(getContext());
         cameraProviderFuture.addListener(() -> {
@@ -303,9 +314,15 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
 
     @Override
     protected void onStepOpened(boolean animated) {
+        state.observe(lifecycleOwner, stateObserver);
         state.setValue(STATE_LOADING);
-        binding.preview.postDelayed(() -> initStep(true), 2000);
-        state.observeForever(stateObserver);
+        // prevents crash when the camera preview is starting but
+        // the fragment is paused or destroyed
+        binding.preview.postDelayed(() -> {
+            if (lifecycleOwner.getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.RESUMED)) {
+                initStep(true);
+            }
+        }, 2000);
         SnackUtils.showMessage(getContentLayout(), R.string.tap_to_preview_text);
     }
 

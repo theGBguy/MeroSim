@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright 2021 Chiranjeevi Pandey Some rights reserved.
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2021/11/08
+  ~
+  ~ Licensed under GNU General Public License v3.0;
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
-  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
   ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
-  ~
-  ~ Last modified: 2021/10/25
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -199,6 +200,51 @@
                     tools:text="Rs. 100" />
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ncell_btn_take_data_packs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="@{eventhandler::onTakeDataPackClick}"
+                    android:text="@string/btn_take_data_packs_txt"
+                    app:icon="@drawable/ic_web_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ncell_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ncell_tv_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_hint"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ncell_btn_take_voice_packs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="@{eventhandler::onTakeVoicePackClick}"
+                    android:text="@string/btn_take_voice_packs_txt"
+                    app:icon="@drawable/ic_mic_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ncell_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ncell_tv_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/ncell_btn_take_data_packs"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ncell_btn_take_sms_packs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="@{eventhandler::onTakeSmsPackClick}"
+                    android:text="@string/btn_take_sms_packs_txt"
+                    app:icon="@drawable/ic_sms_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ncell_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ncell_tv_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/ncell_btn_take_voice_packs"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/ncell_btn_call_customer_care"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -210,7 +256,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/ncell_tv_sim_owner"
                     app:layout_constraintStart_toStartOf="@+id/ncell_tv_sim_balance"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_hint"
+                    app:layout_constraintTop_toBottomOf="@+id/ncell_btn_take_sms_packs"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <androidx.constraintlayout.widget.Guideline

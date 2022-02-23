@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/22
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.home;
@@ -34,16 +35,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentHomeBinding;
 import com.gbsoft.merosim.utils.PermissionUtils;
-import com.gbsoft.merosim.utils.TelephonyUtils;
+import com.gbsoft.merosim.utils.Utils;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+/*
+ * This fragment shows the list of sim cards installed
+ * in the device.
+ */
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel viewModel;
 
     private SimRecyclerAdapter adapter;
+    // observer to observe whether the recycler view has
+    // empty data set
     private RecyclerViewEmptyObserver simListObv;
 
+    // request read phone state permission and query sim details
+    // when granted
     private final ActivityResultLauncher<String> readPhoneStatePermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(),
                     isGranted -> viewModel.querySimCardDetails());
@@ -71,7 +82,20 @@ public class HomeFragment extends Fragment {
 
         adapter.registerAdapterDataObserver(simListObv);
 
+        // loads the banner ads
+        binding.adViewHome.loadAd(new AdRequest.Builder().build());
+
+        // asks user name on the first usage of the app
+        askUserNameIfRequired();
+
+        // request phone state permission if required
         handleReadPhoneStatePermission();
+    }
+
+    private void askUserNameIfRequired() {
+        if (viewModel.shouldAskUserName()) {
+            Utils.askUserName(requireContext());
+        }
     }
 
     private void handleReadPhoneStatePermission() {
@@ -95,10 +119,23 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onPause() {
+        binding.adViewHome.pause();
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.adViewHome.resume();
+    }
+
+    @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        binding.adViewHome.destroy();
         adapter.unregisterAdapterDataObserver(simListObv);
         viewModel = null;
         binding = null;
+        super.onDestroyView();
     }
 }

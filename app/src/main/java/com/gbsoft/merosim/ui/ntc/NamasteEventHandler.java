@@ -1,16 +1,17 @@
 /*
- * Copyright 2021 Chiranjeevi Pandey Some rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
+ * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Copyright (c) 2022. Some rights reserved.
+ * Last modified: 2022/02/23
+ *
+ * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.gnu.org/licenses/gpl-3.0.en.html
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Last modified: 2021/10/28
  */
 
 package com.gbsoft.merosim.ui.ntc;
@@ -22,19 +23,20 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.gbsoft.easyussd.UssdResponseCallback;
 import com.gbsoft.merosim.R;
-import com.gbsoft.merosim.data.Namaste;
-import com.gbsoft.merosim.data.Sim;
+import com.gbsoft.merosim.model.Namaste;
+import com.gbsoft.merosim.model.Sim;
+import com.gbsoft.merosim.telephony.TelephonyUtils;
+import com.gbsoft.merosim.telephony.UssdResponseCallback;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.SnackUtils;
-import com.gbsoft.merosim.utils.TelephonyUtils;
 import com.gbsoft.merosim.utils.Utils;
 import com.gbsoft.merosim.utils.Validator;
 
 import java.util.Locale;
 
+// handles most of the events generated in Namaste details fragment screen
 public class NamasteEventHandler extends UssdResponseCallback {
     private final Context context;
     private final NamasteDetailViewModel vm;
@@ -49,15 +51,19 @@ public class NamasteEventHandler extends UssdResponseCallback {
     }
 
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequest(Namaste.USSD_SELF, true);
+        makeUSSDRequest(Namaste.USSD_SELF, vm.shouldUseOverlay());
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequest(Namaste.USSD_BALANCE, true);
+        makeUSSDRequest(Namaste.USSD_BALANCE, vm.shouldUseOverlay());
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        makeUSSDRequest(Namaste.USSD_SIM_OWNER, true);
+        makeUSSDRequest(Namaste.USSD_SIM_OWNER, vm.shouldUseOverlay());
+    }
+
+    public void onTakePacksClick(View view) {
+        makeUSSDRequest(Namaste.USSD_PACKS, false);
     }
 
     public void onCustomerCareClick(View view) {
@@ -85,6 +91,7 @@ public class NamasteEventHandler extends UssdResponseCallback {
     }
 
     public void onBalanceTransferClick(View view) {
+        // checks if the data entered is valid
         if (vm.isTransferDataInvalid()) return;
         makeUSSDRequest(String.format(Locale.getDefault(), Namaste.USSD_BALANCE_TRANSFER,
                 vm.securityCode.getValue(), vm.recipient.getValue(), vm.amount.getValue()), false);
@@ -191,6 +198,9 @@ public class NamasteEventHandler extends UssdResponseCallback {
                 break;
             case Namaste.USSD_SIM_OWNER:
                 vm.setSimOwner(TelephonyUtils.getSimOwnerText(response.toString()));
+                if (vm.isUserNameDifferent()) {
+                    Utils.showDifferentNameDialog(context, Sim.NAMASTE);
+                }
                 break;
             case Namaste.USSD_BALANCE_TRANSFER:
                 vm.setSnackMsg(R.string.balance_transfer_snack_msg);
