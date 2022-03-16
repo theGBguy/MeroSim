@@ -20,6 +20,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.gbsoft.merosim.ui.smart.SmartDetailViewModel" />
@@ -32,8 +34,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:theme="@style/Theme.MeroSim.Sim.SmartCell"
-        tools:context=".ui.smart.smartDetailFragment">
+        tools:context=".ui.main.smart.smartDetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,9 +60,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onLoanInfoClick}"
                     android:text="@string/smart_tv_loan_txt"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24" />
 
                 <com.google.android.material.button.MaterialButton
@@ -90,9 +94,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onMCAInfoClick}"
                     android:text="@string/tv_mca_txt"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -148,10 +153,11 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:drawablePadding="4dp"
                     android:onClick="@{eventhandler::onBalanceTransferInfoClick}"
                     android:text="@string/tv_transfer_balance_txt"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -166,9 +172,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:hint="@string/tiet_recipient_hint"
                     app:endIconDrawable="@drawable/ic_round_contacts_24"
                     app:endIconMode="custom"
-                    app:errorRes="@{safeUnbox(vm.errorRecipient)}"
+                    app:errorText="@{safeUnbox(vm.errorRecipient)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/smart_tv_transfer_balance">
@@ -178,7 +185,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/tiet_recipient_hint"
                         android:inputType="number"
                         android:text="@={vm.recipient}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -191,6 +197,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:hint="@string/tiet_amount_hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/smart_til_recipient">
@@ -200,7 +207,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/tiet_amount_hint"
                         android:inputType="number"
                         android:text="@={vm.amount}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -233,19 +239,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/smart_tv_warning"
+                    style="@style/CustomMaterialTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:onClick="@{eventhandler::onTurnOnIntuitiveModeClick}"
+                    android:padding="8dp"
+                    android:text="@string/tv_intuitive_warning_txt"
+                    android:visibility="@{vm.isIntuitiveModeOn() ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_sim_owner"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_sim_owner"
-                    app:layout_constraintStart_toStartOf="@+id/tv_sim_owner"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/smart_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/smart_tv_sim_owner"
+                    app:layout_constraintTop_toBottomOf="@id/smart_tv_warning"
                     app:srcCompat="@drawable/ic_round_person_24"
                     app:tint="?colorPrimary" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/tv_sim_owner"
+                <com.gbsoft.merosim.ui.CustomMaterialButton
+                    android:id="@+id/smart_tv_sim_owner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -258,8 +278,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/iv_sim_owner"
                     tools:text="Unavailable" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/tv_phone"
+                <com.gbsoft.merosim.ui.CustomMaterialButton
+                    android:id="@+id/smart_btn_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -273,17 +293,17 @@
                     app:layout_constraintTop_toTopOf="@+id/iv_sim_owner"
                     tools:text="9886090252" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/tv_sim_balance"
+                <com.gbsoft.merosim.ui.CustomMaterialButton
+                    android:id="@+id/smart_btn_sim_balance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:onClick="@{eventhandler::onBalanceRefreshClick}"
                     android:text="@{vm.balance}"
                     app:icon="@drawable/ic_nepali_rupee"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_phone"
-                    app:layout_constraintStart_toStartOf="@+id/tv_phone"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_phone"
+                    app:layout_constraintEnd_toEndOf="@+id/smart_btn_phone"
+                    app:layout_constraintStart_toStartOf="@+id/smart_btn_phone"
+                    app:layout_constraintTop_toBottomOf="@+id/smart_btn_phone"
                     tools:text="Rs. 100" />
 
                 <com.google.android.material.button.MaterialButton
@@ -296,8 +316,8 @@
                     android:text="@string/btn_take_packs_txt"
                     app:icon="@drawable/ic_signal_cellular_black_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_sim_owner"
-                    app:layout_constraintStart_toStartOf="@+id/tv_sim_balance"
+                    app:layout_constraintEnd_toEndOf="@+id/smart_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/smart_btn_sim_balance"
                     app:layout_constraintTop_toBottomOf="@+id/tv_hint"
                     app:layout_constraintVertical_bias="0.0" />
 
@@ -311,8 +331,8 @@
                     android:text="@string/btn_call_customer_care_txt"
                     app:icon="@drawable/ic_round_support_agent_24"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_sim_owner"
-                    app:layout_constraintStart_toStartOf="@+id/tv_sim_balance"
+                    app:layout_constraintEnd_toEndOf="@+id/smart_tv_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/smart_btn_sim_balance"
                     app:layout_constraintTop_toBottomOf="@+id/smart_btn_take_packs"
                     app:layout_constraintVertical_bias="0.0" />
 
@@ -327,12 +347,13 @@
                     android:id="@+id/tv_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_thin"
                     android:text="@string/tv_hint_txt"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_sim_owner"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    app:layout_constraintEnd_toEndOf="@+id/smart_tv_sim_owner"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/tv_sim_balance"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_sim_balance" />
+                    app:layout_constraintStart_toStartOf="@+id/smart_btn_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/smart_btn_sim_balance" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -356,9 +377,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onCRBTInfoClick}"
                     android:text="@string/ntc_tv_crbt_info"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

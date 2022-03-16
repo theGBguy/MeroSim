@@ -21,6 +21,7 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.model.Ncell;
@@ -47,16 +48,24 @@ public class NcellEventHandler extends UssdResponseCallback {
         this.telephonyUtils = TelephonyUtils.getInstance(context);
     }
 
+    public void onTurnOnIntuitiveModeClick(View view) {
+        Context context = view.getContext();
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putBoolean(context.getString(R.string.key_intuitive), true)
+                .apply();
+    }
+
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequest(Ncell.USSD_SELF, vm.shouldUseOverlay());
+        makeUSSDRequest(Ncell.USSD_SELF, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequest(Ncell.USSD_BALANCE, true);
+        makeUSSDRequest(Ncell.USSD_BALANCE, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        makeUSSDRequest(Ncell.USSD_SIM_OWNER, true);
+        makeUSSDRequest(Ncell.USSD_SIM_OWNER, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onTakeDataPackClick(View view) {
@@ -194,9 +203,10 @@ public class NcellEventHandler extends UssdResponseCallback {
                 vm.setBalance(TelephonyUtils.getBalanceText(response.toString()));
                 break;
             case Ncell.USSD_SIM_OWNER:
-                vm.setSimOwner(TelephonyUtils.getSimOwnerText(response.toString()));
+                String simOwner = TelephonyUtils.getSimOwnerText(response.toString());
+                vm.setSimOwner(simOwner);
                 if (vm.isUserNameDifferent()) {
-                    Utils.showDifferentNameDialog(context, Sim.NCELL);
+                    Utils.showDifferentNameDialog(context, vm.getUserName(), simOwner, Sim.NCELL);
                 }
                 break;
             case Ncell.USSD_BALANCE_TRANSFER:

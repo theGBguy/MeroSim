@@ -21,6 +21,7 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.model.SmartCell;
@@ -47,12 +48,20 @@ public class SmartEventHandler extends UssdResponseCallback {
         this.telephonyUtils = TelephonyUtils.getInstance(context);
     }
 
+    public void onTurnOnIntuitiveModeClick(View view) {
+        Context context = view.getContext();
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putBoolean(context.getString(R.string.key_intuitive), true)
+                .apply();
+    }
+
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequest(SmartCell.USSD_SELF, vm.shouldUseOverlay());
+        makeUSSDRequest(SmartCell.USSD_SELF, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequest(SmartCell.USSD_BALANCE, vm.shouldUseOverlay());
+        makeUSSDRequest(SmartCell.USSD_BALANCE, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onSimOwnerRefreshClick(View view) {
@@ -84,7 +93,7 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onBalanceTransferClick(View view) {
-        if (vm.isDataInvalid()) return;
+        if (vm.isTransferDataInvalid()) return;
         makeUSSDRequest(String.format(Locale.getDefault(), SmartCell.USSD_BALANCE_TRANSFER,
                 vm.recipient.getValue(), vm.amount.getValue()), false);
     }

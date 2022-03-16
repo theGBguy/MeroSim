@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/10/22, 7:12 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/10
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+     <string name="smart_balance_transfer_info">
+        &lt;b&gt;ब्यालेन्स ट्रान्सफरको बारेमा&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;SmartCell मा समय वा ब्यालेन्स ट्रान्सफरको मात्राको कुनै सीमा छैन।&lt;/li&gt;
+        &lt;li&gt;तपाईँ एउटा नेटवर्कबाट अर्कोमा ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्न।&lt;/li&gt;
+        &lt;li&gt;स्मार्टसेलमा ब्यालेन्स ट्रान्सफरको सेवा नि:शुल्क छ।&lt;/li&gt;
+        &lt;li&gt;ब्यालेन्स ट्रान्सफर गर्दा ब्यालेन्सको भ्यालिडिटि बढ्दैन ।&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_loan_info">
+        &lt;b&gt;स्मार्ट लोनको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;मुख्य ब्यालेन्स रु. १ बराबर वा कम हुनुपर्छ।&lt;/li&gt;
+             &lt;li&gt;सेवा शुल्क: रु. २ (कर बाहेक)&lt;/li&gt;
+             &lt;li&gt;सब्सक्राइबरले सिम ३ महिनाभन्दा बढी प्रयोग गरेको हुनुपर्छ।&lt;/li&gt;
+            &lt;li&gt;यस सेवा लिन पूरानो सापटी चुक्ता गरिएको हुनुपर्दछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="smart_mca_info">
+        &lt;b&gt;मिस्ड कल अलर्टको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;सेवा शुल्क: रु. ६ (कर बाहेक)&lt;/li&gt;
+         &lt;li&gt;तपाईंलाई कल गर्ने फोन नम्बर र सोही नम्बरबाट कति चोटी कल प्रयास गरियो त्यो सहितको SMS प्राप्त गर्नुहुनेछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="smart_crbt_info">
+         &lt;b&gt;CRBT सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यसले बोरिङ कलब्याक टोनलाई हटाइ तपाईँको मनपर्ने संगीत वा धुन राख्छ।&lt;/li&gt;
+         &lt;li&gt;सेवा शुल्क: रु. १२.७७ मासिक&lt;/li&gt;
+         &lt;li&gt;टोन शुल्क: रु. १२.७७ मासिक&lt;/li&gt;
+         &lt;li&gt;सेवा र ट्र्याक दुवै प्रत्येक महिना स्वत: नवीकरण हुनेछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="smart_sim_owner_text">स्मार्ट सेलले सिम मालिकको जानकारी प्रदान गर्दैन।</string>
+
+    <string name="smart_error_recipient">कृपया प्रापकको १० अंकको स्मार्टसेल फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="smart_error_amount">कृपया सहि ब्यालेन्स रकम राख्नुहोस।</string>
+
+    <string name="smart_tv_loan_txt">सापटी</string>
+    <string name="smart_btn_take_loan_txt">सापटी लिनुहोस्</string>
+
+</resources>

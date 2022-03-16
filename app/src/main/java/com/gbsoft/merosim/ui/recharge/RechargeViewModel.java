@@ -28,6 +28,7 @@ import com.gbsoft.merosim.MeroSimApp;
 import com.gbsoft.merosim.data_source.Repository;
 import com.gbsoft.merosim.data_source.Result;
 import com.gbsoft.merosim.model.Sim;
+import com.gbsoft.merosim.telephony.TelephonyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,11 +81,11 @@ public class RechargeViewModel extends AndroidViewModel {
     }
 
     public String getRechargeUSSDRequest() {
-        return repo.getRechargeUSSDRequest(simChooseData, pinScanData);
+        return TelephonyUtils.getRechargeUssdRequest(simChooseData, pinScanData);
     }
 
     public int getSimSlotIndex() {
-        return repo.getSimSlotIndex(getAppContext(), simChooseData);
+        return Repository.getSimSlotIndex(getAppContext(), simChooseData);
     }
 
     public void querySimCardDetails() {

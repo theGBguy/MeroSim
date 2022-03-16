@@ -16,20 +16,20 @@
 
 package com.gbsoft.merosim.ui.home;
 
-import android.view.View;
-import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 // Observer for RecyclerView to show empty state if there is empty data set
 public class RecyclerViewEmptyObserver extends RecyclerView.AdapterDataObserver {
     private final RecyclerView recyclerView;
-    private final TextView emptyTextView;
+    private final ViewSwitcher viewSwitcher;
+    private boolean isCurrentlyEmpty = true;
 
-    public RecyclerViewEmptyObserver(RecyclerView recyclerView, TextView emptyTextView) {
+    public RecyclerViewEmptyObserver(RecyclerView recyclerView, ViewSwitcher viewSwitcher) {
         this.recyclerView = recyclerView;
-        this.emptyTextView = emptyTextView;
-        onDataChanged();
+        this.viewSwitcher = viewSwitcher;
+//        onDataChanged();
     }
 
     @Override
@@ -45,7 +45,15 @@ public class RecyclerViewEmptyObserver extends RecyclerView.AdapterDataObserver 
     }
 
     private void setVisibility(boolean isEmpty) {
-        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-        emptyTextView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        // if the current state is same as new state, return early
+        if (isCurrentlyEmpty == isEmpty) {
+            return;
+        }
+        isCurrentlyEmpty = isEmpty;
+        viewSwitcher.reset();
+        if (isEmpty) {
+            return;
+        }
+        viewSwitcher.showNext();
     }
 }

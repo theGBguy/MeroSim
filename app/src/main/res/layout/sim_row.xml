@@ -23,43 +23,78 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:elevation="8dp"
         app:cardCornerRadius="8dp"
         app:contentPadding="8dp"
-        app:rippleColor="@color/white300"
         tools:backgroundTint="@color/color_ntc">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_sim_logo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ntc"
+                tools:tint="@color/color_ntc_tint" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_phone_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:textColor="@color/white300"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
+                android:textColor="?colorOnPrimary"
+                app:drawableStartCompat="@drawable/ic_round_call_24"
+                app:drawableTint="?colorOnPrimary"
+                app:layout_constraintEnd_toEndOf="@+id/iv_sim_logo"
+                app:layout_constraintStart_toStartOf="@+id/iv_sim_logo"
+                app:layout_constraintTop_toBottomOf="@id/iv_sim_logo"
                 tools:text="9843776289" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/white300"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:drawablePadding="8dp"
+                android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
+                android:textColor="?colorOnPrimary"
+                app:drawableStartCompat="@drawable/ic_nepali_rupee"
+                app:drawableTint="?colorOnPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tv_phone_no"
+                app:layout_constraintStart_toStartOf="@+id/tv_phone_no"
                 app:layout_constraintTop_toBottomOf="@id/tv_phone_no"
-                tools:text="Balance : Rs. 40" />
+                tools:text="Rs. 40" />
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/tv_home_hint"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="16dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginEnd="16dp"-->
+            <!--                android:layout_marginBottom="8dp"-->
+            <!--                android:alpha=".7"-->
+            <!--                android:text="@string/tv_home_hint_txt"-->
+            <!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"-->
+            <!--                android:textColor="?colorOnPrimary"-->
+            <!--                android:textSize="11sp"-->
+            <!--                android:textStyle="italic"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_balance" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

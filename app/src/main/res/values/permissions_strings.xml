@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/8/22, 6:10 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/08
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!--    String resources related to permissions     -->
+    <string name="perm_read_phone_state_msg">Read phone state permission is needed to find out the information about the SIM cards inserted in the device.</string>
+    <string name="perm_camera_msg">Camera permission is needed to scan the recharge cards. </string>
+    <string name="perm_call_phone_msg">Call phone permission is needed to send the ussd request in background.</string>
+    <string name="perm_read_contacts_msg">Read contacts permission is needed to find a phone number from your contact list.</string>
+    <string name="perm_send_sms_msg">Send sms permission is needed to send sms to activate/deactivate services.</string>
+
+    <string name="perm_granted_txt">Permission has been granted successfully. You can use the feature now without a hiccup.</string>
+    <string name="perm_not_granted_txt">These permissions are required in order to enhance the functionality of this app.</string>
+
+    <string name="perm_denied_txt">Required permissions are not granted</string>
+    <string name="perm_phone_denied_txt">Read phone state permission is not granted!</string>
+
+    <string name="tv_no_sim_txt">
+        Please ensure that SIM cards are inserted properly and you have granted permission
+        to make and manage phone calls which is required to detect the inserted SIM cards
+    </string>
+    <string name="tv_no_cam_txt">Please grant access to camera to scan the pin code from the recharge card</string>
+
+    <string name="btn_grant_phone_perm_txt">Grant make and manage phone calls permission</string>
+    <string name="btn_grant_cam_perm_txt">Grant Camera Permission</string>
+
+</resources>

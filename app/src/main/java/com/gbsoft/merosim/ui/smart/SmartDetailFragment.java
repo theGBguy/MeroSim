@@ -16,8 +16,10 @@
 
 package com.gbsoft.merosim.ui.smart;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,16 +28,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.gbsoft.merosim.BuildConfig;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentSmartDetailBinding;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
+import com.gbsoft.merosim.ui.MainActivity;
 import com.gbsoft.merosim.utils.EventObserver;
 import com.gbsoft.merosim.utils.SnackUtils;
+import com.gbsoft.merosim.utils.Utils;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 // Fragment to show details of a Smartcell sim card
 public class SmartDetailFragment extends BaseTelecomFragment {
+    private static final String TAG = "SmartDetailFragment";
     private FragmentSmartDetailBinding binding;
     private SmartDetailViewModel viewModel;
+    private InterstitialAd interstitialAd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -61,13 +74,32 @@ public class SmartDetailFragment extends BaseTelecomFragment {
         }));
 
         binding.smartTilRecipient.setEndIconOnClickListener(v -> launchContactPicker());
+
+        InterstitialAd interstitialAd = ((MainActivity) requireActivity()).getInterstitialAd();
+        if (interstitialAd == null) {
+            ((MainActivity) requireActivity()).loadInterstitialAds();
+        } else {
+            interstitialAd.show(requireActivity());
+        }
+
+        ((MainActivity) requireActivity()).showIntro.observe(getViewLifecycleOwner(), shouldShow -> {
+            if (shouldShow) {
+                Utils.showMaterialIntroSequence(requireActivity(), binding.smartBtnPhone, binding.smartBtnSimBalance);
+            }
+        });
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.key_intuitive))) {
+            viewModel.setIntuitiveModeStatus(sharedPreferences.getBoolean(getString(R.string.key_intuitive), true));
+        }
     }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        viewModel = null;
         binding = null;
+        super.onDestroyView();
     }
 
     @Override

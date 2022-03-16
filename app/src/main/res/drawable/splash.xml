@@ -15,7 +15,7 @@
   -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/colorSecondary200" />
+    <item android:drawable="@color/md_theme_light_primaryContainer" />
     <item
         android:width="400dp"
         android:height="400dp"

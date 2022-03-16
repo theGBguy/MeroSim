@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/10/22, 7:11 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/10
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <string name="ncell_transfer_balance_info">
+        &lt;b&gt;ब्यालेन्स ट्रान्सफरको बारेमा&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;तपाईंले रु.१० देखि रु. २०० सम्म  ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+        &lt;li&gt;तपाईँ एउटा नेटवर्कबाट अर्कोमा ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्न।&lt;/li&gt;
+        &lt;li&gt;ब्यालेन्स ट्रान्सफरको लागि सेवा शुल्क रु. एनसेलमा १ (कर बाहेक)रहेको छ।&lt;/li&gt;
+        &lt;li&gt;तपाईंले दिनमा ३ पटकसम्म मात्र ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+         &lt;li&gt;ब्यालेन्स ट्रान्सफर गर्दा ब्यालेन्सको भ्यालिडिटि बढ्दैन ।&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_sapati_info">
+        &lt;b&gt;एन्सेल सापटी सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;मुख्य ब्यालेन्स रु.५ भन्दा कम हुनुपर्छ।&lt;/li&gt;
+             &lt;li&gt;शुल्क: सापटी रकम (रु. 40) + रु. २ (कर बाहेक)&lt;/li&gt;
+             &lt;li&gt;सब्सक्राइबरले 15 दिन भन्दा बढी सिम प्रयोग गरेको हुनुपर्छ।&lt;/li&gt;
+             &lt;li&gt;यस सेवा लिन पूरानो सापटी चुक्ता गरिएको हुनुपर्दछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_my5_info">
+         &lt;b&gt;MY5 सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यो सेवा प्रयोग गरि तपाइले ५ फरक एनसेल नम्बरहरूमा छुट मूल्यमा कुरा गर्न सक्नुहुन्छ।&lt;/li&gt;
+         &lt;li&gt;शुल्क: 99 पैसा/मिनेट (रु. 1.29/मिनेट कर सहित)&lt;/li&gt;
+         &lt;li&gt;शुल्क: रु. २५.५४/महिना&lt;/li&gt;
+         &lt;li&gt;एक महिनाको परीक्षणको लागि, 5588 डायल गर्नुहोस्।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_mcn_info">
+        &lt;b&gt;मिस्ड कल नोटिफ़िकेसनको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यस सेवा सुरु गर्न कुनै शुल्क लाग्दैन।&lt;/li&gt;
+         &lt;li&gt;तपाईंले नेटवर्क कभरेज बाहिर हुँदा, फ्लाइट मोडमा राख्दा अथवा फोन बन्द हुँदा छुटेका कलहरूको बारेमा SMS प्राप्त गर्नुहुनेछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_prbt_info">
+    &lt;b&gt;PRBT सेवाको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यसले बोरिङ कलब्याक टोनलाई हटाइ तपाईँको मनपर्ने संगीत वा धुन राख्छ।&lt;/li&gt;
+         &lt;li&gt;PRBT सेवा शुल्क: रु. १० मासिक&lt;/li&gt;
+         &lt;li&gt;PRBT टोन शुल्क: रु. १० मासिक&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ncell_low_balance_call_info">
+        &lt;b&gt;कम ब्यालेन्स कलको बारेमा&lt;/b&gt;
+         &lt;ul&gt;
+         &lt;li&gt;यो कम ब्यालेन्स वा शून्य ब्यालेन्स भएको प्रयोगकर्ताको लागि लक्षित गरिएको कल सेवा हो।&lt;/li&gt;
+         &lt;li&gt;एस सेवा प्रयोग गरि कल गर्दा कल उठाउने व्यक्तिको ब्यालेन्स काटिनेछ।&lt;/li&gt;
+         &lt;li&gt;रकल उठाउने व्यक्तिले भ्वाइस सन्देश सुन्नुहुन्छ र कल स्वीकार गर्न १ थिच्नु पर्छ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="btn_take_data_packs_txt">डाटा प्याक लिनुहोस्</string>
+    <string name="btn_take_voice_packs_txt">भ्वाइस प्याक लिनुहोस्</string>
+    <string name="btn_take_sms_packs_txt">एसएमएस प्याक लिनुहोस्</string>
+
+    <string name="ncell_error_recipient">कृपया प्राप्तकर्ताको १० अंकको Ncell फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="ncell_error_amount">कृपया १० र २०० बीचको रकम (रुमा) टाइप गर्नुहोस्।</string>
+
+    <string name="ncell_tv_ncell_sapati_txt">एनसेल सापटी</string>
+    <string name="ncell_btn_take_sapati_txt">"सापटी लिनुहोस् "</string>
+
+    <string name="ncell_btn_add_no_txt">नम्बर थप्नुहोस्</string>
+    <string name="ncell_btn_modify_no_txt">नम्बर परिमार्जन गर्नुहोस्</string>
+    <string name="ncell_btn_delete_no_txt">नम्बर हटाउनुहोस्</string>
+    <string name="ncell_btn_query_no_txt">पहिले नै सेवा सुरु भएका फोन नम्बरहरू हेर्नुहोस्</string>
+
+    <string name="ncell_tv_mcn_txt">मिस्ड कल नोटिफ़िकेसन</string>
+
+    <string name="ncell_tv_low_balance_call_txt">लो ब्यालेन्स कल</string>
+    <string name="ncell_tiet_enter_ph_no_hint">फोन नम्बर टाइप गर्नुहोस्</string>
+    <string name="ncell_btn_make_low_balance_call_txt">कम ब्यालेन्समा कल गर्नुहोस्</string>
+
+</resources>

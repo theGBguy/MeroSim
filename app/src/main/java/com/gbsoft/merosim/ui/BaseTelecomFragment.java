@@ -1,7 +1,7 @@
 /*
- * Created by Chiranjeevi Pandey on 2/23/22, 9:41 AM
+ * Created by Chiranjeevi Pandey on 3/10/22, 3:34 PM
  * Copyright (c) 2022. Some rights reserved.
- * Last modified: 2022/02/23
+ * Last modified: 2022/03/10
  *
  * Licensed under GNU General Public License v3.0;
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package com.gbsoft.merosim.ui;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -41,7 +42,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
  * common to all the ntc, ncell and smartcell fragments.
  */
 
-public class BaseTelecomFragment extends Fragment implements OnContactFoundListener {
+public class BaseTelecomFragment extends Fragment implements OnContactFoundListener,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String SERVICE_ACCESSIBILITY = "accessibility";
     public static final String SERVICE_OVERLAY = "overlay";
     private ContactsLoader loader;
@@ -63,7 +65,7 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
     protected final ActivityResultLauncher<String> callPhonePermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted)
-                    SnackUtils.showMessage(requireView(), R.string.permission_granted_txt, "Call phone");
+                    SnackUtils.showMessage(requireView(), R.string.perm_granted_txt, "Call phone");
                 else
                     SnackUtils.showMessage(requireView(), R.string.perm_call_phone_msg);
             });
@@ -71,7 +73,7 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
     protected final ActivityResultLauncher<String> sendSmsPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted)
-                    SnackUtils.showMessage(requireView(), R.string.permission_granted_txt, "Send sms");
+                    SnackUtils.showMessage(requireView(), R.string.perm_granted_txt, "Send sms");
                 else
                     SnackUtils.showMessage(requireView(), R.string.perm_send_sms_msg);
             });
@@ -97,14 +99,14 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
         if (!PermissionUtils.isPermissionGranted(requireContext(), permission)) {
             if (PermissionUtils.shouldShowRequestPermissionRationale(requireActivity(), permission)) {
                 new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(getString(R.string.perm_dialog_title))
+                        .setTitle(getString(R.string.dialog_permission_title))
                         .setMessage(message)
                         .setCancelable(true)
-                        .setPositiveButton(getString(R.string.positive_dialog_btn_txt), (dialog, which) -> {
+                        .setPositiveButton(getString(R.string.dialog_positive_btn_txt), (dialog, which) -> {
                             launcher.launch(permission);
                             dialog.dismiss();
                         })
-                        .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton(getString(R.string.dialog_negative_btn_txt), (dialog, which) -> dialog.dismiss())
                         .show();
             } else {
                 launcher.launch(permission);
@@ -117,6 +119,18 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
         super.onViewCreated(view, savedInstanceState);
 
         loader = new ContactsLoader(requireContext(), this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        PreferenceManager.getDefaultSharedPreferences(requireContext()).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        PreferenceManager.getDefaultSharedPreferences(requireContext()).unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 
     // empty implementation; intended to be overridden by child classes
@@ -140,9 +154,9 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
                 .setCancelable(true)
                 .setPositiveButton(R.string.dialog_positive_btn_txt, (dialog, id) ->
                         startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)))
-                .setNegativeButton(getString(R.string.without_permission_txt), (dialog, which) -> {
+                .setNegativeButton(getString(R.string.dialog_ignore_btn_txt), (dialog, which) -> {
                     dialog.dismiss();
-                    turnOffOverlayPreference();
+                    turnOffIntuitiveMode();
                 })
                 .show();
     }
@@ -157,16 +171,22 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
                             Uri.parse("package:" + requireContext().getPackageName()));
                     startActivity(intent);
                 })
-                .setNegativeButton(getString(R.string.without_permission_txt), (dialog, which) -> {
+                .setNegativeButton(getString(R.string.dialog_ignore_btn_txt), (dialog, which) -> {
                     dialog.dismiss();
-                    turnOffOverlayPreference();
+                    turnOffIntuitiveMode();
                 })
                 .show();
     }
 
-    private void turnOffOverlayPreference() {
+    private void turnOffIntuitiveMode() {
         PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
-                .putBoolean(getString(R.string.key_overlay), false)
+                .putBoolean(getString(R.string.key_intuitive), false)
                 .apply();
+    }
+
+    // intended to be overridden by its children
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
     }
 }

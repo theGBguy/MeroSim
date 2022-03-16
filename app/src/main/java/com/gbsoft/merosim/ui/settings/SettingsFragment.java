@@ -36,7 +36,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        setPreferencesFromResource(R.xml.app_preferences, rootKey);
 
         // sets listener to handle send feedback preference click event
         Preference sendFeedback = findPreference(getString(R.string.key_send_feedback));
@@ -64,10 +64,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         // change the system independent locale if language preference is clicked
         if (key.equals(getString(R.string.key_language))) {
             Lingver.getInstance().setLocale(requireActivity().getApplicationContext(), LocaleUtils.getLocale(requireContext()));
-            SnackUtils.showMessageWithCallback(requireView(), R.string.restart_txt, new Snackbar.Callback() {
+            SnackUtils.showMessageWithCallback(requireView(), R.string.snack_msg_restart_txt, new Snackbar.Callback() {
                 @Override
                 public void onDismissed(Snackbar transientBottomBar, int event) {
                     super.onDismissed(transientBottomBar, event);
+                    if (getView() == null) {
+                        return;
+                    }
                     transientBottomBar.removeCallback(this);
                     requireActivity().recreate();
                 }
@@ -94,6 +97,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact.merosim@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Query for Mero Sim App");
         emailIntent.putExtra(Intent.EXTRA_TEXT, body);
-        startActivity(Intent.createChooser(emailIntent, getString(R.string.choose_email_client)));
+        startActivity(Intent.createChooser(emailIntent, getString(R.string.choose_email_client_title)));
     }
 }

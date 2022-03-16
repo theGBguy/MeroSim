@@ -52,18 +52,24 @@ import ernestoyaquello.com.verticalstepperform.listener.StepperFormListener;
 public class RechargeFragment extends Fragment implements StepperFormListener {
     private FragmentRechargeBinding binding;
     private RechargeViewModel model;
+    private String currentPermission;
 
     private final ActivityResultLauncher<String> permissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted)
-                    SnackUtils.showMessage(requireView(), R.string.permission_granted_txt);
-                else
-                    SnackUtils.showMessage(requireView(), R.string.permission_not_granted_txt);
+                if (isGranted) {
+                    if (currentPermission.equals(Manifest.permission.CAMERA)) {
+                        binding.viewSwitcherRecharge.reset();
+                        binding.viewSwitcherRecharge.showNext();
+                    }
+                } else {
+                    SnackUtils.showMessage(requireView(), R.string.perm_not_granted_txt);
+                }
             });
 
-    private final PermissionFixerContract fixerContract = permission ->
-            handlePermission(Manifest.permission.CALL_PHONE, getString(R.string.perm_camera_msg), permissionLauncher);
-
+    private final PermissionFixerContract fixerContract = permission -> {
+        currentPermission = permission;
+        handlePermission(Manifest.permission.CALL_PHONE, getString(R.string.perm_call_phone_msg), permissionLauncher);
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -103,25 +109,33 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
         // loads the recharger banner ads
         binding.adViewRecharge.loadAd(new AdRequest.Builder().build());
 
-        // request camera related permission which is essential to
-        // perform text scan
-        handlePermission(Manifest.permission.CAMERA, getString(R.string.perm_camera_msg), permissionLauncher);
+        if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.CAMERA)) {
+            binding.viewSwitcherRecharge.showNext();
+        }
+
+        binding.btnGrantCamPerm.setOnClickListener(v -> {
+            // request camera related permission which is essential to
+            // perform text scan
+            handlePermission(Manifest.permission.CAMERA, getString(R.string.perm_camera_msg), permissionLauncher);
+        });
+
     }
 
     private void handlePermission(String permission, String message, ActivityResultLauncher<String> launcher) {
         if (!PermissionUtils.isPermissionGranted(requireContext(), permission)) {
             if (PermissionUtils.shouldShowRequestPermissionRationale(requireActivity(), permission)) {
                 new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(getString(R.string.perm_dialog_title))
+                        .setTitle(getString(R.string.dialog_permission_title))
                         .setMessage(message)
                         .setCancelable(true)
-                        .setPositiveButton(getString(R.string.positive_dialog_btn_txt), (dialog, which) -> {
+                        .setPositiveButton(getString(R.string.dialog_positive_btn_txt), (dialog, which) -> {
                             launcher.launch(permission);
                             dialog.dismiss();
                         })
-                        .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton(getString(R.string.dialog_negative_btn_txt), (dialog, which) -> dialog.dismiss())
                         .show();
             } else {
+                currentPermission = permission;
                 launcher.launch(permission);
             }
         }
@@ -129,8 +143,8 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
         binding = null;
+        super.onDestroyView();
     }
 
     @Override
@@ -164,7 +178,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
         @Override
         public void onReceiveUssdResponseFailed(TelephonyManager telephonyManager, String request, int failureCode) {
-            SnackUtils.showMessage(requireView(), R.string.ussd_response_failed_lack_permission);
+//            SnackUtils.showMessage(requireView(), R.string.ussd_response_failed_lack_permission);
             binding.stepperForm.cancelFormCompletionOrCancellationAttempt();
             super.onReceiveUssdResponseFailed(telephonyManager, request, failureCode);
         }
@@ -176,11 +190,9 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
 
     @Override
     public void onStepAdded(int index, Step<?> addedStep) {
-
     }
 
     @Override
     public void onStepRemoved(int index) {
-
     }
 }

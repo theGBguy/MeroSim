@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/8/22, 6:09 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/08
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!--    string resources for SmartCell     -->
+    <string name="smart_balance_transfer_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
+       &lt;ul&gt;
+	        &lt;li&gt;There is no limit in no. of times or the amount of balance transfer in SmartCell.&lt;/li&gt;
+        	&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;
+        	&lt;li&gt;The service charge for the balance transfer is free in SmartCell.&lt;/li&gt;
+        	&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_loan_info">
+        &lt;b&gt;ABOUT SMARTCELL LOAN&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;The main balance should be equal to or less than Re. 1.&lt;/li&gt;
+            &lt;li&gt;Service Charge : Rs. 2(exclusive of taxes)&lt;/li&gt;
+            &lt;li&gt;The subscriber should have used the SIM for more than 3 months.&lt;/li&gt;
+            &lt;li&gt;Previous loan(if taken) must be cleared.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_mca_info">
+        &lt;b&gt;ABOUT MISSED CALL ALERTS&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;Service Charge : Rs. 6(exclusive of taxes)&lt;/li&gt;
+        &lt;li&gt;You will receive SMS with the caller phone number and no. of times you missed the calls from the same number.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_crbt_info">
+        &lt;b&gt;ABOUT CRBT SERVICE&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;It replaces the boring callback tone with your favourite music or tune.&lt;/li&gt;
+        &lt;li&gt;Service charge : Rs. 12.77 monthly&lt;/li&gt;
+        &lt;li&gt;Tone charge : Rs. 12.77 monthly&lt;/li&gt;
+        &lt;li&gt;Both service and track will be auto renewed each month.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="smart_sim_owner_text">Smart cell doesn\'t provide a way to query SIM owner information.</string>
+
+    <string name="smart_error_recipient">Please enter recipient\'s 10 digits SmartCell phone number.</string>
+    <string name="smart_error_amount">Please insert valid transfer amount</string>
+
+    <string name="smart_tv_loan_txt">Loan</string>
+    <string name="smart_btn_take_loan_txt">Take a loan</string>
+</resources>

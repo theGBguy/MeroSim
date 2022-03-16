@@ -68,7 +68,6 @@ public class SimRecyclerAdapter extends ListAdapter<Sim, SimViewHolder> {
     @Override
     public void onCurrentListChanged(@NonNull List<Sim> previousList, @NonNull List<Sim> currentList) {
         super.onCurrentListChanged(previousList, currentList);
-        if (!currentList.isEmpty())
-            emptyObserver.onChanged();
+        emptyObserver.onChanged();
     }
 }

@@ -16,6 +16,7 @@
 
 package com.gbsoft.merosim.ui.ncell;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -29,15 +30,20 @@ import androidx.lifecycle.ViewModelProvider;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentNcellDetailBinding;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
+import com.gbsoft.merosim.ui.MainActivity;
 import com.gbsoft.merosim.utils.EventObserver;
 import com.gbsoft.merosim.utils.SnackUtils;
+import com.gbsoft.merosim.utils.Utils;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 
 import org.jetbrains.annotations.NotNull;
 
 // Fragment to show details of Ncell sim card
 public class NcellDetailFragment extends BaseTelecomFragment {
+    private static final String TAG = "NcellDetailFragment";
     private FragmentNcellDetailBinding binding;
     private NcellDetailViewModel viewModel;
+    private InterstitialAd interstitialAd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -63,13 +69,33 @@ public class NcellDetailFragment extends BaseTelecomFragment {
         }));
 
         binding.ncellTilRecipient.setEndIconOnClickListener(v -> launchContactPicker());
+
+        InterstitialAd interstitialAd = ((MainActivity) requireActivity()).getInterstitialAd();
+        if (interstitialAd == null) {
+            ((MainActivity) requireActivity()).loadInterstitialAds();
+        } else {
+            interstitialAd.show(requireActivity());
+        }
+
+        ((MainActivity) requireActivity()).showIntro.observe(getViewLifecycleOwner(), shouldShow -> {
+            if (shouldShow) {
+                Utils.showMaterialIntroSequence(requireActivity(), binding.ncellBtnPhone, binding.ncellBtnSimBalance, binding.ncellBtnSimOwner);
+            }
+        });
+
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.key_intuitive))) {
+            viewModel.setIntuitiveModeStatus(sharedPreferences.getBoolean(getString(R.string.key_intuitive), true));
+        }
     }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        viewModel = null;
         binding = null;
+        super.onDestroyView();
     }
 
     @Override

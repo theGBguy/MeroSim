@@ -16,6 +16,8 @@
 
 package com.gbsoft.merosim.ui.ntc;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -26,16 +28,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.codertainment.materialintro.sequence.MaterialIntroSequenceListener;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentNamasteDetailBinding;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
+import com.gbsoft.merosim.ui.MainActivity;
 import com.gbsoft.merosim.utils.EventObserver;
 import com.gbsoft.merosim.utils.SnackUtils;
+import com.gbsoft.merosim.utils.Utils;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
 
 // Fragment used to show Namaste sim card details
-public class NamasteDetailFragment extends BaseTelecomFragment {
+public class NamasteDetailFragment extends BaseTelecomFragment implements MaterialIntroSequenceListener {
+    private static final String TAG = "NamasteDetailFragment";
     private FragmentNamasteDetailBinding binding;
     private NamasteDetailViewModel viewModel;
+    private InterstitialAd interstitialAd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -44,6 +52,7 @@ public class NamasteDetailFragment extends BaseTelecomFragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -62,20 +71,52 @@ public class NamasteDetailFragment extends BaseTelecomFragment {
         binding.ntcTilSecurityCode.setEndIconOnClickListener(v -> viewModel.saveSecurityCode());
 
         binding.ntcTilRecipient.setEndIconOnClickListener(v -> launchContactPicker());
+
+        InterstitialAd interstitialAd = ((MainActivity) requireActivity()).getInterstitialAd();
+        if (interstitialAd == null) {
+            ((MainActivity) requireActivity()).loadInterstitialAds();
+        } else {
+            interstitialAd.show(requireActivity());
+        }
+
+        ((MainActivity) requireActivity()).showIntro.observe(getViewLifecycleOwner(), shouldShow -> {
+            if (shouldShow) {
+                Utils.showMaterialIntroSequence(requireActivity(), binding.ntcBtnPhone, binding.ntcBtnSimBalance, binding.ntcBtnSimOwner);
+            }
+        });
     }
 
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.key_intuitive))) {
+            viewModel.setIntuitiveModeStatus(sharedPreferences.getBoolean(getString(R.string.key_intuitive), true));
+        }
+    }
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
-        viewModel = null;
         binding = null;
+        interstitialAd = null;
+        super.onDestroyView();
     }
 
     @Override
     public void onContactFound(@NonNull String name, @NonNull String number) {
         viewModel.recipient.setValue(number);
         binding.ntcTilRecipient.setHelperText(getResources().getString(R.string.tiet_selected_recipient, name));
-        new Handler().postDelayed(() -> binding.ntcTilRecipient.setHelperText(null), 3000);
+        new Handler().postDelayed(() -> {
+            if (binding == null) return;
+            binding.ntcTilRecipient.setHelperText(null);
+        }, 3000);
+    }
+
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onProgress(boolean b, @NonNull String s, int i, int i1) {
+
     }
 }

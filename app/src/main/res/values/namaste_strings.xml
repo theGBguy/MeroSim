@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/8/22, 6:09 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/08
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!--    string resources for Namaste    -->
+    <string name="ntc_balance_transfer_info">&lt;b&gt;ABOUT BALANCE TRANSFER&lt;/b&gt;
+       &lt;ul&gt;
+	        &lt;li&gt;You need to know your security code to transfer your balance.To find the security code, type \"scode\" and send sms to 1415.You should get security code in message reply shortly.&lt;/li&gt;
+	        &lt;li&gt;You can transfer balance from Rs. 10 up to Rs. 500 only per transfer.&lt;/li&gt;
+        	&lt;li&gt;You cannot transfer balance from one carrier network to another.&lt;/li&gt;
+        	&lt;li&gt;The service charge for the balance transfer is free in Namaste.&lt;/li&gt;
+            &lt;li&gt;You can only transfer balance up to 20 times a day.&lt;/li&gt;
+        	&lt;li&gt;The validity date of receiving mobile is not increased with transfer.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_credit_info">&lt;b&gt;ABOUT NAMASTE CREDIT&lt;/b&gt;
+	    &lt;ul&gt;
+	    	&lt;li&gt;It is loan service provided by Namaste for it\'s GSM customers.&lt;/li&gt;
+	    	&lt;li&gt;The debt is automatically cleared in the next recharge.&lt;/li&gt;
+	    	&lt;li&gt;No extra charge is imposed on the credit.&lt;/li&gt;
+	    	&lt;li&gt;The credit balance is activated automatically on the low balance to provide uninterruptible calling experience.&lt;/li&gt;
+	    	&lt;li&gt;The amount of the credit allocated differs from one customer to another and is made on loyalty based assessment. It means the more you use the Namaste network, the more credit you are allocated.
+	    &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_fnf_info">&lt;b&gt;ABOUT FRIENDS &amp;amp; FAMILY&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;It is a special service which allows you to make call to 5 different Namaste number in discounted price.&lt;/li&gt;
+            &lt;li&gt;The voice tariff is 55 paisa/minute for GSM/CDMA post-paid and 70 paisa/minute for pre-paid subscriber.&lt;/li&gt;
+            &lt;li&gt;The service can be enabled for free.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_mca_info">&lt;b&gt;ABOUT MISSED CALL ALERT&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;This service provides you the information about the calls that you were unable to receive.&lt;/li&gt;
+            &lt;li&gt;This service can be enabled free of cost and it is auto-renewed as well.&lt;/li&gt;
+            &lt;li&gt;Upon successful subscription of the service, you will receive a SMS in the format: &quot;You have a missed call from 984XXXXXXX(no.) at 2021-05-19 01:00:30&quot; where no. represents the total call attempt.&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_crbt_info">&lt;b&gt;ABOUT CALLER RING BACK TONE&lt;/b&gt;
+        &lt;ul&gt;
+            &lt;li&gt;This service replaces the boring standard ringback tone with hit songs and dialogues.&lt;/li&gt;
+            &lt;li&gt;Send \"top\" to 1455 to get the top songs crbt code.&lt;li&gt;
+            &lt;li&gt;Caller tune subscription charge : Rs. 5 weekly and Rs. 20 monthly&lt;/li&gt;
+            &lt;li&gt;Tone charge : Rs. 2.5 weekly and Rs. 10 monthly&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="tv_intuitive_warning_txt">
+        Intuitive mode is turned off! So, the application cannot parse the important information such as phone number,
+        balance and SIM owner\'s name from response using accessibility service.
+        Click here if you would like to turn it on.
+    </string>
+
+    <string name="phone_txt">Phone number</string>
+    <string name="balance_txt">Balance</string>
+    <string name="sim_owner_txt">Sim Owner</string>
+    <string name="btn_take_packs_txt">Take data, voice and SMS packs</string>
+    <string name="btn_call_customer_care_txt">Call customer care</string>
+
+    <string name="tv_transfer_balance_txt">Transfer balance</string>
+    <string name="ntc_tiet_security_code_hint">Enter Security Code</string>
+    <string name="ntc_til_security_code_helper_txt">Click the save button to save the security code for next use.</string>
+    <string name="ntc_til_security_code_helper_alt">Using the security code that is cached from earlier transfer; click to edit it</string>
+    <string name="tiet_recipient_hint">Enter recipient phone no.</string>
+    <string name="tiet_selected_recipient">Selected recipient: %s</string>
+    <string name="tiet_amount_hint">Enter amount(in Rs.)</string>
+
+    <string name="error_security_code">Please enter valid security code.</string>
+    <string name="ntc_error_recipient">Please enter recipient\'s 10 digits NTC phone number.</string>
+    <string name="ntc_error_amount">Please enter amount(in Rs.) between 10 and 500.</string>
+
+    <string name="ntc_tv_namaste_credit_txt">Namaste Credit</string>
+    <string name="ntc_tv_fnf_info">Friends &amp; Family</string>
+    <string name="ntc_btn_modify_txt">Modify</string>
+    <string name="ntc_btn_delete_txt">Delete</string>
+    <string name="ntc_btn_query_txt">Query</string>
+    <string name="ntc_modify_old_hint">Old phone no.</string>
+    <string name="ntc_modify_new_hint">New phone no.</string>
+    <string name="ntc_delete_hint">Phone no. to delete</string>
+    <string name="ntc_tv_crbt_info">Caller Ring Back Tone(CRBT)</string>
+    <string name="ntc_song_code_hint">Enter song code</string>
+
+    <string name="intro_phone_txt">
+        Click the button to query for your phone number.
+        You can perform query for phone number for all the SIM cards in this way.
+    </string>
+    <string name="intro_balance_txt">
+        Click the button to query for your account balance.
+        You can perform query for phone balance for all the SIM cards in this way.
+    </string>
+    <string name="intro_sim_owner_txt">
+        Click the button to query for SIM owner\'s name.
+        You can perform query for SIM card owner\'s name for Namaste &amp; Ncell SIM cards in this way.
+    </string>
+
+</resources>

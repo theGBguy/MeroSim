@@ -19,11 +19,11 @@
         <shape>
             <corners android:topRightRadius="16dp" />
             <gradient
-                android:endColor="@color/colorSecondary200"
-                android:startColor="@color/colorPrimary200" />
+                android:endColor="@color/md_theme_light_secondaryContainer"
+                android:startColor="@color/md_theme_light_primaryContainer" />
         </shape>
     </item>
     <item
-        android:drawable="@drawable/ic_launcher_foreground"
+        android:drawable="@drawable/ic_mero_sim"
         android:gravity="center" />
 </layer-list>

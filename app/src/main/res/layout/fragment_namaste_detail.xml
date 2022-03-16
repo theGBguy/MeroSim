@@ -20,6 +20,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.gbsoft.merosim.ui.ntc.NamasteDetailViewModel" />
@@ -32,8 +34,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:theme="@style/Theme.MeroSim.Sim.Namaste"
-        tools:context=".ui.ntc.NamasteDetailFragment">
+        tools:context=".ui.main.ntc.NamasteDetailFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,10 +61,11 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:drawablePadding="4dp"
                     android:onClick="@{eventhandler::onBalanceTransferInfoClick}"
                     android:text="@string/tv_transfer_balance_txt"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -75,10 +79,11 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:hint="@string/ntc_tiet_security_code_hint"
                     app:endIconDrawable="@drawable/ic_round_save_24"
                     app:endIconMode="custom"
-                    app:errorRes="@{safeUnbox(vm.errorSecurityCode)}"
-                    app:helperText="@string/ntc_til_security_code_helper_txt"
+                    app:errorText="@{safeUnbox(vm.errorSecurityCode)}"
+                    app:helperText="@{vm.securityCode.empty ? @string/ntc_til_security_code_helper_txt : @string/ntc_til_security_code_helper_alt}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ntc_tv_transfer_balance">
@@ -88,8 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/ntc_tiet_security_code_hint"
-                        android:inputType="number"
+                        android:inputType="numberPassword"
                         android:text="@={vm.securityCode}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,9 +104,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:hint="@string/tiet_recipient_hint"
                     app:endIconDrawable="@drawable/ic_round_contacts_24"
                     app:endIconMode="custom"
-                    app:errorRes="@{safeUnbox(vm.errorRecipient)}"
+                    app:errorText="@{safeUnbox(vm.errorRecipient)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ntc_til_security_code">
@@ -112,7 +117,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/tiet_recipient_hint"
                         android:inputType="number"
                         android:text="@={vm.recipient}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -124,7 +128,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
-                    app:errorRes="@{safeUnbox(vm.errorAmount)}"
+                    android:hint="@string/tiet_amount_hint"
+                    app:errorText="@{safeUnbox(vm.errorAmount)}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ntc_til_recipient">
@@ -134,7 +139,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/tiet_amount_hint"
                         android:inputType="number"
                         android:text="@={vm.amount}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -168,19 +172,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ntc_tv_warning"
+                    style="@style/CustomMaterialTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:onClick="@{eventhandler::onTurnOnIntuitiveModeClick}"
+                    android:padding="8dp"
+                    android:text="@string/tv_intuitive_warning_txt"
+                    android:visibility="@{vm.intuitiveModeOn ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_sim_owner"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
-                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_owner"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_btn_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_btn_sim_owner"
+                    app:layout_constraintTop_toBottomOf="@id/ntc_tv_warning"
                     app:srcCompat="@drawable/ic_round_person_24"
                     app:tint="?colorPrimary" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ntc_tv_sim_owner"
+                <com.gbsoft.merosim.ui.CustomMaterialButton
+                    android:id="@+id/ntc_btn_sim_owner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -193,8 +211,8 @@
                     app:layout_constraintTop_toBottomOf="@+id/iv_sim_owner"
                     tools:text="Chiranjeevi Pandey" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ntc_tv_phone"
+                <com.gbsoft.merosim.ui.CustomMaterialButton
+                    android:id="@+id/ntc_btn_phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -208,17 +226,17 @@
                     app:layout_constraintTop_toTopOf="@+id/iv_sim_owner"
                     tools:text="9846090898" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ntc_tv_sim_balance"
+                <com.gbsoft.merosim.ui.CustomMaterialButton
+                    android:id="@+id/ntc_btn_sim_balance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:onClick="@{eventhandler::onBalanceRefreshClick}"
                     android:text="@{vm.balance}"
                     app:icon="@drawable/ic_nepali_rupee"
-                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_phone"
-                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_phone"
-                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_phone"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_btn_phone"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_btn_phone"
+                    app:layout_constraintTop_toBottomOf="@+id/ntc_btn_phone"
                     tools:text="Rs. 100" />
 
                 <com.google.android.material.button.MaterialButton
@@ -227,12 +245,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="16dp"
-                    app:icon="@drawable/ic_signal_cellular_black_24dp"
                     android:onClick="@{eventhandler::onTakePacksClick}"
                     android:text="@string/btn_take_packs_txt"
+                    app:icon="@drawable/ic_signal_cellular_black_24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
-                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_balance"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_btn_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_btn_sim_balance"
                     app:layout_constraintTop_toBottomOf="@+id/tv_hint"
                     app:layout_constraintVertical_bias="0.0" />
 
@@ -246,8 +264,8 @@
                     android:text="@string/btn_call_customer_care_txt"
                     app:icon="@drawable/ic_round_support_agent_24"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
-                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_balance"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_btn_sim_owner"
+                    app:layout_constraintStart_toStartOf="@+id/ntc_btn_sim_balance"
                     app:layout_constraintTop_toBottomOf="@+id/ntc_btn_take_packs"
                     app:layout_constraintVertical_bias="0.0" />
 
@@ -262,12 +280,13 @@
                     android:id="@+id/tv_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_thin"
                     android:text="@string/tv_hint_txt"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    app:layout_constraintEnd_toEndOf="@+id/ntc_tv_sim_owner"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    app:layout_constraintEnd_toEndOf="@+id/ntc_btn_sim_owner"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/ntc_tv_sim_balance"
-                    app:layout_constraintTop_toBottomOf="@+id/ntc_tv_sim_balance" />
+                    app:layout_constraintStart_toStartOf="@+id/ntc_btn_sim_balance"
+                    app:layout_constraintTop_toBottomOf="@+id/ntc_btn_sim_balance" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -290,9 +309,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onNamasteCreditInfoClick}"
                     android:text="@string/ntc_tv_namaste_credit_txt"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -355,6 +375,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:hint="@string/ntc_delete_hint"
                     app:layout_constraintEnd_toStartOf="@+id/ntc_btn_delete"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -365,7 +386,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/ntc_delete_hint"
                         android:inputType="phone"
                         android:text="@={vm.deletePhone}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -376,6 +396,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
+                    android:hint="@string/ntc_modify_new_hint"
                     app:layout_constraintEnd_toEndOf="@+id/ntc_til_modify_old"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -386,7 +407,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/ntc_modify_new_hint"
                         android:inputType="phone"
                         android:text="@={vm.newPhone}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -397,6 +417,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:hint="@string/ntc_modify_old_hint"
                     app:layout_constraintEnd_toStartOf="@+id/ntc_btn_modify"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_weight="1"
@@ -408,7 +429,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/ntc_modify_old_hint"
                         android:inputType="phone"
                         android:text="@={vm.oldPhone}" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -446,7 +466,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ntc_btn_modify"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:onClick="@{eventhandler::onBtnFNFModifyClick}"
@@ -478,9 +498,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onFNFInfoClick}"
                     android:text="@string/ntc_tv_fnf_info"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -507,9 +528,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onMCAInfoClick}"
                     android:text="@string/tv_mca_txt"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -581,9 +603,10 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/ripple"
+                    android:background="?selectableItemBackground"
                     android:onClick="@{eventhandler::onCRBTInfoClick}"
                     android:text="@string/ntc_tv_crbt_info"
+                    android:textAppearance="@style/TextAppearance.MeroSim.CardTitle"
                     app:drawableEndCompat="@drawable/ic_round_help_center_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -596,6 +619,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
+                    android:hint="@string/ntc_song_code_hint"
                     app:layout_constraintEnd_toEndOf="@id/cl_crbt"
                     app:layout_constraintStart_toStartOf="@id/cl_crbt"
                     app:layout_constraintTop_toBottomOf="@id/ntc_tv_crbt_info">
@@ -605,7 +629,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="@string/ntc_song_code_hint"
                         android:inputType="phone"
                         android:text="@={vm.songCode}" />
                 </com.google.android.material.textfield.TextInputLayout>

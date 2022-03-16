@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/10/22, 7:10 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/10
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="ntc_balance_transfer_info">&lt;b&gt;ब्यालेन्स ट्रान्सफरको बारेमा&lt;/b&gt;
+        &lt;ul&gt; &lt;li&gt;तपाईंले आफ्नो ब्यालेन्स ट्रान्सफर गर्न आफ्नो सुरक्षा कोड जान्न आवश्यक छ।सुरक्षा कोड पाउन, "scode" टाइप गर्नुहोस् र 1415 मा एसएमएस पठाउनुहोस्। तपाईंले छिट्टै एस एम एसमा सुरक्षा कोड प्राप्त गर्नुहुनेछ।&lt;/li&gt;
+        &lt;li&gt;तपाईंले रु.१० देखि रु.५०० सम्म ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+        &lt;li&gt;तपाईँ एउटा नेटवर्कबाट अर्कोमा ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्न।&lt;/li&gt;
+        &lt;li&gt;नमस्तेमा ब्यालेन्स ट्रान्सफरको सेवा शुल्क लाग्दैन।&lt;/li&gt;
+        &lt;li&gt;तपाईले दिनको २० पटक सम्म मात्र ब्यालेन्स ट्रान्सफर गर्न सक्नुहुन्छ।&lt;/li&gt;
+        &lt;li&gt;ब्यालेन्स ट्रान्सफर गर्दा ब्यालेन्सको भ्यालिडिटि बढ्दैन ।&lt;/li&gt;
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_credit_info">&lt;b&gt;नमस्ते क्रेडिटको बारेमा&lt;/b&gt;
+        &lt;ul&gt;
+        &lt;li&gt;यो नमस्तेद्वारा यसको GSM ग्राहकहरूका लागि प्रदान गरिएको सापटी सेवा हो।&lt;/li&gt;
+            &lt;li&gt;सापटी अर्को रिचार्जमा स्वतः काटिनेछ।&lt;/li&gt;
+            &lt;li&gt;सापटी सेवामा कुनै अतिरिक्त शुल्क लगाइएको छैन।&lt;/li&gt;
+            &lt;li&gt;कम ब्यालेन्समा क्रेडिट ब्यालेन्स सेवा स्वतः सुचारु हुन्छ।&lt;/li&gt;
+            &lt;li&gt;विनियोजन गरिएको क्रेडिटको रकम एक ग्राहकबाट अर्को ग्राहकमा फरक हुन्छ र यो लोयल्टीमा आधारित मूल्याङ्कनमा बनाइन्छ। यसको मतलब तपाईंले जति धेरै नमस्ते नेटवर्क प्रयोग गर्नुहुन्छ, त्यति नै बढी क्रेडिट तपाईंलाई प्रदान गरिन्छ।
+        &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_fnf_info">
+        &lt;b&gt;फ्रेन्ड्स &amp; परिवार&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;यो एक विशेष सेवा हो जसले तपाईंलाई सस्तो दरमा ५ फरक नमस्ते नम्बरहरुमा कल गर्न अनुमति दिन्छ।&lt;/li&gt;
+             &lt;li&gt;भ्वाइस ट्यारिफ GSM/CDMA पोस्ट-पेडको लागि 55 पैसा/मिनेट र प्रि-पेड ग्राहकहरूको लागि 70 पैसा/मिनेट हो।&lt;/li&gt;
+             &lt;li&gt;सेवा नि:शुल्क सुचारु गर्न सकिन्छ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_mca_info">
+        &lt;b&gt;मिस्ड कल अलर्ट बारे&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;यो सेवाले तपाईंलाई कलहरू प्राप्त गर्न असमर्थ हुदा ति कलहरुको बारेमा जानकारी प्रदान गर्दछ।&lt;/li&gt;
+             &lt;li&gt;यो सेवा नि:शुल्क सुचारु गर्न सकिन्छ र यो स्वतः नवीकरण पनि हुन्छ।&lt;/li&gt;
+             &lt;li&gt;सेवाको सफल सदस्यता प्राप्त गरेपछि, तपाईंले यो ढाँचामा SMS प्राप्त गर्नुहुनेछ: &quot;तपाईलाइ 984XXXXXXX (नम्बर) बाट 2021-05-19 01:00:30 मा मिस्ड कल आएको छ&quot; जहाँ नम्बरले कतिचोटी मिस्ड कल आयो भनेर जनाउछ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="ntc_crbt_info">
+        &lt;b&gt;कलर रिङ ब्याक टोन बारे&lt;/b&gt;
+         &lt;ul&gt;
+             &lt;li&gt;यस सेवाले बोरिङ रिङ्ब्याक टोनलाई हटाइ हिट गीतहरू र संवादहरू राख्छ।&lt;/li&gt;
+             &lt;li&gt;प्रख्यात गीतहरूको CRBT कोड प्राप्त गर्न 1455 मा \"top\" लेखि पठाउनुहोस्।&lt;li&gt;
+             &lt;li&gt;कलर ट्युन सदस्यता शुल्क र.५ साप्ताहिक र रु. २० मासिक रहेको छ।&lt;/li&gt;
+             &lt;li&gt;टोन शुल्क: रु. २.५ साप्ताहिक र रु. १० मासिक रहेको छ।&lt;/li&gt;
+         &lt;/ul&gt;
+    </string>
+
+    <string name="tv_intuitive_warning_txt">
+        Intuitive मोड बन्द छ! त्यसैले, एपले Accessbility सेवा प्रयोग गरेर USSD प्रतिक्रियाबाट
+        फोन नम्बर, ब्यालेन्स र सिम मालिकको नाम जस्ता महत्त्वपूर्ण जानकारीहरू पत्ता लगाउन सक्दैन।
+        यदि तपाइँ यसलाई सुचारु गर्न चाहनुहुन्छ भने यहाँ क्लिक गर्नुहोस्।
+    </string>
+
+    <string name="phone_txt">फोन न्</string>
+    <string name="balance_txt">फोनको रकम</string>
+    <string name="sim_owner_txt">सिम ग्राहक</string>
+    <string name="btn_take_packs_txt">डाटा, भ्वाइस र एसएमएस प्याक लिनुहोस्</string>
+    <string name="btn_call_customer_care_txt">"ग्राहक सेवामा कल गर्नुहोस् "</string>
+
+    <string name="tv_transfer_balance_txt">"ब्यालेन्स ट्रान्सफर "</string>
+    <string name="ntc_til_security_code_helper_txt">अर्को प्रयोगको लागि सुरक्षा कोड सुरक्षित गर्न सेभ बटन क्लिक गर्नुहोस्।</string>
+    <string name="ntc_til_security_code_helper_alt">Using the security code that is cached from earlier transfer; click to edit it</string>
+    <string name="ntc_tiet_security_code_hint">सुरक्षा कोड टाइप गर्नुहोस्</string>
+    <string name="tiet_recipient_hint">प्राप्तकर्ताको फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="tiet_selected_recipient">चयन गरिएको प्राप्तकर्ता: %s</string>
+    <string name="tiet_amount_hint">रकम टाइप गर्नुहोस् (रु. मा)</string>
+
+    <string name="error_security_code">कृपया आफ्नो सुरक्षा कोड टाइप गर्नुहोस्।</string>
+    <string name="ntc_error_recipient">कृपया प्राप्तकर्ताको १० अंकको NTC फोन नम्बर टाइप गर्नुहोस्।</string>
+    <string name="ntc_error_amount">कृपया १० र ५०० बीचको रकम (रुमा) टाइप गर्नुहोस्।</string>
+
+    <string name="ntc_tv_namaste_credit_txt">नमस्ते क्रेडिट</string>
+    <string name="ntc_tv_fnf_info">फ्रेन्ड्स एंड फेमिली</string>
+    <string name="ntc_btn_modify_txt">परिमार्जन गर्नुहोस्</string>
+    <string name="ntc_btn_delete_txt">हटाउनुहोस</string>
+    <string name="ntc_btn_query_txt">पहिले नै सेवा सुरु भएका फोन नम्बरहरू हेर्नुहोस्</string>
+    <string name="ntc_modify_old_hint">पुरानो फोन नं.</string>
+    <string name="ntc_modify_new_hint">नयाँ फोन नं.</string>
+    <string name="ntc_delete_hint">हटाउने फोन नं.</string>
+    <string name="ntc_tv_crbt_info">कलर रिङ्ग ब्याक टोन (CRBT)</string>
+    <string name="ntc_song_code_hint">आफ्नो मनपर्ने गीत को कोड टाइप गर्नुहोस्</string>
+
+    <string name="intro_phone_txt">
+         तपाईको आफ्नो फोन नम्बर थाहा पाउनलाई यो बटनमा क्लिक गर्नुहोस्।
+         तपाईंले यस तरिकाले यो फोनको सबै सिम कार्डहरूको फोन नम्बर पत्ता लगाउन सक्नुहुन्छ।
+     </string>
+    <string name="intro_balance_txt">
+         तपाईको खातामा रहेको ब्यालेन्स थाहा पाउनलाई यो बटनमा क्लिक गर्नुहोस्।
+         तपाईंले यस तरिकाले यो फोनको सबै सिम कार्डहरूको फोन ब्यालेन्स पत्ता लगाउन सक्नुहुन्छ।
+     </string>
+    <string name="intro_sim_owner_txt">
+         SIM मालिकको नाम पत्ता लगाउन लागि यो बटनमा क्लिक गर्नुहोस्।
+         तपाईं यसरी नै नमस्ते र एनसेलको सिम कार्ड मालिकको नाम पत्ता लगाउन सक्नुहुन्छ।
+     </string>
+</resources>

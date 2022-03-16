@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/8/22, 5:49 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/08
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+
+    <!-- Language Preferences -->
+    <string name="key_language" translatable="false">key_language</string>
+    <string name="language_pref_title">Chosen language</string>
+    <string name="language_summary_on">Nepali</string>
+    <string name="language_summary_off">English</string>
+
+    <!--    Vibrate Preferences-->
+    <string name="key_vibrate" translatable="false">key_vibrate</string>
+    <string name="vibrate_pref_title">Vibrate when pin is detected</string>
+    <string name="vibrate_summary_on">On</string>
+    <string name="vibrate_summary_off">Off</string>
+
+    <!--    Intuitive Mode Preferences-->
+    <string name="key_intuitive" translatable="false">key_intuitive</string>
+    <string name="intuitive_pref_title" translatable="false">Intuitive mode</string>
+    <string name="intuitive_summary_on">Intuitive mode uses accessibility and overlay service to parse the SIM information automatically from USSD response dialog. Use intuitive mode whenever possible</string>
+    <string name="intuitive_summary_off">Intuitive mode uses accessibility and overlay service to parse the SIM information automatically from USSD response dialog. Do not use intuitive mode</string>
+
+    <string name="about_pref_category_title">About</string>
+
+    <string name="version_pref_title">App Version</string>
+    <string name="version_summary">1.0</string>
+
+    <string name="key_send_feedback" translatable="false">key_feedback</string>
+    <string name="send_feedback_pref_title">Send feedback</string>
+    <string name="send_feedback_summary">Click here to send email to developer</string>
+
+    <string name="about_summary">© Chiranjeevi Pandey</string>
+
+    <string name="snack_msg_restart_txt">Please wait, the app is partially restarting. For better experience, restart the app manually.</string>
+    <string name="choose_email_client_title">Choose an email client</string>
+
+</resources>

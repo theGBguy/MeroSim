@@ -34,7 +34,7 @@ public class Sim implements Parcelable {
     public static final String SMART_CELL = "SmartCell";
     public static final String NONE = "None";
 
-    public static final String UNAVAILABLE = "(unavailable)";
+    public static final String UNAVAILABLE = "unavailable";
 
     private String name;
     private String phoneNo;

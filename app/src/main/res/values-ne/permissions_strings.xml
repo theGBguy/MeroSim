@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/10/22, 7:11 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/10
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="perm_read_phone_state_msg">यो फोनमा भएका सिम कार्डहरू बारे जानकारी लिन फोन स्टेट अनुमतिको आवश्यकता पर्दछ।</string>
+    <string name="perm_camera_msg">रिचार्ज कार्डहरू स्क्यान गर्न क्यामेरा अनुमतिको आवश्यकता पर्दछ।</string>
+    <string name="perm_call_phone_msg">USSD कल गर्न फोन अनुमति आवश्यक पर्दछ।</string>
+    <string name="perm_read_contacts_msg">तपाईंको सम्पर्क सूचीबाट फोन नम्बर फेला पार्न सम्पर्कहरू पढ्ने अनुमति आवश्यक पर्दछ।</string>
+    <string name="perm_send_sms_msg">सेवाहरू सक्रिय/निष्क्रिय गर्न एसएमएस पठाउने अनुमति आवश्यक पर्दछ।</string>
+
+    <string name="perm_not_granted_txt">यस एपको कार्यक्षमता बढाउनको लागि यी अनुमतिहरू आवश्यक छन्।</string>
+    <string name="perm_granted_txt">अनुमति सफलतापूर्वक प्रदान गरिएको छ। तपाईं अब कुनै झन्झट बिना सुविधा प्रयोग गर्न सक्नुहुन्छ।</string>
+
+    <string name="perm_denied_txt">आवश्यक अनुमतिहरू प्रदान गरिएको छैन</string>
+    <string name="perm_phone_denied_txt">Read Phone State अनुमति दिइएको छैन!</string>
+
+    <string name="tv_no_sim_txt">कुनै पनि सिम कार्डहरू फेला परेनन्। कृपया सिम कार्डहरू ठीकसँग राखिएको छ भन्ने सुनिश्चित गरि पुन प्रयास गर्नुहोला</string>
+    <string name="tv_no_cam_txt">कृपया रिचार्ज कार्डबाट पिन कोड स्क्यान गर्न क्यामेराको प्रयोग गर्ने अनुमति प्रदान गर्नुहोस्</string>
+
+    <string name="btn_grant_phone_perm_txt">फोन कल गर्ने अनुमति दिनुहोस्</string>
+    <string name="btn_grant_cam_perm_txt">क्यामेरा प्रयोग गर्ने अनुमति दिनुहोस्</string>
+</resources>

@@ -27,6 +27,7 @@ import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.StepSimChooseBinding;
 import com.gbsoft.merosim.model.Sim;
 import com.gbsoft.merosim.ui.recharge.RechargeViewModel;
+import com.gbsoft.merosim.utils.SnackUtils;
 
 import java.util.List;
 
@@ -99,6 +100,10 @@ public class SimChooseStep extends Step<String> implements RadioGroup.OnCheckedC
             @Override
             public void onChanged(List<Sim> sims) {
                 model.getLiveSimList().removeObserver(this);
+
+                if (sims.isEmpty()) {
+                    SnackUtils.showMessage(getContentLayout(), R.string.no_sim_cards_txt);
+                }
 
                 String currentSim = model.getSimChooseData();
 

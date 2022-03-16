@@ -16,6 +16,9 @@
 
 package com.gbsoft.merosim.telephony;
 
+import static com.gbsoft.merosim.telephony.UssdController.EVENT_RESPONSE;
+import static com.gbsoft.merosim.telephony.UssdController.KEY_RESPONSE;
+
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.os.Handler;
@@ -39,15 +42,13 @@ import java.util.List;
 public class UssdService extends AccessibilityService {
     private static final String TAG = UssdService.class.getSimpleName();
 
-    public static final String KEY_RESPONSE = "ussd_response";
-    public static final String EVENT_RESPONSE = "event_response";
-
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         Log.d(TAG, "onAccessibilityEvent fired");
 
         // doesn't intercept if USSD request was not sent by this app
-        if (!UssdController.isRequestOngoing) return;
+        if (!UssdController.isRequestOngoing())
+            return;
 
         // filters the appropriate event source
         AccessibilityNodeInfo nodeInfo = event.getSource();
@@ -60,7 +61,6 @@ public class UssdService extends AccessibilityService {
                 return;
             }
         }
-        Log.d(TAG, "onAccessibilityEvent fired");
 
         // parses the reponse
         String response;
@@ -72,7 +72,7 @@ public class UssdService extends AccessibilityService {
         //      performGlobalAction(GLOBAL_ACTION_BACK);
         // cancels the dialog after successfully parsing response
         // and send the response to USSDController
-        if (UssdController.isRequestOngoing) {
+        if (UssdController.isRequestOngoing()) {
             cancelDialog(event);
             sendBroadcast(response);
         }
@@ -126,5 +126,11 @@ public class UssdService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
         Log.d(TAG, "onServiceConnected fired");
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        Log.d(TAG, "onUnbind fired");
+        return super.onUnbind(intent);
     }
 }

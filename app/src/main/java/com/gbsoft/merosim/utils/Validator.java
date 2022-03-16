@@ -95,8 +95,14 @@ public class Validator {
             case Sim.NCELL:
                 return amountInt >= 10 && amountInt <= 200;
             case Sim.SMART_CELL:
-                return false;
+                return true;
         }
         return false;
+    }
+
+    public static boolean isFullNameValid(String fullName) {
+        Pattern pattern = Pattern.compile("[a-zA-Z \\.]+");
+        Matcher matcher = pattern.matcher(fullName);
+        return matcher.matches();
     }
 }

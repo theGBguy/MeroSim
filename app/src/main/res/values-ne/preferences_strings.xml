@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Created by Chiranjeevi Pandey on 3/10/22, 6:55 PM
+  ~ Copyright (c) 2022. Some rights reserved.
+  ~ Last modified: 2022/03/10
+  ~
+  ~ Licensed under GNU General Public License v3.0;
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~ https://www.gnu.org/licenses/gpl-3.0.en.html
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <!-- Language Preferences -->
+    <string name="language_pref_title">छनौट गरिएको भाषा</string>
+    <string name="language_summary_on">नेपाली</string>
+    <string name="language_summary_off">अंग्रेजी</string>
+
+    <!-- Vibrate Preferences -->
+    <string name="vibrate_pref_title">पिन पत्ता लगाउँदा भाईब्रेट गर्ने भन्ने बारे</string>
+    <string name="vibrate_summary_on">गर्ने</string>
+    <string name="vibrate_summary_off">नगर्ने</string>
+
+    <!--    Intuitive Preferences      -->
+    <string name="intuitive_summary_on">संभव भएसम्म intuitive mode को प्रयोग गर्ने</string>
+    <string name="intuitive_summary_off">intuitive mode को प्रयोग नगर्ने</string>
+
+    <string name="about_pref_category_title">यस एपको बारेमा</string>
+
+    <string name="version_pref_title">एप संस्करण</string>
+    <string name="version_summary">१.०</string>
+
+    <string name="send_feedback_pref_title">प्रतिक्रिया पठाउनुहोस्</string>
+    <string name="send_feedback_summary">सुझाव सहितको इमेल पठाउन यहाँ क्लिक गर्नुहोस्</string>
+
+    <string name="about_summary">© चिरञ्जीवी पाण्डे</string>
+
+    <string name="snack_msg_restart_txt">कृपया पर्खनुहोस्, यस एप रिलोड हुदैछ। एपको सम्पूर्ण भागमा भाषा परिवर्तन नभएमा एप पुनः सुचारु गर्नुहोला।</string>
+    <string name="choose_email_client_title">सुरु गर्नुहोस्</string>
+
+</resources>

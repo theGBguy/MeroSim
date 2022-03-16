@@ -69,6 +69,9 @@ public class TelephonyUtils {
     private static TelephonyUtils INSTANCE;
 
     public static TelephonyUtils getInstance(Context context) {
+        if (!PermissionUtils.isPermissionGranted(context, Manifest.permission.READ_PHONE_STATE)) {
+            return null;
+        }
         if (INSTANCE == null) {
             synchronized (TelephonyUtils.class) {
                 if (INSTANCE == null)
@@ -109,7 +112,7 @@ public class TelephonyUtils {
 
     @SuppressLint("MissingPermission")
     public void sendUssdRequest(String ussdRequest, boolean withOverlay, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
-        if (isCallPermissionGranted(fixerContract, withOverlay)) {
+        if (isCallPermissionGranted(fixerContract)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
                 telephonyManagers.get(simSlotIndex).sendUssdRequest(ussdRequest, callback, new Handler());
             else
@@ -117,7 +120,7 @@ public class TelephonyUtils {
         }
     }
 
-    private boolean isCallPermissionGranted(PermissionFixerContract fixerContract, boolean withOverlay) {
+    private boolean isCallPermissionGranted(PermissionFixerContract fixerContract) {
         if (!PermissionUtils.isPermissionGranted(context, Manifest.permission.CALL_PHONE)) {
             fixerContract.fixPermission(Manifest.permission.CALL_PHONE);
             return false;

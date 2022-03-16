@@ -46,6 +46,10 @@ public class Repository {
 
     public void querySimCardDetails(Context context, RepoCallback<List<Sim>> callback) {
         executor.execute(() -> {
+            // clear all cached data if sim card change is detected
+            if (isSimCardsChanged(context)) {
+                PrefsUtils.getDefaultSharedPrefs(context).edit().clear().commit();
+            }
             List<Sim> simList = retrieveCachedSimDetails(context);
             mainThreadHandler.post(() -> callback.onComplete(new Result.Success<>(simList)));
         });
@@ -55,7 +59,7 @@ public class Repository {
         TelephonyUtils utils = TelephonyUtils.getInstance(context);
         List<Sim> simList = new ArrayList<>();
         if (utils != null)
-            simList = TelephonyUtils.getInstance(context).getSimList();
+            simList = utils.getSimList();
         for (Sim sim : simList) {
             List<String> simDetails = PrefsUtils.retrieveSimDetails(context, sim.getSimSlotIndex());
             sim.setPhoneNo(simDetails.get(0));
@@ -65,41 +69,27 @@ public class Repository {
         return simList;
     }
 
-    public String getUserName(Context context) {
-        return PrefsUtils.getUserName(context);
+    private boolean isSimCardsChanged(Context context) {
+        TelephonyUtils utils = TelephonyUtils.getInstance(context);
+        List<Sim> simList = new ArrayList<>();
+        if (utils != null)
+            simList = utils.getSimList();
+        for (Sim sim : simList) {
+            String operator = PrefsUtils.getOperator(context, sim.getSimSlotIndex());
+            if (sim.getName().equals(operator)) {
+                continue;
+            }
+            return true;
+        }
+        return false;
     }
 
-    public void savePhone(Context context, int slotIndex, String phone) {
-        PrefsUtils.savePhone(context, slotIndex, phone);
-    }
-
-    public void saveBalance(Context context, int slotIndex, String balance) {
-        PrefsUtils.saveBalance(context, slotIndex, balance);
-
-    }
-
-    public void saveSimOwner(Context context, int slotIndex, String simOwner) {
-        PrefsUtils.saveSimOwner(context, slotIndex, simOwner);
-    }
-
-    public void saveSecurityCode(Context context, String securityCode) {
-        PrefsUtils.saveSecurityCode(context, securityCode);
-    }
-
-    public String getSecurityCode(Context context) {
-        return PrefsUtils.getSecurityCode(context);
-    }
-
-    public String getRechargeUSSDRequest(String simChooseData, String pinScanData) {
-        return TelephonyUtils.getRechargeUssdRequest(simChooseData, pinScanData);
-    }
-
-    public int getSimSlotIndex(Context context, String simName) {
-        return TelephonyUtils.getInstance(context).getSimSlotIndex(simName);
-    }
-
-    public boolean shouldUseOverlay(Context context) {
-        return PrefsUtils.shouldUseOverlay(context);
+    public static int getSimSlotIndex(Context context, String simName) {
+        TelephonyUtils utils = TelephonyUtils.getInstance(context);
+        if (utils == null) {
+            return -1;
+        }
+        return utils.getSimSlotIndex(simName);
     }
 
 }

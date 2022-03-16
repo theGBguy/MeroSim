@@ -18,14 +18,16 @@ package com.gbsoft.merosim.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
+import com.gbsoft.merosim.model.Sim;
 
 /*
-* This class contains utility methods related to language.
-*/
+ * This class contains utility methods related to language.
+ */
 
 public class LocaleUtils {
 
@@ -46,6 +48,9 @@ public class LocaleUtils {
     }
 
     public static String getNumberInNepaliDigit(String engNumber) {
+        if (TextUtils.equals(engNumber, Sim.UNAVAILABLE)) {
+            return "उपलब्ध छैन";
+        }
         char[] num = engNumber.toCharArray();
         StringBuilder nepaliNum = new StringBuilder();
         for (char c : num) {
@@ -61,6 +66,9 @@ public class LocaleUtils {
     }
 
     public static String getBalanceInNepali(String balance) {
+        if (TextUtils.equals(balance, Sim.UNAVAILABLE)) {
+            return "उपलब्ध छैन";
+        }
         return "रु" + getNumberInNepaliDigit(balance);
     }
 

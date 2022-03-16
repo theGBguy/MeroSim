@@ -18,7 +18,6 @@ package com.gbsoft.merosim.ui.home;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -44,10 +43,6 @@ public class HomeViewModel extends AndroidViewModel {
                 ((MeroSimApp) app).getExecutor(),
                 ((MeroSimApp) app).getMainThreadHandler()
         );
-    }
-
-    public boolean shouldAskUserName() {
-        return TextUtils.isEmpty(repository.getUserName(getAppContext()));
     }
 
     public void querySimCardDetails() {

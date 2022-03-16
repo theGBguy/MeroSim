@@ -16,19 +16,24 @@
 
 package com.gbsoft.merosim.telephony;
 
+import static com.gbsoft.merosim.telephony.UssdController.EVENT_RESPONSE;
+import static com.gbsoft.merosim.telephony.UssdController.KEY_RESPONSE;
+import static com.gbsoft.merosim.telephony.UssdController.RESPONSE_DATA_CANCELLED;
+
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 
-import com.gbsoft.merosim.R;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.gbsoft.merosim.databinding.FragmentOverlayBinding;
 
 /*
  * This class is used to display overlay to hide the
@@ -37,7 +42,7 @@ import com.gbsoft.merosim.R;
 
 public class OverlayService extends Service {
     private WindowManager windowManager;
-    private View overlay;
+    private FragmentOverlayBinding binding;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -49,12 +54,8 @@ public class OverlayService extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
 
         // inflates the overlay layout
-        overlay = LayoutInflater.from(this).inflate(R.layout.layout_overlay, null, false);
-        overlay.findViewById(R.id.btn_cancel).setOnClickListener(v -> {
-            ((TextView) overlay.findViewById(R.id.tv_loading))
-                    .setText(getString(R.string.tv_loading_txt_alt));
-            UssdController.shouldCancel = true;
-        });
+        binding = FragmentOverlayBinding.inflate(LayoutInflater.from(this), null, false);
+        binding.btnCancel.setOnClickListener(v -> sendCancelRequestBroadcast());
 
         // sets the appropriate layout flag to display overlay
         int layoutFlag;
@@ -77,7 +78,7 @@ public class OverlayService extends Service {
         layoutParams.gravity = Gravity.CENTER;
 
         // adds the view in the window
-        windowManager.addView(overlay, layoutParams);
+        windowManager.addView(binding.getRoot(), layoutParams);
 
         return START_NOT_STICKY;
     }
@@ -88,8 +89,16 @@ public class OverlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (windowManager != null && overlay != null) {
-            windowManager.removeView(overlay);
+        if (windowManager != null && binding != null) {
+            windowManager.removeView(binding.getRoot());
         }
+    }
+
+    // sends local broadcast
+    private void sendCancelRequestBroadcast() {
+        Intent receiverIntent = new Intent(EVENT_RESPONSE);
+        receiverIntent.putExtra(KEY_RESPONSE, RESPONSE_DATA_CANCELLED);
+        new Handler(getMainLooper()).postDelayed(() ->
+                LocalBroadcastManager.getInstance(this).sendBroadcast(receiverIntent), 500);
     }
 }

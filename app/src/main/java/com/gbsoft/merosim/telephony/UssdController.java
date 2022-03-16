@@ -49,14 +49,13 @@ public class UssdController {
     // constants used to broadcast local events
     static final String KEY_RESPONSE = "ussd_response";
     static final String EVENT_RESPONSE = "event_response";
+    static final String RESPONSE_DATA_CANCELLED = "cancelled";
+    static final int OVERLAY_TIMEOUT_SECS = 25;
 
     private final Context context;
     private final Intent overlayServiceIntent;
 
-    static boolean isRequestOngoing = false;
-    static boolean shouldCancel = false;
-
-    private String currentRequest;
+    private static String currentRequest;
     private UssdResponseCallback callback;
 
     public UssdController(@NonNull Context context) {
@@ -68,21 +67,26 @@ public class UssdController {
     @RequiresPermission(Manifest.permission.CALL_PHONE)
     @SuppressLint("NewApi")
     public void sendUssdRequest(String request, int simSlotIndex, boolean withOverlay, UssdResponseCallback callback) {
-        if (isRequestOngoing) {
+        if (currentRequest != null) {
             callback.onReceiveUssdResponseCancelled(null, request, context.getString(R.string.ussd_response_cancelled_alt));
             return;
         }
+        context.startActivity(getActionCallIntent(Uri.parse("tel:" + Uri.encode(request)), simSlotIndex));
         if (withOverlay) {
             context.startService(overlayServiceIntent);
-            // will automatically close itself in 10 secs if its not closed already
-            new Handler(Looper.getMainLooper()).postDelayed(() ->
-                    context.stopService(overlayServiceIntent), 10000);
-            this.currentRequest = request;
+            // will automatically close itself in 25 secs if its not closed already
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                if (currentRequest != null) {
+                    currentRequest = null;
+                    LocalBroadcastManager.getInstance(context).unregisterReceiver(receiver);
+                    callback.onReceiveUssdResponseCancelled(null, currentRequest, context.getString(R.string.ussd_response_cancelled_msg));
+                    context.stopService(overlayServiceIntent);
+                }
+            }, OVERLAY_TIMEOUT_SECS * 1000);
+            currentRequest = request;
             this.callback = callback;
-            isRequestOngoing = true;
             LocalBroadcastManager.getInstance(context).registerReceiver(receiver, new IntentFilter(EVENT_RESPONSE));
         }
-        context.startActivity(getActionCallIntent(Uri.parse("tel:" + Uri.encode(request)), simSlotIndex));
     }
 
     // calls the given number using the appropriate sim card
@@ -95,26 +99,32 @@ public class UssdController {
         @SuppressLint("NewApi")
         @Override
         public void onReceive(Context context, Intent intent) {
-            isRequestOngoing = false;
             LocalBroadcastManager.getInstance(UssdController.this.context).unregisterReceiver(receiver);
             UssdController.this.context.stopService(overlayServiceIntent);
 
-            if (shouldCancel) {
-                shouldCancel = false;
-                callback.onReceiveUssdResponseCancelled(null, currentRequest, context.getString(R.string.ussd_response_cancelled_msg));
+            if (callback == null) {
+                currentRequest = null;
                 return;
             }
 
             String response = intent.getStringExtra(KEY_RESPONSE);
-            if (response != null && !TextUtils.isEmpty(response) && callback != null) {
-                if (response.contains("Connection problem")) {
-                    callback.onReceiveUssdResponseFailed(null, currentRequest, TelephonyManager.USSD_RETURN_FAILURE);
-                } else {
-                    callback.onReceiveUssdResponse(null, currentRequest, response);
-                }
+            if (TextUtils.equals(response, RESPONSE_DATA_CANCELLED)) {
+                callback.onReceiveUssdResponseCancelled(null, currentRequest, context.getString(R.string.ussd_response_cancelled_msg));
+                currentRequest = null;
+                return;
             }
+            if (response.contains("Connection problem")) {
+                callback.onReceiveUssdResponseFailed(null, currentRequest, TelephonyManager.USSD_RETURN_FAILURE);
+            } else {
+                callback.onReceiveUssdResponse(null, currentRequest, response);
+            }
+            currentRequest = null;
         }
     };
+
+    public static boolean isRequestOngoing() {
+        return currentRequest != null;
+    }
 
     // generates appropriate call intent for any sim slot
     @SuppressLint("MissingPermission")
@@ -153,7 +163,7 @@ public class UssdController {
             if (phoneAccountHandleList != null && phoneAccountHandleList.size() > simSlotIndex)
                 intent.putExtra("android.telecom.extra.PHONE_ACCOUNT_HANDLE", phoneAccountHandleList.get(simSlotIndex));
         } else
-            Toast.makeText(context, R.string.phone_permission_failed, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.perm_phone_denied_txt, Toast.LENGTH_LONG).show();
         return intent;
     }
 

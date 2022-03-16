@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.model.Namaste;
@@ -50,16 +51,24 @@ public class NamasteEventHandler extends UssdResponseCallback {
         this.telephonyUtils = TelephonyUtils.getInstance(context);
     }
 
+    public void onTurnOnIntuitiveModeClick(View view) {
+        Context context = view.getContext();
+        PreferenceManager.getDefaultSharedPreferences(context)
+                .edit()
+                .putBoolean(context.getString(R.string.key_intuitive), true)
+                .apply();
+    }
+
     public void onPhoneRefreshClick(View view) {
-        makeUSSDRequest(Namaste.USSD_SELF, vm.shouldUseOverlay());
+        makeUSSDRequest(Namaste.USSD_SELF, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onBalanceRefreshClick(View view) {
-        makeUSSDRequest(Namaste.USSD_BALANCE, vm.shouldUseOverlay());
+        makeUSSDRequest(Namaste.USSD_BALANCE, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onSimOwnerRefreshClick(View view) {
-        makeUSSDRequest(Namaste.USSD_SIM_OWNER, vm.shouldUseOverlay());
+        makeUSSDRequest(Namaste.USSD_SIM_OWNER, vm.isIntuitiveModeOn().getValue());
     }
 
     public void onTakePacksClick(View view) {
@@ -197,9 +206,10 @@ public class NamasteEventHandler extends UssdResponseCallback {
                 vm.setBalance(TelephonyUtils.getBalanceText(response.toString()));
                 break;
             case Namaste.USSD_SIM_OWNER:
-                vm.setSimOwner(TelephonyUtils.getSimOwnerText(response.toString()));
+                String simOwner = TelephonyUtils.getSimOwnerText(response.toString());
+                vm.setSimOwner(simOwner);
                 if (vm.isUserNameDifferent()) {
-                    Utils.showDifferentNameDialog(context, Sim.NAMASTE);
+                    Utils.showDifferentNameDialog(context, vm.getUserName(), simOwner, Sim.NAMASTE);
                 }
                 break;
             case Namaste.USSD_BALANCE_TRANSFER:

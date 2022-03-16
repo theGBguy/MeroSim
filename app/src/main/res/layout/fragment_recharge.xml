@@ -22,39 +22,75 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ViewSwitcher
+        android:id="@+id/view_switcher_recharge"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.recharge.RechargeFragment">
-
-        <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
-            android:id="@+id/stepper_form"
+        tools:context=".ui.main.recharge.RechargeFragment">
+        <!--no permission layout-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            app:form_allow_non_linear_navigation="false"
-            app:form_circle_background_color="?colorPrimary"
-            app:form_display_bottom_navigation="false"
-            app:form_include_confirmation_step="false"
-            app:form_next_button_background_color="?colorPrimary"
-            app:form_next_button_pressed_background_color="?colorPrimaryDark"
-            app:form_title_text_color="?colorOnSurface"
-            app:layout_constraintBottom_toTopOf="@id/adView_recharge"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        adview with test id     -->
-        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/adView_recharge"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="16dp"
+                app:srcCompat="@drawable/ic_allow_camera_access" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_no_cam_perm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:fontFamily="@font/proxima_nova_thin"
+                android:text="@string/tv_no_cam_txt"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_grant_cam_perm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/btn_grant_cam_perm_txt" />
+
+        </LinearLayout>
+
+        <!--scan recharge layout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ernestoyaquello.com.verticalstepperform.VerticalStepperFormView
+                android:id="@+id/stepper_form"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                app:form_allow_non_linear_navigation="false"
+                app:form_circle_background_color="?colorPrimary"
+                app:form_circle_completed_background_color="@color/colorGreen"
+                app:form_display_bottom_navigation="false"
+                app:form_include_confirmation_step="false"
+                app:form_next_button_background_color="?colorPrimary"
+                app:form_next_button_pressed_background_color="?colorPrimaryDark"
+                app:form_title_text_color="?colorOnSurface" />
+
+            <!--        adview with test id  ca-app-pub-3940256099942544/6300978111   -->
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView_recharge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/RECHARGE_BANNER_AD_UNIT_ID" />
+        </LinearLayout>
+    </ViewSwitcher>
 </layout>

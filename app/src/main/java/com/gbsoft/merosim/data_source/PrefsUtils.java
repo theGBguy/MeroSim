@@ -30,21 +30,30 @@ import java.util.Locale;
  */
 
 public class PrefsUtils {
-    private static final String KEY_USER_NAME = "user_name";
+    public static final String KEY_USER_NAME = "user_name";
+    private static final String KEY_OPERATOR = "operator";
     private static final String KEY_PHONE = "sim%d_phone";
     private static final String KEY_BALANCE = "sim%d_balance";
     private static final String KEY_SIM_OWNER = "sim%d_sim_owner";
-    private static final String UNAVAILABLE = "(unavailable)";
+    private static final String UNAVAILABLE = "unavailable";
     private static final String KEY_SECURITY_CODE = "scode";
+    public static final String NAME_UNKNOWN = "Stranger";
 
     public static String getUserName(Context context) {
-        return getDefaultSharedPrefs(context).getString(KEY_USER_NAME, "");
+        return getDefaultSharedPrefs(context).getString(KEY_USER_NAME, NAME_UNKNOWN);
     }
 
     public static void saveUserName(Context context, String userName) {
         getDefaultSharedPrefs(context)
                 .edit()
                 .putString(KEY_USER_NAME, userName)
+                .apply();
+    }
+
+    public static void saveOperator(Context context, int slotIndex, String operator) {
+        getDefaultSharedPrefs(context)
+                .edit()
+                .putString(getFormattedKey(KEY_OPERATOR, slotIndex), operator)
                 .apply();
     }
 
@@ -80,8 +89,24 @@ public class PrefsUtils {
         return getDefaultSharedPrefs(context).getString(KEY_SECURITY_CODE, "");
     }
 
-    public static boolean shouldUseOverlay(Context context) {
-        return getDefaultSharedPrefs(context).getBoolean("key_overlay", true);
+    public static boolean isIntuitiveModeTurnedOn(Context context) {
+        return getDefaultSharedPrefs(context).getBoolean("key_intuitive", true);
+    }
+
+    public static String getOperator(Context context, int slotIndex) {
+        return getDefaultSharedPrefs(context).getString(getFormattedKey(KEY_OPERATOR, slotIndex), UNAVAILABLE);
+    }
+
+    public static String getPhoneNumber(Context context, int slotIndex) {
+        return getDefaultSharedPrefs(context).getString(getFormattedKey(KEY_PHONE, slotIndex), UNAVAILABLE);
+    }
+
+    public static String getBalance(Context context, int slotIndex) {
+        return getDefaultSharedPrefs(context).getString(getFormattedKey(KEY_BALANCE, slotIndex), UNAVAILABLE);
+    }
+
+    public static String getSimOwner(Context context, int slotIndex) {
+        return getDefaultSharedPrefs(context).getString(getFormattedKey(KEY_SIM_OWNER, slotIndex), UNAVAILABLE);
     }
 
     public static List<String> retrieveSimDetails(Context context, int slotIndex) {

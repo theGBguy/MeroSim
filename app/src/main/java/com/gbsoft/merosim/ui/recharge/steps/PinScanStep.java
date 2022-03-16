@@ -64,10 +64,10 @@ import ernestoyaquello.com.verticalstepperform.Step;
 // represents pin scan step of the stepper view
 public class PinScanStep extends Step<String> implements OnTextRecognizedListener, View.OnClickListener, View.OnTouchListener {
     // constants to represent different state of pin scan step
-    final int STATE_LOADING = 1;
-    final int STATE_PREVIEW = 2;
-    final int STATE_CAPTURED = 3;
-    final int STATE_SCANNED = 4;
+    final int STATE_LOADING = 2;
+    final int STATE_PREVIEW = 3;
+    final int STATE_CAPTURED = 4;
+    final int STATE_SCANNED = 5;
 
     private StepPinScanBinding binding;
     private final RechargeViewModel model;
@@ -83,6 +83,7 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         if (state == null) return;
         switch (state) {
             case STATE_LOADING:
+                showHideProgress(false);
                 showHideProgress(true);
                 showHidePreview(false);
 //                showHideCaptured(false);
@@ -331,9 +332,10 @@ public class PinScanStep extends Step<String> implements OnTextRecognizedListene
         if (model.isFlashEnabled())
             toggleFlash(false);
         startStopCamera(false);
-        if (mediaPlayer.isPlaying())
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-        mediaPlayer.release();
+            mediaPlayer.release();
+        }
         state.removeObserver(stateObserver);
     }
 

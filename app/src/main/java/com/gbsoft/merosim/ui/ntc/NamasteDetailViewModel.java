@@ -17,32 +17,22 @@
 package com.gbsoft.merosim.ui.ntc;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.gbsoft.merosim.MeroSimApp;
 import com.gbsoft.merosim.R;
+import com.gbsoft.merosim.data_source.PrefsUtils;
 import com.gbsoft.merosim.model.Namaste;
 import com.gbsoft.merosim.model.Sim;
-import com.gbsoft.merosim.data_source.Repository;
-import com.gbsoft.merosim.ui.home.SimViewHolder;
+import com.gbsoft.merosim.ui.BaseTelecomViewModel;
 import com.gbsoft.merosim.utils.Event;
 import com.gbsoft.merosim.utils.Validator;
 
 // view model for Namaste details fragment
-public class NamasteDetailViewModel extends AndroidViewModel {
-    private final MutableLiveData<String> phone = new MutableLiveData<>(Sim.UNAVAILABLE);
-    private final MutableLiveData<String> balance = new MutableLiveData<>(Sim.UNAVAILABLE);
-    private final MutableLiveData<String> simOwner = new MutableLiveData<>(Sim.UNAVAILABLE);
-    private final MutableLiveData<String> customerCare = new MutableLiveData<>(Namaste.CUSTOMER_CARE_NO);
-
+public class NamasteDetailViewModel extends BaseTelecomViewModel {
     public final MutableLiveData<String> securityCode = new MutableLiveData<>();
     public final MutableLiveData<String> recipient = new MutableLiveData<>();
     public final MutableLiveData<String> amount = new MutableLiveData<>();
@@ -52,47 +42,15 @@ public class NamasteDetailViewModel extends AndroidViewModel {
     public final MutableLiveData<String> songCode = new MutableLiveData<>();
 
     private final MutableLiveData<Integer> errorSecurityCode = new MutableLiveData<>();
-    private final MutableLiveData<Integer> errorRecipient = new MutableLiveData<>();
-    private final MutableLiveData<Integer> errorAmount = new MutableLiveData<>();
-
-    private final MutableLiveData<Event<Integer>> snackMsg = new MutableLiveData<>();
-
-    private final Repository repository;
-    private Sim sim;
 
     public NamasteDetailViewModel(@NonNull Application app) {
         super(app);
-        repository = new Repository(
-                ((MeroSimApp) app).getExecutor(),
-                ((MeroSimApp) app).getMainThreadHandler()
-        );
     }
 
     public void init(Bundle args) {
-        if (args == null) return;
-        sim = args.getParcelable(SimViewHolder.KEY_SIM);
-        if (sim == null) return;
-
-        phone.setValue(sim.getPhoneNo());
-        balance.setValue(sim.getBalance());
-        simOwner.setValue(sim.getSimOwner());
-        securityCode.setValue(repository.getSecurityCode(getAppContext()));
-    }
-
-    public boolean shouldUseOverlay() {
-        return repository.shouldUseOverlay(getAppContext());
-    }
-
-    public boolean isUserNameDifferent() {
-        String cachedUserName = repository.getUserName(getAppContext());
-        if (TextUtils.isEmpty(cachedUserName)) {
-            return false;
-        }
-        return !TextUtils.equals(cachedUserName, simOwner.getValue());
-    }
-
-    int getSimSlotIndex() {
-        return sim.getSimSlotIndex();
+        super.init(args);
+        customerCare.setValue(Namaste.CUSTOMER_CARE_NO);
+        securityCode.setValue(PrefsUtils.getSecurityCode(getAppContext()));
     }
 
     boolean isTransferDataInvalid() {
@@ -114,68 +72,17 @@ public class NamasteDetailViewModel extends AndroidViewModel {
         return false;
     }
 
-    public LiveData<String> getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        if (phone == null) return;
-
-        this.phone.setValue(phone);
-        repository.savePhone(getAppContext(), sim.getSimSlotIndex(), phone);
-    }
-
-    public LiveData<String> getBalance() {
-        return balance;
-    }
-
-    public void setBalance(String balance) {
-        if (balance == null) return;
-
-        this.balance.setValue(balance);
-        repository.saveBalance(getAppContext(), sim.getSimSlotIndex(), balance);
-    }
-
-    public LiveData<String> getSimOwner() {
-        return simOwner;
-    }
-
-    public void setSimOwner(String simOwner) {
-        if (simOwner == null) return;
-
-        this.simOwner.setValue(simOwner);
-        repository.saveSimOwner(getAppContext(), sim.getSimSlotIndex(), simOwner);
-    }
-
     public void saveSecurityCode() {
-        repository.saveSecurityCode(getAppContext(), securityCode.getValue());
-    }
+        String code = securityCode.getValue();
+        if (code == null || code.isEmpty()) {
+            snackMsg.setValue(new Event<>(R.string.error_security_code));
+            return;
+        }
 
-    public LiveData<String> getCustomerCare() {
-        return customerCare;
+        PrefsUtils.saveSecurityCode(getAppContext(), code);
     }
 
     public LiveData<Integer> getErrorSecurityCode() {
         return errorSecurityCode;
-    }
-
-    public LiveData<Integer> getErrorRecipient() {
-        return errorRecipient;
-    }
-
-    public LiveData<Integer> getErrorAmount() {
-        return errorAmount;
-    }
-
-    public LiveData<Event<Integer>> getSnackMsg() {
-        return snackMsg;
-    }
-
-    public void setSnackMsg(@StringRes int res) {
-        snackMsg.setValue(new Event<>(res));
-    }
-
-    private Context getAppContext() {
-        return getApplication().getApplicationContext();
     }
 }

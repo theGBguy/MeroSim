@@ -16,8 +16,10 @@
 
 package com.gbsoft.merosim.ui.home;
 
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -38,12 +40,10 @@ public class SimViewHolder extends RecyclerView.ViewHolder {
     public static final String KEY_SIM = "sim";
 
     private SimRowBinding binding;
-    private final Resources res;
 
     public SimViewHolder(@NotNull SimRowBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
-        this.res = binding.getRoot().getResources();
     }
 
     void bind(Sim model) {
@@ -51,18 +51,27 @@ public class SimViewHolder extends RecyclerView.ViewHolder {
         int destinationId = -1;
         Bundle args = new Bundle();
         args.putParcelable(KEY_SIM, model);
+        Resources res = itemView.getResources();
 
         switch (simName) {
             case Sim.NAMASTE:
                 binding.cardSim.setCardBackgroundColor(Utils.getSimColor(res, 0));
+                binding.ivSimLogo.setImageResource(R.drawable.ntc);
+                binding.ivSimLogo.setImageTintList(
+                        Utils.isNightMode(itemView.getResources())
+                                ? ColorStateList.valueOf(res.getColor(R.color.color_ntc_tint_dark, null))
+                                : ColorStateList.valueOf(res.getColor(R.color.color_ntc_tint, null))
+                );
                 destinationId = R.id.nav_namaste_detail;
                 break;
             case Sim.NCELL:
                 binding.cardSim.setCardBackgroundColor(Utils.getSimColor(res, 1));
+                binding.ivSimLogo.setImageResource(R.drawable.ic_ncell);
                 destinationId = R.id.nav_ncell_detail;
                 break;
             case Sim.SMART_CELL:
                 binding.cardSim.setCardBackgroundColor(Utils.getSimColor(res, 2));
+                binding.ivSimLogo.setImageResource(R.drawable.smart);
                 destinationId = R.id.nav_smart_detail;
                 break;
         }

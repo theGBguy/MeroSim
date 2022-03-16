@@ -22,52 +22,38 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/tv_confirm_sim"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/proxima_nova_bold"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textSize="18sp"
             tools:text="@string/tv_confirm_sim" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/tv_confirm_pin"
-            app:layout_constraintBottom_toBottomOf="@+id/til_scanned_pin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/til_scanned_pin" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_scanned_pin"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/tv_confirm_sim"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_marginTop="8dp"
+            app:hintEnabled="false"
+            app:prefixText="Pin : "
+            app:prefixTextAppearance="@style/TextAppearance.Material3.BodyLarge">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiet_scanned_pin"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="14"
-                android:hint="@string/edtTxt_scanned_pin_num_hint"
-                android:inputType="number" />
+                android:layout_height="wrap_content"
+                android:ems="20"
+                android:inputType="number"
+                tools:text="3839829383" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

@@ -16,55 +16,53 @@
 
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.MeroSim" parent="Theme.MaterialComponents.Light">
+    <style name="Theme.MeroSim" parent="Theme.Material3.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary700</item>
-        <item name="colorPrimaryDark">@color/colorPrimary900</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimaryVariant">@color/colorPrimary200</item>
+        <item name="android:fontFamily">@font/proxima_nova_regular</item>
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <!--        <item name="colorInversePrimary">@color/md_theme_light_inversePrimary</item>-->
+        <!--        <item name="colorShadow">@color/md_theme_light_shadow</item>-->
+        <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
 
-        <item name="android:colorBackground">@color/white200</item>
-        <item name="colorOnBackground">@color/black900</item>
-
-        <item name="colorSurface">@color/white300</item>
-        <item name="colorOnSurface">@color/black900</item>
-
-        <item name="colorError">@color/colorRed900</item>
-        <item name="colorOnError">@color/white50</item>
-
-        <item name="colorOnPrimary">@color/white50</item>
-        <item name="colorOnSecondary">@color/white50</item>
-
-        <item name="android:textViewStyle">@style/Widget.MeroSim.TextView</item>
-        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
-        </item>
-
-        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.MeroSim.SmallComponent
-        </item>
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.MeroSim.MediumComponent
-        </item>
-        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.MeroSim.LargeComponent
-        </item>
-    </style>
-
-    <style name="Widget.MeroSim.TextView" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
+        <item name="toolbarStyle">@style/Widget.Material3.Toolbar.Surface</item>
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox</item>
     </style>
 
     <style name="ThemeOverlay.MeroSim.CardView" parent="">
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:background">@drawable/card_bg</item>
-        <item name="android:elevation">8dp</item>
+        <item name="android:elevation">1dp</item>
     </style>
 
-    <style name="Widget.MeroSim.TextView.Clickable" parent="Widget.MaterialComponents.TextView">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
+    <style name="TextAppearance.MeroSim.CardTitle" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/proxima_nova_bold</item>
+        <item name="android:fontFamily">@font/proxima_nova_bold</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Theme.MeroSim.NoActionBar">
@@ -73,10 +71,15 @@
     </style>
 
     <style name="Theme.MeroSim.Sim">
-        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.OutlinedButton
+        <item name="materialButtonStyle">@style/Widget.Material3.Button.OutlinedButton
         </item>
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox
+        <item name="textInputStyle">@style/Widget.Material3.TextInputLayout.OutlinedBox
         </item>
+    </style>
+
+    <style name="CustomMaterialTextViewStyle">
+        <item name="android:background">?colorErrorContainer</item>
+        <item name="android:textColor">?colorOnErrorContainer</item>
     </style>
 
     <style name="Theme.MeroSim.Sim.Namaste">
@@ -112,8 +115,8 @@
         <item name="cornerSizeBottomRight">50%</item>
     </style>
 
-    <style name="Theme.MeroSim.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="Theme.MeroSim.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
 
-    <style name="Theme.MeroSim.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
+    <style name="Theme.MeroSim.PopupOverlay" parent="ThemeOverlay.Material3.Light" />
 
 </resources>

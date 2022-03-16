@@ -16,19 +16,23 @@
 
 package com.gbsoft.merosim.utils;
 
+import android.text.Html;
+
+import androidx.annotation.StringRes;
 import androidx.databinding.BindingAdapter;
 
 import com.gbsoft.merosim.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 
 // common binding adapters to be used with data binding library
 public class CommonBindingAdapters {
     // adapter to set error text resources in TextInputLayout view
-    @BindingAdapter("errorRes")
+    @BindingAdapter("errorText")
     public static void setErrorText(TextInputLayout textInputLayout, Integer error) {
-        if (error == null || error == 0)
+        if (error == null || error == 0) {
             textInputLayout.setError(null);
-        else {
+        } else {
             textInputLayout.setError(textInputLayout.getResources().getString(error));
             if (textInputLayout.getId() == R.id.ntc_til_recipient) {
                 textInputLayout.setErrorIconDrawable(null);

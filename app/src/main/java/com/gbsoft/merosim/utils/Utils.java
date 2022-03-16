@@ -17,6 +17,7 @@
 package com.gbsoft.merosim.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -34,28 +35,35 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.ExperimentalGetImage;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.core.text.util.LinkifyCompat;
 
+import com.codertainment.materialintro.MaterialIntroConfiguration;
+import com.codertainment.materialintro.sequence.MaterialIntroSequence;
+import com.codertainment.materialintro.sequence.SkipLocation;
+import com.codertainment.materialintro.shape.Focus;
+import com.codertainment.materialintro.view.MaterialIntroView;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data_source.PrefsUtils;
+import com.gbsoft.merosim.databinding.DialogAskUsernameBinding;
 import com.gbsoft.merosim.model.Sim;
 import com.gbsoft.merosim.telephony.UssdService;
 import com.gbsoft.merosim.ui.recharge.OnTextRecognizedListener;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -81,7 +89,7 @@ public class Utils {
         boolean isNightMode = isNightMode(res);
         switch (sim) {
             case 0:
-                return ResourcesCompat.getColor(res, isNightMode ? R.color.color_ntc_light : R.color.color_ntc, null);
+                return ResourcesCompat.getColor(res, isNightMode ? R.color.color_ntc_200 : R.color.color_ntc, null);
             case 1:
                 return ResourcesCompat.getColor(res, isNightMode ? R.color.color_ncell_200 : R.color.color_ncell, null);
             case 2:
@@ -91,7 +99,7 @@ public class Utils {
     }
 
     // returns whether night mode is on
-    private static boolean isNightMode(Resources res) {
+    public static boolean isNightMode(Resources res) {
         int nightModeFlags = res.getConfiguration().uiMode &
                 Configuration.UI_MODE_NIGHT_MASK;
         switch (nightModeFlags) {
@@ -123,35 +131,38 @@ public class Utils {
     }
 
     // shows dialog to ask user name on the first start of the app
-    public static void askUserName(Context context) {
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_username, null, false);
-        MaterialButton btnSubmit = dialogView.findViewById(R.id.btnSubmit);
-        MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
-        TextInputLayout tilUserName = dialogView.findViewById(R.id.til_name);
-
+    public static void askUserName(Context context, ViewGroup root) {
+        WeakReference<ViewGroup> rootWeakReference = new WeakReference<>(root);
+        DialogAskUsernameBinding binding = DialogAskUsernameBinding
+                .inflate(LayoutInflater.from(context), rootWeakReference.get(), false);
         AlertDialog dialog = new MaterialAlertDialogBuilder(context)
-                .setView(dialogView)
+                .setView(binding.getRoot())
                 .show();
 
-        btnSubmit.setOnClickListener(v -> {
-            Editable username = tilUserName.getEditText().getText();
-            if (username != null) {
-                PrefsUtils.saveUserName(context, username.toString());
+        binding.btnSubmit.setOnClickListener(v -> {
+            Editable username = binding.tilName.getEditText().getText();
+            if (username != null && Validator.isFullNameValid(username.toString())) {
+                PrefsUtils.saveUserName(context, username.toString().toUpperCase());
+                dialog.dismiss();
+            } else {
+                SnackUtils.showMessage(rootWeakReference.get(), R.string.invalid_full_name_txt);
             }
-            dialog.dismiss();
         });
 
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        binding.btnIgnore.setOnClickListener(v -> {
+            PrefsUtils.saveUserName(context, PrefsUtils.NAME_UNKNOWN);
+            dialog.dismiss();
+        });
 
     }
 
     // shows dialog to warn user to use the sim registered in their own name
-    public static void showDifferentNameDialog(Context context, String simName) {
+    public static void showDifferentNameDialog(Context context, String appName, String responseName, String simName) {
         // spannable string to make the link clickable in the text
-        SpannableString msg = new SpannableString(context.getString(R.string.different_name_dialog_msg, simName));
+        SpannableString msg = new SpannableString(context.getString(R.string.different_name_dialog_msg, responseName, appName, simName));
         LinkifyCompat.addLinks(msg, Linkify.WEB_URLS);
 
-        View dialogView = LayoutInflater.from(context).inflate(R.layout.layout_different_name, null, false);
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_different_name, null, false);
         TextView message = dialogView.findViewById(R.id.tv_msg);
         message.setText(msg);
         message.setMovementMethod(LinkMovementMethod.getInstance());
@@ -162,6 +173,75 @@ public class Utils {
                 .setView(dialogView)
                 .setNeutralButton(R.string.okay_txt, (dialog, which) -> dialog.dismiss())
                 .show();
+    }
+
+    public static MaterialIntroView getIntroView(View targetView, @StringRes Integer infoText) {
+        Context context = targetView.getContext();
+        MaterialIntroView materialIntroView = new MaterialIntroView(context);
+        //  materialIntroView.setMaskColor(res.getColor(R.color.md_theme_light_primaryContainer, theme));
+        materialIntroView.setPadding(24);
+        materialIntroView.setInfoText(context.getString(infoText));
+        materialIntroView.setInfoTextColor(ContextCompat.getColor(context, R.color.md_theme_light_onSecondaryContainer));
+        materialIntroView.setInfoTextSize(18f);
+        materialIntroView.setInfoTextTypeface(ResourcesCompat.getFont(context, R.font.proxima_nova_regular));
+        materialIntroView.setInfoCardBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_secondaryContainer));
+//        materialIntroView.setShowOnlyOnce(false);
+        materialIntroView.setHelpIconResource(R.drawable.ic_round_help_center_24);
+        materialIntroView.setHelpIconColor(ContextCompat.getColor(context, R.color.md_theme_light_onSecondaryContainer));
+        materialIntroView.setFocusType(Focus.NORMAL);
+        materialIntroView.setDotIconColor(ContextCompat.getColor(context, R.color.white300));
+        materialIntroView.setViewId(getId(targetView));
+        materialIntroView.setTargetView(targetView);
+//        materialIntroView.setPerformClick(true);
+
+//        materialIntroView.setSkipLocation(SkipLocation.BOTTOM_RIGHT);
+//        MaterialButton button = new MaterialButton(context);
+//        button.setBackgroundColor(ContextCompat.getColor(context, R.color.md_theme_light_primaryContainer));
+//        materialIntroView.setSkipButton(button);
+
+        return materialIntroView;
+    }
+
+    private static String getId(View view) {
+        if (view.getId() == View.NO_ID) return "no-id";
+        else return view.getResources().getResourceName(view.getId());
+    }
+
+    public static void showMaterialIntroSequence(Activity activity, View... views) {
+        MaterialIntroSequence materialIntroSequence = MaterialIntroSequence.Companion.getInstance(activity);
+
+        MaterialIntroConfiguration config = new MaterialIntroConfiguration();
+        config.setPadding(24);
+        config.setInfoTextColor(ContextCompat.getColor(activity, R.color.md_theme_light_onSecondaryContainer));
+        config.setInfoTextSize(18f);
+        config.setInfoTextTypeface(ResourcesCompat.getFont(activity, R.font.proxima_nova_regular));
+        config.setInfoCardBackgroundColor(ContextCompat.getColor(activity, R.color.md_theme_light_secondaryContainer));
+//        config.setShowOnlyOnce(false);
+        config.setHelpIconResource(R.drawable.ic_round_help_center_24);
+        config.setHelpIconColor(ContextCompat.getColor(activity, R.color.md_theme_light_onSecondaryContainer));
+        config.setFocusType(Focus.NORMAL);
+        config.setDotIconColor(ContextCompat.getColor(activity, R.color.white300));
+//        config.setPerformClick(true);
+        config.setSkipLocation(SkipLocation.BOTTOM_RIGHT);
+        config.setSkipButtonStyling(materialButton -> {
+            materialButton.setBackgroundColor(ContextCompat.getColor(activity, R.color.md_theme_light_primaryContainer));
+            return null;
+        });
+
+        materialIntroSequence.add(createNewConfigFromExisting(config, activity.getString(R.string.intro_phone_txt), views[0]));
+        materialIntroSequence.add(createNewConfigFromExisting(config, activity.getString(R.string.intro_balance_txt), views[1]));
+        if (views.length == 3)
+            materialIntroSequence.add(createNewConfigFromExisting(config, activity.getString(R.string.intro_sim_owner_txt), views[2]));
+//        materialIntroSequence.setShowSkip(true);
+        materialIntroSequence.setInitialDelay(3000);
+        materialIntroSequence.start();
+    }
+
+    private static MaterialIntroConfiguration createNewConfigFromExisting(MaterialIntroConfiguration existing, CharSequence info, View target) {
+        existing.setInfoText(info);
+        existing.setViewId(getId(target));
+        existing.setTargetView(target);
+        return existing;
     }
 
     // scans pin code from the captured image
@@ -208,6 +288,7 @@ public class Utils {
         if (pinMatcher.find()) {
             return pinMatcher.group().replaceAll("\\D", "");
         }
+
         return "";
     }
 
