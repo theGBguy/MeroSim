@@ -34,7 +34,7 @@ import com.gbsoft.merosim.MeroSimApp;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.databinding.FragmentRechargeBinding;
 import com.gbsoft.merosim.telephony.TelephonyUtils;
-import com.gbsoft.merosim.telephony.UssdResponseCallback;
+import com.gbsoft.merosim.telephony.USSDResponseCallback;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.ui.recharge.steps.PinConfirmStep;
 import com.gbsoft.merosim.ui.recharge.steps.PinScanStep;
@@ -166,7 +166,7 @@ public class RechargeFragment extends Fragment implements StepperFormListener {
     }
 
     // callback to handle USSD request's response
-    private final UssdResponseCallback callback = new UssdResponseCallback() {
+    private final USSDResponseCallback callback = new USSDResponseCallback() {
         @Override
         public void onReceiveUssdResponse(TelephonyManager telephonyManager, String request, CharSequence response) {
             String responseStr = response.toString();

@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class PrefsUtils {
     public static final String KEY_USER_NAME = "user_name";
-    private static final String KEY_OPERATOR = "operator";
+    private static final String KEY_OPERATOR = "sim%d_operator";
     private static final String KEY_PHONE = "sim%d_phone";
     private static final String KEY_BALANCE = "sim%d_balance";
     private static final String KEY_SIM_OWNER = "sim%d_sim_owner";

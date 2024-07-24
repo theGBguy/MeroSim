@@ -47,9 +47,7 @@ public class Repository {
     public void querySimCardDetails(Context context, RepoCallback<List<Sim>> callback) {
         executor.execute(() -> {
             // clear all cached data if sim card change is detected
-            if (isSimCardsChanged(context)) {
-                PrefsUtils.getDefaultSharedPrefs(context).edit().clear().commit();
-            }
+            fixIfSimCardsIsChanged(context);
             List<Sim> simList = retrieveCachedSimDetails(context);
             mainThreadHandler.post(() -> callback.onComplete(new Result.Success<>(simList)));
         });
@@ -69,19 +67,23 @@ public class Repository {
         return simList;
     }
 
-    private boolean isSimCardsChanged(Context context) {
+    private void fixIfSimCardsIsChanged(Context context) {
         TelephonyUtils utils = TelephonyUtils.getInstance(context);
         List<Sim> simList = new ArrayList<>();
         if (utils != null)
             simList = utils.getSimList();
         for (Sim sim : simList) {
             String operator = PrefsUtils.getOperator(context, sim.getSimSlotIndex());
-            if (sim.getName().equals(operator)) {
+            if (operator.equals(sim.getName())) {
                 continue;
             }
-            return true;
+            if (operator.equals(Sim.UNAVAILABLE)) {
+                PrefsUtils.saveOperator(context, sim.getSimSlotIndex(), sim.getName());
+                continue;
+            }
+            PrefsUtils.getDefaultSharedPrefs(context).edit().clear().commit();
+            break;
         }
-        return false;
     }
 
     public static int getSimSlotIndex(Context context, String simName) {

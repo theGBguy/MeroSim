@@ -50,6 +50,7 @@ import com.codertainment.materialintro.MaterialIntroConfiguration;
 import com.codertainment.materialintro.sequence.MaterialIntroSequence;
 import com.codertainment.materialintro.sequence.SkipLocation;
 import com.codertainment.materialintro.shape.Focus;
+import com.codertainment.materialintro.shape.FocusGravity;
 import com.codertainment.materialintro.view.MaterialIntroView;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.data_source.PrefsUtils;
@@ -57,6 +58,7 @@ import com.gbsoft.merosim.databinding.DialogAskUsernameBinding;
 import com.gbsoft.merosim.model.Sim;
 import com.gbsoft.merosim.telephony.UssdService;
 import com.gbsoft.merosim.ui.recharge.OnTextRecognizedListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -66,6 +68,7 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -138,6 +141,10 @@ public class Utils {
         AlertDialog dialog = new MaterialAlertDialogBuilder(context)
                 .setView(binding.getRoot())
                 .show();
+        // make the dialog non-cancellable on back button and touch outside
+        // the dialog box
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         binding.btnSubmit.setOnClickListener(v -> {
             Editable username = binding.tilName.getEditText().getText();
@@ -220,19 +227,40 @@ public class Utils {
         config.setHelpIconResource(R.drawable.ic_round_help_center_24);
         config.setHelpIconColor(ContextCompat.getColor(activity, R.color.md_theme_light_onSecondaryContainer));
         config.setFocusType(Focus.NORMAL);
-        config.setDotIconColor(ContextCompat.getColor(activity, R.color.white300));
+        config.setDotViewEnabled(false);
+//        config.setDotIconColor(ContextCompat.getColor(activity, R.color.white300));
 //        config.setPerformClick(true);
         config.setSkipLocation(SkipLocation.BOTTOM_RIGHT);
-        config.setSkipButtonStyling(materialButton -> {
-            materialButton.setBackgroundColor(ContextCompat.getColor(activity, R.color.md_theme_light_primaryContainer));
-            return null;
-        });
+//        config.setSkipButtonStyling(materialButton -> {
+//            materialButton.setBackgroundColor(ContextCompat.getColor(activity, R.color.md_theme_light_primaryContainer));
+//            return null;
+//        });
 
-        materialIntroSequence.add(createNewConfigFromExisting(config, activity.getString(R.string.intro_phone_txt), views[0]));
-        materialIntroSequence.add(createNewConfigFromExisting(config, activity.getString(R.string.intro_balance_txt), views[1]));
-        if (views.length == 3)
-            materialIntroSequence.add(createNewConfigFromExisting(config, activity.getString(R.string.intro_sim_owner_txt), views[2]));
-//        materialIntroSequence.setShowSkip(true);
+        for (int i = 0; i < views.length; i++) {
+            String introText = "";
+            switch (i) {
+                case 0:
+                    introText = activity.getString(R.string.intro_phone_txt);
+                    break;
+                case 1:
+                    introText = activity.getString(R.string.intro_balance_txt);
+                    break;
+                case 2:
+                    if(views.length == 3){
+                        config.setFocusGravity(FocusGravity.LEFT);
+                        introText = activity.getString(R.string.intro_info_txt);
+                    }else{
+                        introText = activity.getString(R.string.intro_sim_owner_txt);
+                    }
+                    break;
+                case 3:
+                    config.setFocusGravity(FocusGravity.LEFT);
+                    introText = activity.getString(R.string.intro_info_txt);
+                    break;
+            }
+            materialIntroSequence.add(createNewConfigFromExisting(config, introText, views[i]));
+        }
+        //        materialIntroSequence.setShowSkip(true);
         materialIntroSequence.setInitialDelay(3000);
         materialIntroSequence.start();
     }
