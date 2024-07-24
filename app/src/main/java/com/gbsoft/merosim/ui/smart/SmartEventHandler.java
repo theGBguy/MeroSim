@@ -26,7 +26,7 @@ import androidx.preference.PreferenceManager;
 import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.model.SmartCell;
 import com.gbsoft.merosim.telephony.TelephonyUtils;
-import com.gbsoft.merosim.telephony.UssdResponseCallback;
+import com.gbsoft.merosim.telephony.USSDResponseCallback;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.SnackUtils;
@@ -35,7 +35,7 @@ import com.gbsoft.merosim.utils.Utils;
 import java.util.Locale;
 
 // handles almost all event generated in the smart details fragment screen
-public class SmartEventHandler extends UssdResponseCallback {
+public class SmartEventHandler extends USSDResponseCallback {
     private final Context context;
     private final SmartDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
@@ -103,11 +103,11 @@ public class SmartEventHandler extends UssdResponseCallback {
     }
 
     public void onMCAActivateClick(View view) {
-        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_SUBSCRIBE, fixerContract);
+        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_SUBSCRIBE);
     }
 
     public void onMCADeactivateClick(View view) {
-        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_UNSUBSCRIBE, fixerContract);
+        telephonyUtils.sendSms(SmartCell.MCA, SmartCell.MCA_UNSUBSCRIBE);
     }
 
     public void onCRBTSubscribeClick(View view) {

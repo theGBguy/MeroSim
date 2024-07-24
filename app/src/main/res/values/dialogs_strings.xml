@@ -22,11 +22,9 @@
     <string name="dialog_overlay_title">Overlay Permission Not Granted!</string>
 
     <string name="different_name_dialog_msg">
-        The SIM subscriber name "%s" parsed from the USSD response dialog DOES NOT MATCH with your full name "%s" entered in this app.
-        Please, ensure that you have entered correct full name in this app to use this feature properly.
-        This feature is to notify the application user as Nepal Telecommunication Authority (NTA) requests
-        everyone to register the SIM in their own name to enjoy many benefits such as Nagarik App.
-        Please visit nearest %s branches with required documents to make that change.
+        SIM subscriber name "%s" DOES NOT MATCH with your full name "%s" entered in this app.\n
+        Please, ensure that you have entered correct full name in this app to use this feature properly.\n
+        Nepal Telecommunication Authority (NTA) requests everyone to register the SIM in their own name.\n
         Click this link for more info : https://www.gadgetbytenepal.com/how-to-change-sim-card-ownership
     </string>
     <string name="dialog_different_name_hint_txt">Enter your full name here</string>

@@ -105,7 +105,7 @@ public class BaseTelecomViewModel extends AndroidViewModel {
 
     public boolean isUserNameDifferent() {
         String cachedUserName = getUserName();
-        if (TextUtils.isEmpty(cachedUserName)) {
+        if (TextUtils.isEmpty(cachedUserName) || TextUtils.equals(cachedUserName, PrefsUtils.NAME_UNKNOWN)) {
             return false;
         }
         return !cachedUserName.equalsIgnoreCase(simOwner.getValue());

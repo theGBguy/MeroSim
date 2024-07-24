@@ -24,6 +24,7 @@ public class Namaste extends Sim {
     public static final String USSD_RECHARGE = "*412*%s#";
     public static final String USSD_BALANCE_TRANSFER = "*422*%s*%s*%s#";
     public static final String USSD_PACKS = "*1415#";
+    public static final String USSD_REMAINING_PACKS = "*1415*55#";
 
     public static final String START = "START";
     public static final String STATUS = "STATUS";

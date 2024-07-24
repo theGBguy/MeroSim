@@ -167,7 +167,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/card_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -244,15 +243,26 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="16dp"
                     android:onClick="@{eventhandler::onTakePacksClick}"
                     android:text="@string/btn_take_packs_txt"
                     app:icon="@drawable/ic_signal_cellular_black_24dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/ntc_btn_sim_owner"
                     app:layout_constraintStart_toStartOf="@+id/ntc_btn_sim_balance"
                     app:layout_constraintTop_toBottomOf="@+id/tv_hint"
                     app:layout_constraintVertical_bias="0.0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ntc_btn_check_remaining_packs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="@{eventhandler::onCheckRemainingPacksClick}"
+                    android:text="@string/btn_check_remaining_packs_txt"
+                    app:icon="@drawable/ic_round_help_center_24"
+                    app:layout_constraintEnd_toEndOf="@id/ntc_btn_take_packs"
+                    app:layout_constraintStart_toStartOf="@id/ntc_btn_take_packs"
+                    app:layout_constraintTop_toBottomOf="@id/ntc_btn_take_packs" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/ntc_btn_call_customer_care"
@@ -266,7 +276,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/ntc_btn_sim_owner"
                     app:layout_constraintStart_toStartOf="@+id/ntc_btn_sim_balance"
-                    app:layout_constraintTop_toBottomOf="@+id/ntc_btn_take_packs"
+                    app:layout_constraintTop_toBottomOf="@+id/ntc_btn_check_remaining_packs"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <androidx.constraintlayout.widget.Guideline

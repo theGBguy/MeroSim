@@ -28,7 +28,7 @@ import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.model.Namaste;
 import com.gbsoft.merosim.model.Sim;
 import com.gbsoft.merosim.telephony.TelephonyUtils;
-import com.gbsoft.merosim.telephony.UssdResponseCallback;
+import com.gbsoft.merosim.telephony.USSDResponseCallback;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.SnackUtils;
@@ -38,7 +38,7 @@ import com.gbsoft.merosim.utils.Validator;
 import java.util.Locale;
 
 // handles most of the events generated in Namaste details fragment screen
-public class NamasteEventHandler extends UssdResponseCallback {
+public class NamasteEventHandler extends USSDResponseCallback {
     private final Context context;
     private final NamasteDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
@@ -75,6 +75,10 @@ public class NamasteEventHandler extends UssdResponseCallback {
         makeUSSDRequest(Namaste.USSD_PACKS, false);
     }
 
+    public void onCheckRemainingPacksClick(View view){
+        makeUSSDRequest(Namaste.USSD_REMAINING_PACKS, false);
+    }
+
     public void onCustomerCareClick(View view) {
         telephonyUtils.dial(vm.getCustomerCare().getValue());
     }
@@ -107,21 +111,21 @@ public class NamasteEventHandler extends UssdResponseCallback {
     }
 
     public void onBtnStartClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.START, fixerContract);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.START);
     }
 
     public void onBtnStatusClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STATUS, fixerContract);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STATUS);
     }
 
     public void onBtnStopClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STOP, fixerContract);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CREDIT_NO, Namaste.STOP);
     }
 
     public void onBtnFNFSubscribeClick(View view) {
         String phone = vm.getPhone().getValue();
         if (Validator.isPhoneNumberValid(Sim.NAMASTE, phone))
-            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_SUB, phone), fixerContract);
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_SUB, phone));
         else
             SnackUtils.showMessage(view, "Please refresh the phone number above to subscribe!");
     }
@@ -130,7 +134,7 @@ public class NamasteEventHandler extends UssdResponseCallback {
         String oldPhone = vm.oldPhone.getValue();
         String newPhone = vm.newPhone.getValue();
         if (Validator.arePhoneNumbersValid(Sim.NAMASTE, oldPhone, newPhone)) {
-            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_MODIFY, oldPhone, newPhone), fixerContract);
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_MODIFY, oldPhone, newPhone));
         } else
             SnackUtils.showMessage(view, "Please enter correct old and new NTC phone numbers!");
     }
@@ -138,13 +142,13 @@ public class NamasteEventHandler extends UssdResponseCallback {
     public void onBtnFNFDeleteClick(View view) {
         String deletePhone = vm.deletePhone.getValue();
         if (Validator.isPhoneNumberValid(Sim.NAMASTE, deletePhone))
-            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_DELETE, deletePhone), fixerContract);
+            telephonyUtils.sendSms(Namaste.NAMASTE_FNF, String.format(Locale.getDefault(), Namaste.FNF_DELETE, deletePhone));
         else
             SnackUtils.showMessage(view, "Please enter correct NTC phone number to delete!");
     }
 
     public void onBtnFNFQueryClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_FNF, Namaste.FNF_QUERY, fixerContract);
+        telephonyUtils.sendSms(Namaste.NAMASTE_FNF, Namaste.FNF_QUERY);
     }
 
     public void onBtnMCASubscribeClick(View view) {
@@ -167,11 +171,11 @@ public class NamasteEventHandler extends UssdResponseCallback {
         if (TextUtils.isEmpty(songCode))
             SnackUtils.showMessage(view, "Please do not leave the song code field empty!");
         else
-            telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, String.format(Locale.getDefault(), Namaste.SUBSCRIBE_CRBT, vm.songCode), fixerContract);
+            telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, String.format(Locale.getDefault(), Namaste.SUBSCRIBE_CRBT, vm.songCode));
     }
 
     public void onBtnCRBTUnsubscribeClick(View view) {
-        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, Namaste.UNSUBSCRIBE_CRBT, fixerContract);
+        telephonyUtils.sendSms(Namaste.NAMASTE_CRBT, Namaste.UNSUBSCRIBE_CRBT);
     }
 
     private void makeUSSDRequest(String ussdRequest, boolean withOverlay) {

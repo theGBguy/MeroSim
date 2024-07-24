@@ -72,6 +72,7 @@
     <string name="balance_txt">Balance</string>
     <string name="sim_owner_txt">Sim Owner</string>
     <string name="btn_take_packs_txt">Take data, voice and SMS packs</string>
+    <string name="btn_check_remaining_packs_txt">Check remaining volume</string>
     <string name="btn_call_customer_care_txt">Call customer care</string>
 
     <string name="tv_transfer_balance_txt">Transfer balance</string>
@@ -109,5 +110,9 @@
         Click the button to query for SIM owner\'s name.
         You can perform query for SIM card owner\'s name for Namaste &amp; Ncell SIM cards in this way.
     </string>
-
+    <string name="intro_info_txt">
+        Click on service name to get information about SIM card services.
+        Each service card contains info text which contains information about tariffs, eligibility and other
+        relevant information.
+    </string>
 </resources>

@@ -83,9 +83,9 @@ public class BaseTelecomFragment extends Fragment implements OnContactFoundListe
             case Manifest.permission.CALL_PHONE:
                 handlePermission(permission, getString(R.string.perm_call_phone_msg), callPhonePermissionLauncher);
                 break;
-            case Manifest.permission.SEND_SMS:
-                handlePermission(permission, getString(R.string.perm_send_sms_msg), sendSmsPermissionLauncher);
-                break;
+//            case Manifest.permission.SEND_SMS:
+//                handlePermission(permission, getString(R.string.perm_send_sms_msg), sendSmsPermissionLauncher);
+//                break;
             case SERVICE_ACCESSIBILITY:
                 showAccessibilityDialog();
                 break;

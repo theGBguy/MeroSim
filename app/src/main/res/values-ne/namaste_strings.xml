@@ -73,6 +73,7 @@
     <string name="balance_txt">फोनको रकम</string>
     <string name="sim_owner_txt">सिम ग्राहक</string>
     <string name="btn_take_packs_txt">डाटा, भ्वाइस र एसएमएस प्याक लिनुहोस्</string>
+    <string name="btn_check_remaining_packs_txt">प्याकेजहरूको बाँकी मात्रा जाँच गर्नुहोस्</string>
     <string name="btn_call_customer_care_txt">"ग्राहक सेवामा कल गर्नुहोस् "</string>
 
     <string name="tv_transfer_balance_txt">"ब्यालेन्स ट्रान्सफर "</string>
@@ -110,4 +111,8 @@
          SIM मालिकको नाम पत्ता लगाउन लागि यो बटनमा क्लिक गर्नुहोस्।
          तपाईं यसरी नै नमस्ते र एनसेलको सिम कार्ड मालिकको नाम पत्ता लगाउन सक्नुहुन्छ।
      </string>
+    <string name="intro_info_txt">
+        सिम कार्ड सेवाहरूको बारेमा जानकारी प्राप्त गर्न सेवाहरूको नाममा क्लिक गर्नुहोस्।
+        प्रत्येक सेवामा यो आइकन हुन्छ जसमा शुल्क, योग्यता र अन्य सान्दर्भिक कुराहरुको बारेमा जानकारी हुन्छ।
+    </string>
 </resources>

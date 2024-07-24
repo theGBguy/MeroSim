@@ -36,14 +36,10 @@ import com.gbsoft.merosim.utils.SnackUtils;
 import com.gbsoft.merosim.utils.Utils;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 
-import org.jetbrains.annotations.NotNull;
-
 // Fragment to show details of Ncell sim card
 public class NcellDetailFragment extends BaseTelecomFragment {
-    private static final String TAG = "NcellDetailFragment";
     private FragmentNcellDetailBinding binding;
     private NcellDetailViewModel viewModel;
-    private InterstitialAd interstitialAd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -53,7 +49,7 @@ public class NcellDetailFragment extends BaseTelecomFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(NcellDetailViewModel.class);
@@ -79,7 +75,7 @@ public class NcellDetailFragment extends BaseTelecomFragment {
 
         ((MainActivity) requireActivity()).showIntro.observe(getViewLifecycleOwner(), shouldShow -> {
             if (shouldShow) {
-                Utils.showMaterialIntroSequence(requireActivity(), binding.ncellBtnPhone, binding.ncellBtnSimBalance, binding.ncellBtnSimOwner);
+                Utils.showMaterialIntroSequence(requireActivity(), binding.ncellBtnPhone, binding.ncellBtnSimBalance, binding.ncellBtnSimOwner, binding.ncellTvTransferBalance);
             }
         });
 

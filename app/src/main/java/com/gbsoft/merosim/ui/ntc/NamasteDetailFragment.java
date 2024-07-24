@@ -40,10 +40,8 @@ import com.google.android.gms.ads.interstitial.InterstitialAd;
 
 // Fragment used to show Namaste sim card details
 public class NamasteDetailFragment extends BaseTelecomFragment implements MaterialIntroSequenceListener {
-    private static final String TAG = "NamasteDetailFragment";
     private FragmentNamasteDetailBinding binding;
     private NamasteDetailViewModel viewModel;
-    private InterstitialAd interstitialAd;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -81,7 +79,7 @@ public class NamasteDetailFragment extends BaseTelecomFragment implements Materi
 
         ((MainActivity) requireActivity()).showIntro.observe(getViewLifecycleOwner(), shouldShow -> {
             if (shouldShow) {
-                Utils.showMaterialIntroSequence(requireActivity(), binding.ntcBtnPhone, binding.ntcBtnSimBalance, binding.ntcBtnSimOwner);
+                Utils.showMaterialIntroSequence(requireActivity(), binding.ntcBtnPhone, binding.ntcBtnSimBalance, binding.ntcBtnSimOwner, binding.ntcTvTransferBalance);
             }
         });
     }
@@ -96,7 +94,6 @@ public class NamasteDetailFragment extends BaseTelecomFragment implements Materi
     @Override
     public void onDestroyView() {
         binding = null;
-        interstitialAd = null;
         super.onDestroyView();
     }
 

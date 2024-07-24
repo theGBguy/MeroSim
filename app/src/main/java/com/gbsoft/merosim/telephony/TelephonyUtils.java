@@ -19,7 +19,6 @@ package com.gbsoft.merosim.telephony;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -43,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,6 +93,9 @@ public class TelephonyUtils {
     // initializes telephony managers instances for both
     // single and dual sim enabled devices
     private void initializeTelephonyManagers() {
+        if(!telephonyManagers.isEmpty()){
+            telephonyManagers.clear();
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             for (SubscriptionInfo subsInfo : getSubsInfoList()) {
                 telephonyManagers.put(subsInfo.getSimSlotIndex(),
@@ -105,18 +108,25 @@ public class TelephonyUtils {
 
     @SuppressLint("MissingPermission")
     private List<SubscriptionInfo> getSubsInfoList() {
-        if (subsInfoList == null)
+        if (subsInfoList == null) {
             subsInfoList = subscriptionManager.getActiveSubscriptionInfoList();
+            if (subsInfoList == null) {
+                subsInfoList = new ArrayList<>();
+            }
+        }
         return subsInfoList;
     }
 
     @SuppressLint("MissingPermission")
-    public void sendUssdRequest(String ussdRequest, boolean withOverlay, int type, int simSlotIndex, UssdResponseCallback callback, PermissionFixerContract fixerContract) {
+    public void sendUssdRequest(String ussdRequest, boolean withOverlay, int type, int simSlotIndex, USSDResponseCallback callback, PermissionFixerContract fixerContract) {
         if (isCallPermissionGranted(fixerContract)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL)
-                telephonyManagers.get(simSlotIndex).sendUssdRequest(ussdRequest, callback, new Handler());
-            else
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && type == TYPE_NORMAL) {
+                TelephonyManager manager = telephonyManagers.get(simSlotIndex);
+                if (manager == null) return;
+                manager.sendUssdRequest(ussdRequest, callback, new Handler());
+            } else {
                 ussdController.sendUssdRequest(ussdRequest, simSlotIndex, withOverlay, callback);
+            }
         }
     }
 
@@ -185,13 +195,15 @@ public class TelephonyUtils {
     // extracts the sim owner from the USSD response
     public static String getSimOwnerText(String response) {
         // Compile regular expression
-        Pattern pattern = Pattern.compile("(\\w+\\s\\w+)[(.]", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("(?i)(?:Name:\\s*|name of\\s*)([A-Za-z]+(?:\\s+[A-Za-z]+)*)");
         // Match regex against input
         Matcher matcher = pattern.matcher(response);
-        // Use results...
-        if (matcher.find())
-            return matcher.group(1);
-        else return Sim.UNAVAILABLE;
+        // return unknown if contains digits
+        if (matcher.find()) {
+            return Objects.requireNonNull(matcher.group(1)).trim().replaceAll("\\s+", " ");
+        } else {
+            return Sim.UNAVAILABLE;
+        }
     }
 
     // generates the USSD request string for different sim card
@@ -228,20 +240,16 @@ public class TelephonyUtils {
     }
 
     // sends sms to the given number using phone's default sms application
-    public void sendSms(String number, String message, PermissionFixerContract fixerContract) {
-        if (PermissionUtils.isPermissionGranted(context, Manifest.permission.SEND_SMS)) {
-            Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+    public void sendSms(String number, String message) {
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
 //        smsIntent.setDataAndType(Uri.parse("smsto:"), "vnd.android-dir/mms-sms");
-            smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            smsIntent.setData(Uri.parse("smsto:" + number));
-            smsIntent.putExtra("sms_body", message);
-            try {
-                context.startActivity(smsIntent);
-            } catch (ActivityNotFoundException e) {
-                Toast.makeText(context, "No activity found to handle this intent", Toast.LENGTH_LONG).show();
-            }
+        smsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        smsIntent.setData(Uri.parse("smsto:" + number));
+        smsIntent.putExtra("sms_body", message);
+        if (smsIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(smsIntent);
         } else {
-            fixerContract.fixPermission(Manifest.permission.SEND_SMS);
+            Toast.makeText(context, "No activity found to handle this intent", Toast.LENGTH_LONG).show();
         }
     }
 

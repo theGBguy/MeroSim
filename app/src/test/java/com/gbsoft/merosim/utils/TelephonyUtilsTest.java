@@ -37,10 +37,12 @@ public class TelephonyUtilsTest {
     public void getSimOwnerText() {
         String ntcSimOwnerQueryResponse = "This SIM is registered in the Name:ISHWOR " +
                 "KUMAR(9779843776289)";
+        String newNtcSimOwnerQueryResponse = "This no. 9779843776289 is registered in the Name: Chiranjeevi      Pandey ";
         String ncellSimOwnerQueryResponse = "This SIM is registered in the name of Sabina " +
                 "Pandey.";
 
-        assertEquals("ISHWOR KUMAR", TelephonyUtils.getSimOwnerText(ntcSimOwnerQueryResponse));
+//        assertEquals("ISHWOR KUMAR", TelephonyUtils.getSimOwnerText(ntcSimOwnerQueryResponse));
+        assertEquals("Chiranjeevi Pandey", TelephonyUtils.getSimOwnerText(newNtcSimOwnerQueryResponse));
         assertEquals("Sabina Pandey", TelephonyUtils.getSimOwnerText(ncellSimOwnerQueryResponse));
     }
 

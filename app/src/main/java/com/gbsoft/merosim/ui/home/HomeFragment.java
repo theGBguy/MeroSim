@@ -145,25 +145,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-//    private void handleReadPhoneStatePermission() {
-//        if (PermissionUtils.isPermissionGranted(requireContext(), Manifest.permission.READ_PHONE_STATE)) {
-//            viewModel.querySimCardDetails();
-//        } else if (PermissionUtils.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.READ_PHONE_STATE)) {
-//            new MaterialAlertDialogBuilder(requireContext())
-//                    .setTitle(getString(R.string.perm_dialog_title))
-//                    .setMessage(getString(R.string.perm_read_phone_state_msg))
-//                    .setCancelable(true)
-//                    .setPositiveButton(getString(R.string.positive_dialog_btn_txt), (dialog, which) -> {
-//                        readPhoneStatePermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
-//                        dialog.dismiss();
-//                    })
-//                    .setNegativeButton(getString(R.string.negative_dialog_btn_txt), (dialog, which) -> dialog.dismiss())
-//                    .show();
-//        } else {
-//            readPhoneStatePermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE);
-//        }
-//    }
-
     @Override
     public void onPause() {
         binding.adViewHome.pause();

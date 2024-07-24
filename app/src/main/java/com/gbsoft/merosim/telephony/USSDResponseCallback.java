@@ -19,6 +19,8 @@ package com.gbsoft.merosim.telephony;
 import android.annotation.SuppressLint;
 import android.telephony.TelephonyManager;
 
+import androidx.annotation.Keep;
+
 // -1 = Connection problem or invalid MMI code(Return failure).
 // -2 = Other error such as network unavailable
 // -3 = Request cancellation
@@ -27,7 +29,8 @@ import android.telephony.TelephonyManager;
  */
 
 @SuppressLint("NewApi")
-public abstract class UssdResponseCallback extends TelephonyManager.UssdResponseCallback {
+@Keep
+public abstract class USSDResponseCallback extends TelephonyManager.UssdResponseCallback {
     public void onReceiveUssdResponseCancelled(TelephonyManager telephonyManager, String request, String cancellationMsg) {
     }
 }

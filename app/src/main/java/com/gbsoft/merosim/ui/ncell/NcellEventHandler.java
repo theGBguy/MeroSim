@@ -27,7 +27,7 @@ import com.gbsoft.merosim.R;
 import com.gbsoft.merosim.model.Ncell;
 import com.gbsoft.merosim.model.Sim;
 import com.gbsoft.merosim.telephony.TelephonyUtils;
-import com.gbsoft.merosim.telephony.UssdResponseCallback;
+import com.gbsoft.merosim.telephony.USSDResponseCallback;
 import com.gbsoft.merosim.ui.BaseTelecomFragment;
 import com.gbsoft.merosim.ui.PermissionFixerContract;
 import com.gbsoft.merosim.utils.Utils;
@@ -35,7 +35,7 @@ import com.gbsoft.merosim.utils.Utils;
 import java.util.Locale;
 
 // Handles most events generated in Ncell detail fragment screen
-public class NcellEventHandler extends UssdResponseCallback {
+public class NcellEventHandler extends USSDResponseCallback {
     private final Context context;
     private final NcellDetailViewModel vm;
     private final TelephonyUtils telephonyUtils;
@@ -157,7 +157,7 @@ public class NcellEventHandler extends UssdResponseCallback {
     }
 
     public void onBtnPRBTDeactivateClick(View view) {
-        telephonyUtils.sendSms(Ncell.USSD_PRBT, "R", fixerContract);
+        telephonyUtils.sendSms(Ncell.USSD_PRBT, "R");
     }
 
     public void onBtnMakeLowBalanceCallClick(View view) {

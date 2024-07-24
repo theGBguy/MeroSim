@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="@string/nav_header_title"
         android:fontFamily="@font/proxima_nova_alt_bold"
-        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
         android:textColor="@color/md_theme_light_onPrimaryContainer" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -53,7 +53,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/tv_greeting_hint_txt"
-        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         android:textColor="@color/md_theme_light_onPrimaryContainer"
         app:fontFamily="@font/proxima_nova_thin" />
 

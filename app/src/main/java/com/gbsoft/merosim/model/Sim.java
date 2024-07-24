@@ -19,7 +19,7 @@ package com.gbsoft.merosim.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.jetbrains.annotations.NotNull;
+import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
@@ -123,7 +123,7 @@ public class Sim implements Parcelable {
         return Objects.hash(name, phoneNo, balance, simOwner, simSlotIndex);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "Sim{" +

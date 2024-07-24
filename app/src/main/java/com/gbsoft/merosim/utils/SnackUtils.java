@@ -22,6 +22,8 @@ import androidx.annotation.StringRes;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.lang.ref.WeakReference;
+
 /*
  * This class contains utility methods which are used to show snackbar
  * all over this app.
@@ -29,18 +31,28 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class SnackUtils {
     public static void showMessage(View view, @StringRes int resId) {
-        Snackbar.make(view, resId, Snackbar.LENGTH_LONG).show();
+        // creating a weak reference instance so the original view object get
+        // GC'ed when activity/fragment is destroyed
+        WeakReference<View> viewWeakRef = new WeakReference<>(view);
+        if (viewWeakRef.get() == null) return;
+        Snackbar.make(viewWeakRef.get(), resId, Snackbar.LENGTH_LONG).show();
     }
 
     public static void showMessage(View view, @StringRes int resId, Object... formatArgs) {
-        Snackbar.make(view, view.getResources().getString(resId, formatArgs), Snackbar.LENGTH_LONG).show();
+        WeakReference<View> viewWeakRef = new WeakReference<>(view);
+        if (viewWeakRef.get() == null) return;
+        Snackbar.make(viewWeakRef.get(), view.getResources().getString(resId, formatArgs), Snackbar.LENGTH_LONG).show();
     }
 
     public static void showMessageWithCallback(View view, @StringRes int resId, Snackbar.Callback callback) {
-        Snackbar.make(view, resId, Snackbar.LENGTH_LONG).addCallback(callback).show();
+        WeakReference<View> viewWeakRef = new WeakReference<>(view);
+        if (viewWeakRef.get() == null) return;
+        Snackbar.make(viewWeakRef.get(), resId, Snackbar.LENGTH_LONG).addCallback(callback).show();
     }
 
     public static void showMessage(View view, String msg) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
+        WeakReference<View> viewWeakRef = new WeakReference<>(view);
+        if (viewWeakRef.get() == null) return;
+        Snackbar.make(viewWeakRef.get(), msg, Snackbar.LENGTH_LONG).show();
     }
 }

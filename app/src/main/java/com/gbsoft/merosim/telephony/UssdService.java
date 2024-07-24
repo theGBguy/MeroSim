@@ -22,7 +22,6 @@ import static com.gbsoft.merosim.telephony.UssdController.KEY_RESPONSE;
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -44,38 +43,34 @@ public class UssdService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        Log.d(TAG, "onAccessibilityEvent fired");
-
+        String eventString = String.format(
+                "onAccessibilityEvent: [type] %s [class] %s [package] %s [time] %s [text] %s",
+                event.getEventType(), event.getClassName(), event.getPackageName(),
+                event.getEventTime(), event.getText());
+        Log.d(TAG, eventString);
         // doesn't intercept if USSD request was not sent by this app
-        if (!UssdController.isRequestOngoing())
-            return;
-
-        // filters the appropriate event source
-        AccessibilityNodeInfo nodeInfo = event.getSource();
-        int eventType = event.getEventType();
-        if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED && !event.getClassName().toString().contains("AlertDialog")) {
-            return;
-        }
-        if (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
-            if (nodeInfo == null || TextUtils.isEmpty(nodeInfo.getText()) || !(nodeInfo.getClassName().toString().equals("android.view.TextView"))) {
+        // and dialog is not a alertdialog
+        if (UssdController.isRequestOngoing() && isUssdDialog(event)) {
+            // parses the response
+            String response = event.getText().get(0).toString() + " ";
+            if (response.trim().isEmpty()) {
                 return;
             }
-        }
 
-        // parses the reponse
-        String response;
-        if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)
-            response = event.getText().get(0).toString() + " ";
-        else
-            response = nodeInfo.getText().toString();
-
-        //      performGlobalAction(GLOBAL_ACTION_BACK);
-        // cancels the dialog after successfully parsing response
-        // and send the response to USSDController
-        if (UssdController.isRequestOngoing()) {
-            cancelDialog(event);
-            sendBroadcast(response);
+            // cancels the dialog after successfully parsing response
+            // and send the response to USSDController
+            if (UssdController.isRequestOngoing()) {
+                cancelDialog(event);
+                sendBroadcast(response);
+            }
         }
+    }
+
+    private boolean isUssdDialog(AccessibilityEvent event) {
+        String className = event.getClassName().toString();
+        if (className.contains("progress") || className.contains("Progress")) return false;
+        return (className.contains("dialog") || className.contains("alert") ||
+                        className.contains("Dialog") || className.contains("Alert"));
     }
 
     // sends local broadcast

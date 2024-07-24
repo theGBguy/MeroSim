@@ -59,7 +59,7 @@
         <item name="android:elevation">1dp</item>
     </style>
 
-    <style name="TextAppearance.MeroSim.CardTitle" parent="TextAppearance.Material3.TitleLarge">
+    <style name="TextAppearance.MeroSim.CardTitle" parent="TextAppearance.Material3.TitleMedium">
         <item name="fontFamily">@font/proxima_nova_bold</item>
         <item name="android:fontFamily">@font/proxima_nova_bold</item>
         <item name="android:textStyle">bold</item>
@@ -80,22 +80,23 @@
     <style name="CustomMaterialTextViewStyle">
         <item name="android:background">?colorErrorContainer</item>
         <item name="android:textColor">?colorOnErrorContainer</item>
+        <item name="shapeAppearance">@style/Theme.MeroSim.CurvedShapeAppearance</item>
     </style>
 
     <style name="Theme.MeroSim.Sim.Namaste">
-        <item name="colorPrimary">@color/color_ntc_light</item>
+        <item name="colorPrimary">@color/color_ntc</item>
         <item name="colorPrimaryDark">@color/color_ntc</item>
         <item name="colorAccent">@color/color_ntc_tint</item>
     </style>
 
     <style name="Theme.MeroSim.Sim.Ncell">
-        <item name="colorPrimary">@color/color_ncell</item>
+        <item name="colorPrimary">@color/color_ncell_dark</item>
         <item name="colorPrimaryDark">@color/color_ncell_dark</item>
         <item name="colorAccent">@color/color_ncell_accent</item>
     </style>
 
     <style name="Theme.MeroSim.Sim.SmartCell">
-        <item name="colorPrimary">@color/color_smart</item>
+        <item name="colorPrimary">@color/color_smart_dark</item>
         <item name="colorPrimaryDark">@color/color_smart_dark</item>
         <item name="colorAccent">@color/color_smart_accent</item>
     </style>
@@ -113,6 +114,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopRight">50%</item>
         <item name="cornerSizeBottomRight">50%</item>
+    </style>
+
+    <style name="Theme.MeroSim.CurvedShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8%</item>
     </style>
 
     <style name="Theme.MeroSim.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />

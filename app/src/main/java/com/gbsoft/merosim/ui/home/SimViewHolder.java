@@ -19,10 +19,10 @@ package com.gbsoft.merosim.ui.home;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +32,6 @@ import com.gbsoft.merosim.model.Sim;
 import com.gbsoft.merosim.utils.LocaleUtils;
 import com.gbsoft.merosim.utils.Utils;
 
-import org.jetbrains.annotations.NotNull;
-
 // A sim item view holder class which can display a single list item
 // of the recycler view.
 public class SimViewHolder extends RecyclerView.ViewHolder {
@@ -41,7 +39,7 @@ public class SimViewHolder extends RecyclerView.ViewHolder {
 
     private SimRowBinding binding;
 
-    public SimViewHolder(@NotNull SimRowBinding binding) {
+    public SimViewHolder(@NonNull SimRowBinding binding) {
         super(binding.getRoot());
         this.binding = binding;
     }
