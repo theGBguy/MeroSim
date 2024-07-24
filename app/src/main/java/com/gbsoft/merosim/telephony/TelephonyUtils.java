@@ -93,7 +93,7 @@ public class TelephonyUtils {
     // initializes telephony managers instances for both
     // single and dual sim enabled devices
     private void initializeTelephonyManagers() {
-        if(!telephonyManagers.isEmpty()){
+        if (!telephonyManagers.isEmpty()) {
             telephonyManagers.clear();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -151,7 +151,11 @@ public class TelephonyUtils {
     public List<Sim> getSimList() {
         List<Sim> simsList = new ArrayList<>();
         for (SubscriptionInfo subsInfo : getSubsInfoList()) {
-            String simName = subsInfo.getCarrierName().toString();
+            CharSequence carrierName = subsInfo.getCarrierName();
+            if (carrierName == null) {
+                continue;
+            }
+            String simName = carrierName.toString();
             int simSlotIndex = subsInfo.getSimSlotIndex();
             switch (simName) {
                 case Sim.NAMASTE:
