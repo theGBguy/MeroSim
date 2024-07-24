@@ -132,9 +132,13 @@ public class HomeFragment extends Fragment {
                         return;
                     }
                     binding.rvSimList.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                    if (materialIntroView == null)
-                        materialIntroView = Utils.getIntroView(binding.rvSimList.getChildAt(0), R.string.intro_home_txt);
-                    if (materialIntroView.getParent() == null)
+                    if (materialIntroView == null) {
+                        View firstChild = binding.rvSimList.getChildAt(0);
+                        if (firstChild != null) {
+                            materialIntroView = Utils.getIntroView(firstChild, R.string.intro_home_txt);
+                        }
+                    }
+                    if (materialIntroView != null && materialIntroView.getParent() == null)
                         materialIntroView.show(requireActivity());
                 }
             });
